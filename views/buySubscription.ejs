@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+
+    <title></title>
+  </head>
+  <style>
+    .my-link-style:hover{
+        text-decoration: underline;
+        background-color: white;
+        color: black;
+    }
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        color: black;
+        background-color:white;
+    }
+    .my-link-style2{
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .img-eye{
+      width:70%;
+      height:70%;
+    }
+    .fontstyle{
+        text-decoration: none;
+        font-size: 20px;
+        color:#FFF89C;
+    }
+    .bgcolor{
+        background-color: #293462;
+    }
+    .rank{
+        color: black
+    }
+
+    .box{
+        background-color:white;
+        color: black
+    }
+
+</style>
+</head>
+<body style="background-color: #1D1F39;">
+<div class="other-section ">
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs py-3" style="background-color:#000;">
+                <li class="nav-item me-auto">
+                  <a class="ms-5" href="/home"><img
+                    src="/pictures/Capture.PNG"
+                    class="logo"
+                    width="340px"
+                    height="100em"
+                  /></a>
+                </li>
+                <%if(username){%>
+                    <li class="nav-item dropdown me-5">
+                        <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                          <%if(locals.admin){%>
+                            <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                            <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                            <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                          <%}%>
+                          <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                          <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                          <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                          <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                          <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                          <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                          <li><a class="dropdown-item" href="/post">Forum</a></li>
+                          <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                <%}else{%>
+                    <li class="nav-item">
+                        <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                    </li>
+                <%}%>
+            </ul>
+        </div>
+    </div>  
+</div> 
+
+    <nav class="w-100 bg-dark">
+      <h1 class="text-center text-light bg-dark border-dark mb-2 py-2">
+        Pricing
+      </h1>
+    </nav>
+    <div class="container py-3">
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <%if(locals.trial){%>
+        <div class="col" id="trialdiv">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal">Free Trial</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">
+                free<small class="text-muted fw-light">/7 days</small>
+              </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>
+                  <i class="bi bi-check2-all"></i> all submission unlocked
+                </li>
+                <li>for 7 days</li>
+                <li><i class="bi bi-check2-all"></i> all contents unlocked</li>
+                <li>for 7 days</li>
+                <li class="text-danger">One time use only</li>
+              </ul>
+              <button
+                class="w-100 btn btn-lg btn-outline-info"
+                id="trial"
+                role="button"
+                >Sign up for free</button
+              >
+            </div>
+          </div>
+        </div>
+        <%}%>
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal">Weekly Pack</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">
+                10 ncoins<small class="text-muted fw-light">/7 days</small>
+              </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>
+                  <i class="bi bi-check2-all"></i> all submission unlocked
+                </li>
+                <li>for 7 days</li>
+                <li><i class="bi bi-check2-all"></i> all contents unlocked</li>
+                <li>for 7 days</li>
+                <li class="text-success">As many time as you can</li>
+              </ul>
+              <a
+                class="w-100 btn btn-lg btn-outline-success"
+                href="/subscription/proceed/10/Weekly"
+                role="button"
+                >Get started</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm border-primary">
+            <div class="card-header py-3 text-white bg-secondary border-dark">
+              <h4 class="my-0 fw-light">Monthly Pack</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">
+                40 ncoins<small class="text-muted fw-light">/30 days</small>
+              </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>
+                  <i class="bi bi-check2-all"></i> all submission unlocked
+                </li>
+                <li>for 30 days</li>
+                <li><i class="bi bi-check2-all"></i> all contents unlocked</li>
+                <li>for 30 days</li>
+                <li class="text-success">As many time as you can</li>
+              </ul>
+              <a
+                class="w-100 btn btn-lg btn-outline-success"
+                href="/subscription/proceed/40/Monthly"
+                role="button"
+                >Get started</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3 text-white bg-secondary border-dark">
+              <h4 class="my-0 fw-normal">3 month pack</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">
+                115  ncoins<small class="text-muted fw-light">/90 <br>days</small>
+              </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>
+                  <i class="bi bi-check2-all"></i> all submission unlocked
+                </li>
+                <li>for 90 days</li>
+                <li><i class="bi bi-check2-all"></i> all contents unlocked</li>
+                <li>for 90 days</li>
+                <li class="text-success">As many time as you can</li>
+              </ul>
+              <a
+                class="w-100 btn btn-lg btn-outline-success"
+                href="/subscription/proceed/115/3 month"
+                role="button"
+                >Get started</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3 text-white bg-dark border-dark">
+              <h4 class="my-0 fw-normal">6 month Pack</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">
+                220 ncoins<small class="text-muted fw-light">/180 days</small>
+              </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>
+                  <i class="bi bi-check2-all"></i> all submission unlocked
+                </li>
+                <li>for 180 days</li>
+                <li><i class="bi bi-check2-all"></i> all contents unlocked</li>
+                <li>for 180 days</li>
+                <li class="text-success">As many time as you can</li>
+              </ul>
+              <a
+                class="w-100 btn btn-lg btn-outline-success"
+                href="/subscription/proceed/220/6 month"
+                role="button"
+                >Get started</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm border-primary">
+            <div class="card-header py-3 text-white bg-dark border-dark">
+              <h4 class="my-0 fw-light">Yearly Combo</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">
+                440 ncoins<small class="text-muted fw-light">/365 days</small>
+              </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>
+                  <i class="bi bi-check2-all"></i> all submission unlocked
+                </li>
+                <li>for 365 days</li>
+                <li><i class="bi bi-check2-all"></i> all contents unlocked</li>
+                <li>for 365 days</li>
+                <li class="text-success">As many time as you can</li>
+              </ul>
+              <a
+                class="w-100 btn btn-lg btn-outline-success"
+                href="/subscription/proceed/440/Yearly"
+                role="button"
+                >Get started</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/scripts/buysub.js"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

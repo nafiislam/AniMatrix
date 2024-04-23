@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fogot password</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head> 
+<style>
+    .fontstyle{
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .my-link-style:hover{
+        text-decoration: underline;
+        background-color: #A13131;
+        color: black;
+    }
+    .nav-link:hover{
+      text-decoration: underline;
+      background-color: #A13131;
+      color: black;
+    }
+    .nav-link.active{
+        color: white !important;
+        background-color:black !important;
+    }
+    /*code to change background color*/
+    /* .nav-link {
+        background-color: #C0C0C0 !important;
+        color: green !important;
+    }
+    .nav-link.active {
+        background-color: #C0C0C0 !important;
+        color: green !important;
+    } */
+    .my-link-style2{
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .img-eye{
+      width:70%;
+      height:70%;
+    }
+    .bgcolor{
+        background-color: #A13131;
+    }
+    .rank{
+        color: black
+    }
+    .container{
+        border: 3px solid black;
+    }
+    .box{
+        background-color:white;
+        color: black
+    }
+    pre {
+        white-space: pre-line;
+        font-size: 16px;
+        font-family: "Helvetica Neue",Helvetica;
+    }
+  </style>
+</head>
+<body style="background-color: #1D1F39;">
+    <div class="other-section ">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs py-3" style="background-color:#000;">
+                    <li class="nav-item me-auto">
+                        <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                    </li>
+                    <%if(locals.username){%>
+                        <li class="nav-item dropdown me-5">
+                            <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                              <%if(locals.admin){%>
+                                <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                                <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                              <%}%>
+                              <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                              <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                              <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                              <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                              <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                              <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                              <li><a class="dropdown-item" href="/post">Forum</a></li>
+                              <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    <%}else{%>
+                        <li class="nav-item">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                        </li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>  
+    </div> 
+    <br>
+    <div class="container">
+      <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Show Description</th>
+              <th>Download File</th>   
+            </tr>
+          </thead>
+          <tbody>
+            <%for(let i=0;i<locals.submission.length;i++){%>
+              <tr>
+                <td><%=locals.submission[i][1]%></td>
+                <td><%=locals.submission[i][2]%></td>
+                <td>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submissiondrop<%=i%>">
+                    Description
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="submissiondrop<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="background-color:black;color:white">
+                        <pre>
+                          <%=locals.submission[i][3]%>
+                        </pre>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <a href="/submission/download/<%=locals.submission[i][0]%>">
+                  <button type="button" class="btn btn-outline-primary"><i class=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                  </svg></i> Download </button></a>
+                </td>
+              </tr>
+            <%}%>
+          </tbody>
+        </table>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+</body>
+</html>

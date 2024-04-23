@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title></title>
+    <style>
+      .card{
+        background-color:#06283D !important;
+        color:#ffffff !important;
+        border: 2px solid black !important;
+      }
+      .tab-pane{
+        padding: auto !important;
+        background-color:#06283D !important;
+        color:#ffffff !important;
+      }
+      .card-body{
+        background-color:#355764!important;
+        color:#ffffff !important;
+        border: 1px solid black !important;
+      }
+    </style>
+  </head>
+  <body style="background-color: #1D1F39;">
+    <div class="other-section ">
+      <div class="row">
+          <div class="col-12">
+              <ul class="nav nav-tabs py-3" style="background-color:#000;">
+                  <li class="nav-item me-auto">
+                    <a class="ms-5" href="/home"><img
+                      src="/pictures/Capture.PNG"
+                      class="logo"
+                      width="340px"
+                      height="100em"
+                    /></a>
+                  </li>
+                  <%if(username){%>
+                      <li class="nav-item dropdown me-5">
+                          <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                            <%if(locals.admin){%>
+                              <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                              <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                              <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                            <%}%>
+                            <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                            <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                            <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                            <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                            <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                            <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                            <li><a class="dropdown-item" href="/post">Forum</a></li>
+                            <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                          </ul>
+                      </li>
+                  <%}else{%>
+                      <li class="nav-item">
+                          <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                      </li>
+                      <li class="nav-item ">
+                          <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                      </li>
+                  <%}%>
+              </ul>
+          </div>
+      </div>  
+  </div> 
+  <br>
+
+    
+    <div class="row" >
+      <div class="col-1">
+        <div class="text-center mt-5" style="display: none;" id="show2">
+          <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
+            <span class="visually-hidden " >Loading...</span>
+          </div>
+        </div>
+        <div id="show">
+        <%if(locals.state=='nai'){%>
+            <div class="d-flex align-items-center justify-content-center" id="up"style="color:black;">
+              <i class="fa-solid fa-4x fa-circle-up"></i>
+            </div>
+            <p class="text-center" style="font-size:20px;color: #FFF89C;" id="upvote" data-id="<%=locals.post[0][10]%>"><%=locals.post[0][13]%></p>
+            <div class="d-flex align-items-center justify-content-center" id="down" style="color:black;">
+              <i class="fa-solid fa-4x fa-circle-down"></i>
+            </div>
+        <%}else if(locals.state=='up'){%>
+            <div class="d-flex align-items-center justify-content-center" id="up" style="color:green;">
+              <i class="fa-solid fa-4x fa-circle-up"></i>
+            </div>
+            <p class="text-center" style="font-size:20px;color: #FFF89C;" id="upvote" data-id="<%=locals.post[0][10]%>"><%=locals.post[0][13]%></p>
+            <div class="d-flex align-items-center justify-content-center" id="down" style="color:#808080;">
+              <i class="fa-solid fa-4x fa-circle-down" ></i>
+            </div>
+          <%}else if(locals.state=='down'){%>
+              <div class="d-flex align-items-center justify-content-center" id="up" style="color:#808080;">
+                <i class="fa-solid fa-4x fa-circle-up"></i>
+              </div>
+              <p class="text-center" style="font-size:20px;color: #FFF89C;" id="upvote" data-id="<%=locals.post[0][10]%>"><%=locals.post[0][13]%></p>
+              <div class="d-flex align-items-center justify-content-center" id="down" style="color:red;">
+                <i class="fa-solid fa-4x fa-circle-down"></i>
+              </div>
+          <%}%>
+        </div>
+      </div>
+      <div class="col-11">
+        <div class="card border-secondary mb-2">
+          <div class="card-header text-success">
+            <a href="/profile/<%=locals.post[0][0]%>" style="text-decoration: none">
+              <h3 class="card-title"><%=locals.post[0][3]%></h3>
+            </a>
+          </div>
+    
+          <div class="card-body text-secondary">
+            <h1 class="card-title"><%=locals.post[0][11]%></h1>
+            <hr />
+            <pre style="white-space: pre-wrap;font-size: 20px;
+            font-family: 'Helvetica Neue',Helvetica;" class="card-text"><%=locals.post[0][12]%></pre>
+          </div>
+          <div class="card-footer text-primary flex-wrap">
+            <div class="container">
+                  <%if(locals.content.length!=0){%>
+                    <a href="/contents/<%=locals.content[0][2]%>/<%=locals.content[0][4]%>">
+                      <span class="badge rounded-pill bg-info text-dark" style="font-size:15px;"><%=locals.content[0][3]%></span>
+                    </a>
+                  <%}%>
+                  <%if(locals.character.length!=0){%>
+                    <a href="/character/<%=locals.character[0][8]%>/<%=locals.character[0][10]%>/<%=locals.character[0][2]%>">
+                      <span class="badge rounded-pill bg-info text-dark" style="font-size:15px;"><%=locals.character[0][3]%></span>
+                    </a>
+                  <%}%>
+              <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal1"
+                  >
+                    report a problem
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+  
+    <div class="d-grid gap-2 col-6 mx-auto mb-4 mt-4">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Write an Answer
+      </button>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Create a Post</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label"
+                  >Answer Box</label
+                >
+                <textarea
+                  class="form-control"
+                  id="paragraph"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" onclick="submitAnswer('<%=locals.post[0][10]%>')"data-bs-dismiss="modal">
+                Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="exampleModal1"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Report a post</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Nudity"
+                  value="Nudity"
+                />
+                <label class="form-check-label" for="inlineCheckbox1"
+                  >Nudity</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Spam"
+                  value="Spam"
+                />
+                <label class="form-check-label" for="inlineCheckbox2"
+                  >Spam</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Violance"
+                  value="Violance"
+                />
+                <label class="form-check-label" for="inlineCheckbox1"
+                  >Violance</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Harrasement"
+                  value="Harrasement"
+                />
+                <label class="form-check-label" for="inlineCheckbox2"
+                  >Harrasement</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="False information"
+                  value="False information"
+                />
+                <label class="form-check-label" for="inlineCheckbox1"
+                  >False information</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Hate Speech"
+                  value="Hate Speech"
+                />
+                <label class="form-check-label" for="inlineCheckbox2"
+                  >Hate Speech</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Suicide or self injury"
+                  value="Suicide or self injury"
+                />
+                <label class="form-check-label" for="inlineCheckbox1"
+                  >Suicide or self injury</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="Unauthorised Info"
+                  value="Unauthorised Info"
+                />
+                <label class="form-check-label" for="inlineCheckbox2"
+                  >Unauthorised Info</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="others"
+                  value="others"
+                />
+                <label class="form-check-label" for="inlineCheckbox2"
+                  >others</label
+                >
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label"
+                  >Details about violation</label
+                >
+                <textarea
+                  class="form-control"
+                  id="para"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-danger" id="report" onclick="report('<%=locals.post[0][10]%>')" data-bs-dismiss="modal">
+                Report to Admin
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div id="answerlist">
+    <%for(let i=0;i<locals.answers.length;i++){%>
+      <div class="container">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="card border-secondary mb-2">
+            <div class="card-header text-success">
+              <a href="/profile/<%=locals.answers[i][0]%>" style="text-decoration: none">
+                <h5 class="card-title"><%=locals.answers[i][3]%></h5>
+              </a>
+            </div>
+            <div class="card-body text-secondary">
+              <pre class="card-text" style="white-space: pre-wrap;font-size: 20px;
+              font-family: 'Helvetica Neue',Helvetica;"><%=locals.answers[i][11]%><pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%}%>
+  </div>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/scripts/answer.js"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>login</title>
+    <style>
+      .my-link-style:hover {
+        text-decoration: underline;
+        background-color: white;
+        color: black;
+      }
+      .nav-pills .nav-link.active,
+      .nav-pills .show > .nav-link {
+        color: black;
+        background-color: white;
+      }
+      .my-link-style2 {
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .img-eye {
+        width: 70%;
+        height: 70%;
+      }
+      .fontstyle {
+        text-decoration: none;
+        font-size: 20px;
+        color: #fff89c;
+      }
+      .bgcolor {
+      }
+      .rank {
+        color: black;
+      }
+      .container {
+        border: 5px solid black;
+      }
+      .box {
+        background-color: white;
+        color: black;
+      }
+    </style>
+  </head>
+  <body onload="checker()" style="background-color: #1d1f39">
+    <% if(msg.length > 0) {%> <% if(msg=='Success'){ %>
+    <div class="alert alert-success alert-dismissible fade show">
+      <%=msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%}else if(msg=='Password incorrect'){%>
+    <div class="alert alert-danger alert-dismissible fade show" onload="func()">
+      <%=msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%}else if(msg=='This username does not exist'){%>
+    <div class="alert alert-danger alert-dismissible fade show">
+      <%=msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%}else if(msg=='Successfully registered now login'){%>
+    <div class="alert alert-success alert-dismissible fade show">
+      <%=msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%}else if(msg=='Login first'){%>
+    <div class="alert alert-success alert-dismissible fade show">
+      <%=msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%}else if(msg=='You are not verified'){%>
+    <div class="alert alert-danger alert-dismissible fade show">
+      <%=msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%}%> <% } %>
+
+    <div class="other-section">
+      <div class="row">
+        <div class="col-12">
+          <ul class="nav nav-tabs py-3" style="background-color: #000">
+            <li class="nav-item me-auto">
+              <a class="ms-5" href="/home"
+                ><img
+                  src="/pictures/Capture.PNG"
+                  class="logo"
+                  width="340px"
+                  height="100em"
+              /></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <section class="vh-100">
+      <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-md-9 col-lg-6 col-xl-5">
+            <img
+              src="/pictures/chobi.png"
+              class="img-fluid"
+              alt="Sample image"
+            />
+          </div>
+          <div
+            class="col-md-8 col-lg-6 col-xl-4 offset-xl-1"
+            style="color: #ffffff !important"
+          >
+            <br />
+            <form action="/users/login" method="post" id="login">
+              <div
+                class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
+              >
+                <p class="lead fw-normal mb-0 me-3"><b>SIGN IN</b></p>
+              </div>
+
+              <!-- username input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example3"
+                  ><b>UserName</b></label
+                >
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control form-control-lg"
+                  placeholder="Enter a valid username"
+                  value="<%= locals.username %>"
+                  required
+                />
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline mb-3">
+                <label class="form-label" for="form3Example4"
+                  ><b>Password</b></label
+                >
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control form-control-lg"
+                  placeholder="Enter password"
+                  required
+                />
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Checkbox -->
+                <div class="form-check mb-0">
+                  <input
+                    class="form-check-input me-2"
+                    type="checkbox"
+                    id="check"
+                  />
+                  <label class="form-check-label" for="form2Example3">
+                    Remember me
+                  </label>
+                </div>
+                <a
+                  href="/forgotpassword"
+                  class="text-body"
+                  style="color: #ffffff !important"
+                  >Forgot password?</a
+                >
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <input
+                  type="submit"
+                  class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                  value="Login"
+                  value="Add"
+                />
+              </div>
+            </form>
+            <br /><br />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script>
+      function func() {
+        console.log("run");
+      }
+      async function subscribe() {
+        if ("serviceWorker" in navigator) {
+          console.log("ami");
+          let sw = await navigator.serviceWorker.ready;
+          //console.log(sw);
+          let push = await sw.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey:
+              "BIT3aYCOJdb5GnWeOXBtAG3WVJPtD_YdXWDFwKu4yrU6O9tFfsH3yKm1c-UeKFncwchlbgPGoAM-88HRyEfaSTs",
+          });
+          //console.log(push);
+          console.log(JSON.stringify(push));
+          await fetch("/users/subscribe", {
+            method: "POST",
+            body: JSON.stringify(push),
+            headers: {
+              "content-type": "application/json",
+            },
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

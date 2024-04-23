@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+        <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>AniMatrix</title>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/contents.css">
+<link rel="stylesheet" href="/css/content.css">
+<script>
+  if(window.location.pathname[window.location.pathname.length-2]=='/'&&window.location.pathname.substring(0, window.location.pathname.length - 2)!=sessionStorage.getItem('page')){
+      if(sessionStorage.getItem('page')[sessionStorage.getItem('page').length-2]=='/'&&sessionStorage.getItem('page').substring(0, sessionStorage.getItem('page').length - 2)!=window.location.pathname){
+          if(sessionStorage.getItem('page')!=window.location.pathname){
+              sessionStorage.removeItem("_x_currentTab");
+          }
+      }
+  }
+  sessionStorage.removeItem("_x_dashTab");
+  sessionStorage.removeItem("_x_admindashTab");
+  sessionStorage.removeItem("_x_admindashTabContent");
+</script>
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+        /* * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #6d7b98;
+            font-size: 18px;
+            font-family: 'Roboto', sans-serif;
+        } */
+
+        .container {
+
+        }
+
+        .wrapper {
+            position: relative;
+            
+        }
+
+        input {
+            width:100%;
+            border: none;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0px 40px 0px 10px;
+            font-size: 18px;
+            box-shadow: 0px 1px 4px rgba(0,0,0,0.1);
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        button {
+            position: absolute;
+            border: none;
+            background: none;
+            top: 0;
+            right: 0;
+            height: 50px;
+            line-height: 50px;
+            padding: 0;
+            width: 50px;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        button i {
+            width: 100%;
+            color: #6d7b98;
+            line-height: 50px;
+            font-size: 22px;
+        }
+
+        .results {
+            padding: 0px;
+            position: absolute;
+        }
+
+        .results ul {margin: 0; padding: 0; }
+        .results ul li {
+            list-style: none;
+            border-radius: 3px;
+            opacity: 0;
+            display: none;
+            padding: 8px 12px;
+            transition: all .5s linear;
+        }
+
+        .show .results ul li {
+            opacity: 1;
+            display: block;
+        }
+
+        .show .results {
+            padding: 10px;
+        }
+
+        .results ul li:hover {
+            background: #ececec
+        }
+  </style>
+  </head>
+  <body>
+    <% if(msg!=undefined){ %>
+      <% if(msg=='Successfully Logged'){ %> 
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%=msg%> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <%}%>
+    <%}%>
+    
+
+    <h1 class="title">A_____n______i______M______a______t_______r_______i_______X______</h1>
+    <hr>
+    
+    <nav class="navbar navbar-expand-lg">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li> -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Anime
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/topranked/anime">Top Ranked</a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" href="/topwatched/anime">Top watched</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Manga
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/topranked/manga">Top Ranked</a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" href="/topwatched/manga">Top watched</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          LightNovel
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/topranked/lightnovel">Top Ranked</a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" href="/topwatched/lightnovel">Top watched</a>
+        </div>
+      </li>
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Movie
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/topranked/movie">Top Ranked</a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" href="/topwatched/movie">Top watched</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Character
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/characterrating">Top Ranked</a>
+        </div>
+      </li>
+
+      <!-- <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li> -->
+    </ul>
+    <div class="wrapper mx-auto">
+      <form action="/search" method="post" class="form-inline my-2 my-lg-0" autocomplete="chrome-off">
+        <input name="search"class="form-control mr-sm-2 navbar-toggler-right" id="search" type="text" placeholder="Type to Search" aria-label="Search" style="margin-top:auto; margin-left: 78px;"
+        >
+        <button class="btn btn-outline-secondary text-light navbar-toggler-right" type="submit" style="margin-right:20px; margin-top: auto;" >Search</button>
+      </form>
+      
+      <div class="results">
+        <ul>
+        </ul>
+      </div>
+    </div>
+    
+      
+  
+    
+    <%if(locals.username){%>
+      <li class="nav-item dropdown me-5">
+        <a class="nav-link dropdown-toggle" me-auto href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <B><BIG><%=locals.username%></BIG></B>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/dashboard">Dashboard</a>
+          <%if(locals.admin){%>
+            <a class="dropdown-item" href="/admindashboard">Admin Dashboard</a>
+          <%}%>
+          <a class="dropdown-item" href="/catalogue">Catalogue</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/home/logout">Logout</a>
+        </div>
+      </li>
+      <%}else {%>
+  <form action="/users/logPage" method="get" class="form-inline my-2 my-lg-0">
+
+    <!-- <input class="form-control mr-sm-2 navbar-toggler-right" type="search" placeholder="Search" aria-label="Search"> -->
+    <button class="btn btn-outline-dark text-light my-2 my-sm-0 navbar-toggler-right" type="submit" style="padding-left: 2.5rem; padding-right: 2.5rem; margin-left: auto;"
+    >login</button>
+  </form>
+
+  <form action="users/register" method="get" class="form-inline my-2 my-lg-0">
+    <!-- <input class="form-control mr-sm-2 navbar-toggler-right" type="search" placeholder="Search" aria-label="Search"> -->
+    <button class="btn btn-outline-dark text-light my-2 my-sm-0 navbar-toggler-right" type="submit" style="padding-left: 2.5rem; padding-right: 2.5rem; margin-left: auto;"
+    >register</button>
+  </form>
+  <%}%>
+  <!-- <div class="text-center text-lg-start mt-4 pt-2">
+    <a href="E:\cse offline 2-2\database con\views\index.html">
+    <button type="button" class="btn btn-primary btn-lg"
+      style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button></a>
+  </div> -->
+
+</div>
+</nav>
+<section class="ftco-section">
+  <div class="container">
+  <div class="row">
+  <div class="col-md-12">
+  <h4 class="text mb-4">ANIME</h4>
+  <hr color="#000000">
+  <div class="table-wrap">
+  <table class="table table-bordered table-hover">
+  <tbody>
+  <tr>
+      
+    <% for(let i=0;i<100;i++){ //id.rows.length %>
+      <td style="background: black; padding: 0%">
+              <div class="card text-white bg-dark">
+                <a href="/contents/<%=id.rows[i][0]%>/anime">
+                <img src="<%=id.rows[i][5]%>" class="card-img rounded-circle mb-2" alt="..." style="height: 200px;">
+                </a>
+                <div class="card-body" style="height: 95px;">
+                  <div class="text-wrap" style="width: 7rem; font-style: italic;">
+                    <a href="/contents/<%=id.rows[i][0]%>/anime"><p class="text-light"><%=id.rows[i][1]%></p></a>
+                  </div>
+                </div>
+              </div>
+            </td>
+        <% } %>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+  </tfoot>
+  </table>
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
+
+<section class="ftco-section">
+  <div class="container">
+  <div class="row">
+  <div class="col-md-12">
+  <h4 class="text mb-4">MANGA</h4>
+  <hr color="#000000">
+  <div class="table-wrap">
+  <table class="table table-bordered table-hover">
+  <tbody>
+  <tr>
+      
+    <% for(let i=0;i<100;i++){ //id2.rows.length%>
+      <td style="background: black; padding: 0%">
+              <div class="card text-white bg-dark">
+                <a href="/contents/<%=id2.rows[i][0]%>/manga">
+                <img src="<%=id2.rows[i][5]%>" class="card-img rounded-circle mb-2" alt="..." style="height: 200px;">
+                </a>
+                <div class="card-body" style="height: 95px;">
+                  <div class="text-wrap" style="width: 7rem; font-style: italic;">
+                    <a href="/contents/<%=id2.rows[i][0]%>/manga"><p class="text-light"><%=id2.rows[i][1]%></p></a>
+                  </div>
+                </div>
+              </div>
+            </td>
+        <% } %>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+  </tfoot>
+  </table>
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
+
+<section class="ftco-section">
+  <div class="container">
+  <div class="row">
+  <div class="col-md-12">
+  <h4 class="text mb-4">LIGHTNOVEL</h4>
+  <hr color="#000000">
+  <div class="table-wrap">
+  <table class="table table-bordered table-hover">
+  <tbody>
+  <tr>
+      
+    <% for(let i=0;i<100;i++){ //id3.rows.length%>
+      <td style="background: black; padding: 0%">
+              <div class="card text-white bg-dark">
+                <a href="/contents/<%=id3.rows[i][0]%>/lightnovel">
+                <img src="<%=id3.rows[i][5]%>" class="card-img rounded-circle mb-2" alt="..." style="height: 200px;">
+                </a>
+                <div class="card-body" style="height: 95px;">
+                  <div class="text-wrap" style="width: 7rem; font-style: italic;">
+                    <a href="/contents/<%=id3.rows[i][0]%>/lightnovel"><p class="text-light"><%=id3.rows[i][1]%></p></a>
+                  </div>
+                </div>
+              </div>
+            </td>
+        <% } %>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+  </tfoot>
+  </table>
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
+
+<section class="ftco-section">
+  <div class="container">
+  <div class="row">
+  <div class="col-md-12">
+  <h4 class="text mb-4">MOVIE</h4>
+  <hr color="#000000">
+  <div class="table-wrap">
+  <table class="table table-bordered table-hover">
+  <tbody>
+  <tr>
+      
+    <% for(let i=0;i<100;i++){ //id4.rows.length%>
+      <td style="background: black; padding: 0%">
+              <div class="card text-white bg-dark">
+                <a href="/contents/<%=id4.rows[i][0]%>/movie">
+                <img src="<%=id4.rows[i][5]%>" class="card-img rounded-circle mb-2" alt="..." style="height: 200px;">
+                </a>
+                <div class="card-body" style="height: 95px;">
+                  <div class="text-wrap" style="width: 7rem; font-style: italic;">
+                    <a href="/contents/<%=id4.rows[i][0]%>/movie"><p class="text-light"><%=id4.rows[i][1]%></p></a>
+                  </div>
+                </div>
+              </div>
+            </td>
+        <% } %>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+  </tfoot>
+  </table>
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>   
+<script>
+  var countries;
+  fetch('/home/array')
+  .then(res => res.json())
+  .then(data => countries = data.arr);
+  // .then(() => autocomplete(document.getElementById("inputText"), countries));
+  
+  let searchable = [
+            {name:'Elastic',id:1,type:'anime'},
+            {name:'PHP',id:2,type:'anime'},
+            {name:'Something about CSS',id:3,type:'anime'},
+            {name:'How to code',id:4,type:'anime'},
+            {name:'JavaScript',id:5,type:'anime'},
+            {name:'Coding',id:6,type:'anime'},
+            {name:'Some other item',id:7,type:'anime'}
+        ];
+
+        const searchInput = document.getElementById('search');
+        const searchWrapper = document.querySelector('.wrapper');
+        const resultsWrapper = document.querySelector('.results');
+
+        searchInput.addEventListener('keyup', () => {
+            let results = [];
+            let input = searchInput.value;
+            if (input.length) {
+                results = searchable.filter((item) => {
+                return item.name.toLowerCase().includes(input.toLowerCase());
+                });
+            }
+            //console.log(results);
+            renderResults(results);
+        });
+
+        function renderResults(results) {
+            if (!results.length) {
+                return searchWrapper.classList.remove('show');
+            }
+
+            const content = results
+                .map((item) => {
+                return `<a href="/contents/${item.id}/${item.type}" ><li>${item.name}</li>`;
+                })
+                .join('');
+
+            searchWrapper.classList.add('show');
+            resultsWrapper.innerHTML = `<ul>${content}</ul>`;
+        }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    
+
+    <link href="/css/dashboard.css" />
+    <style>
+        .fontstyle{
+          font-weight: bold;
+          font-size: 20px;
+        }
+        .my-link-style:hover{
+            text-decoration: underline;
+            background-color: white;
+            color: black;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+            color: black;
+            background-color:white;
+        }
+        .my-link-style2{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .img-eye{
+          width:70%;
+          height:70%;
+        }
+        .bgcolor{
+            background-color: #411530;
+        }
+        .rank{
+            color: black
+        }
+        .container{
+            border: 5px solid black;
+        }
+        .box{
+            background-color:white;
+            color: black
+        }
+      </style>
+  </head>
+  <body>
+    <% if(locals.msg) {%>
+      <% if(msg=='1'){ %> 
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          The user has been deleted
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+      <%}else if(msg==2){%>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Content successfully deleted
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <%}else if(msg==3){%>
+          <div class="alert alert-success  alert-dismissible fade show" role="alert">
+            Manga successfully deleted
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <%}else if(msg==4){%>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Lightnovel successfully deleted
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <%}else if(msg==5){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+             Movie successfully deleted
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <%}%>
+    <% } %>
+
+    <div class="other-section ">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs py-3 bg-secondary">
+                    <li class="nav-item me-auto">
+                        <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                    </li>
+                </ul>
+            </div>
+        </div>  
+    </div> 
+    <br><br><br>
+
+    
+
+
+    <div class="container">
+      <ul class="nav nav-tabs">
+        <li>
+          <a class="nav-link active" data-bs-toggle="tab" href="#home">User Delete</a>
+        </li>
+        <li>
+          <a class="nav-link" data-bs-toggle="tab" href="#menu1"
+            >Content Delete
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-bs-toggle="tab" href="#menu2"
+            >Content Add
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-bs-toggle="tab" href="#menu3"
+            >Recommendation
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-bs-toggle="tab" href="#menu4"
+            >Submission
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="home" class="tab-pane fade show active">
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email Address</th>
+                <th>Click to Proceed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for(let i=0;i<locals.userlist.length;i++){%>
+                <tr>
+                  <td><%=locals.userlist[i][3]%></td>
+                  <td><%=locals.userlist[i][1]%></td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-info"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop<%=i%>"
+                    >
+                      See Details
+                    </button>
+                  </td>
+                </tr>
+              <%}%>
+            </tbody>
+            <%for(let i=0;i<locals.userlist.length;i++){%>
+            <div
+              class="modal fade"
+              id="staticBackdrop<%=i%>"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+              >
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      User Info
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row align-items-center flex-row-reverse">
+                      <div class="col-lg-6">
+                        <div class="about-text go-to">
+                          <h3 class="dark-color"><%=locals.userlist[i][3]%></h3>
+                          <div class="row about-list">
+                            <div class="col-md-6">
+                              <div class="media">
+                                <label class="fontstyle">Birthday</label>
+                                <p><%=locals.userlist[i][7]%></p>
+                              </div>
+                              <div class="media">
+                                <label class="fontstyle">Age</label>
+                                <p><%=locals.userlist[i][10]%> Yr</p>
+                              </div>
+                              <div class="media">
+                                <label class="fontstyle">Country</label>
+                                <p><%=locals.userlist[i][5]%></p>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="media">
+                                <label class="fontstyle">E-mail</label>
+                                <p><%=locals.userlist[i][1]%></p>
+                              </div>
+                              <div class="media">
+                                <label class="fontstyle">Gender</label>
+                                <p><%=locals.userlist[i][8]%></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="about-avatar">
+                          <%if(locals.userlist[i][4]){%>
+                            <img class="img-account-profile img-thumbnail mb-2"
+                            src="<%=locals.userlist[i][4]%>"
+                            alt=""/>
+                          <%}else{%>
+                            <img
+                            src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                            title=""
+                            alt=""
+                            />
+                          <%}%>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="counter">
+                      <div class="row">
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="500" data-speed="500">
+                              500
+                            </h6>
+                            <p class="m-0px font-w-600">Followers</p>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="150" data-speed="150">
+                              150
+                            </h6>
+                            <p class="m-0px font-w-600">Following</p>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="850" data-speed="850">
+                              850
+                            </h6>
+                            <p class="m-0px font-w-600">Blog Posts</p>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="190" data-speed="190">
+                              190
+                            </h6>
+                            <p class="m-0px font-w-600">Recommendations</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <a href="/admindashboard/delete?id=<%=locals.userlist[i][0]%>">
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Delete Account
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%}%>
+          </table>
+        </div>
+
+        <div id="menu1" class="tab-pane fade">
+          <div class="d-flex align-items-start">
+            <div
+              class="nav flex-column nav-tabs me-3"
+              id="v-tabs-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <button
+                class="nav-link active"
+                id="v-tabs-anime-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-anime"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-anime"
+                aria-selected="true"
+              >
+                Anime
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-manga-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-manga"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-manga"
+                aria-selected="false"
+              >
+                Manga
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-lightnovel-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-lightnovel"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-lightnovel"
+                aria-selected="false"
+              >
+                LightNovel
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-movie-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-movie"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-movie"
+                aria-selected="false"
+              >
+                Movie
+              </button>
+            </div>
+
+            <div class="tab-content" id="v-tabs-tabContent">
+                <div
+                class="tab-pane fade show active"
+                id="v-tabs-anime"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >
+                <div class="d-flex flex-wrap">
+                  <%for(let i=0;i<locals.anime.length;i++){%>
+                  <div class="card text-white bg-dark me-3 mb-3">
+                    <img
+                      src="<%=locals.anime[i][5]%>"
+                      class="card-img rounded-circle"
+                      alt="..."
+                      style="height: 150px; width: 150px;"
+                    />
+                    <div class="card-body" style="height: 95px">
+                      <div
+                        class="text-wrap"
+                        style="width: 7rem; font-style: italic"
+                      >
+                        <p class="text-light"><%=locals.anime[i][1]%></p>
+                      </div>
+                    </div>
+                    <div class="card-footer" style="padding:0 ;">
+                      <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#exampleModal<%=i%>">
+                        see dtails
+                      </button>
+                    </div>
+                  </div>
+              <%}%>
+              </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.anime.length;i++){%>
+<div class="modal fade" id="exampleModal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Anime Content</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <section class="bg-light">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 mb-4 mb-sm-5">
+                      <div class="card card-style1 border-0">
+                          <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                              <div class="row align-items-center">
+                                  <div class="col-lg-6 mb-4 mb-lg-0">
+                                      <img src="<%=locals.anime[i][5]%>" alt="...">
+                                  </div>
+                                  <div class="col-lg-6 px-xl-10">
+                                      <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                          <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.anime[i][1]%></h3>
+                                      </div>
+                                      <ul class="list-unstyled mb-1-9">
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Anime</li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Episodes:</span> <%=locals.anime[i][8]%></li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Locked:</span> <%=locals.anime[i][4]%></li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span> <%=locals.anime[i][15]%></li>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 mb-4 mb-sm-5">
+                      <div>
+                          <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                          <p><%=locals.anime[i][6]%></p>
+                      </div>
+        
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/admindashboard/contentdelete?id=<%=locals.anime[i][0]%>">
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Delete Account
+                      </button>
+                    </a>
+                  </div>
+              </div>
+          </div>
+      </section>
+      </div>
+    </div>
+  </div>
+</div>
+<%}%>
+
+
+
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-tabs-manga"
+              role="tabpanel"
+              aria-labelledby="v-tabs-profile-tab"
+            >
+            
+            <div class="d-flex flex-wrap">
+              <%for(let i=0;i<locals.manga.length;i++){%>
+              <div class="card text-white bg-dark me-3 mb-3">
+                <img
+                  src="<%=locals.manga[i][5]%>"
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"><%=locals.manga[i][1]%></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#mangamodal<%=i%>">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          <%}%>
+          </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.manga.length;i++){%>
+<div class="modal fade" id="mangamodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Manga Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="<%=locals.manga[i][5]%>" alt="...">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.manga[i][1]%></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Manga</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span> <%=locals.manga[i][10]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span> <%=locals.manga[i][11]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span> <%=locals.manga[i][12]%></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <p><%=locals.manga[i][6]%></p>
+                  </div>
+    
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/admindashboard/contentdelete?id=<%=locals.manga[i][0]%>">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    Delete Account
+                  </button>
+                </a>
+              </div>
+          </div>
+      </div>
+  </section>
+  </div>
+</div>
+</div>
+</div>
+<%}%>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-tabs-lightnovel"
+              role="tabpanel"
+              aria-labelledby="v-tabs-messages-tab"
+            >
+            <div class="d-flex flex-wrap">
+              <%for(let i=0;i<locals.lightnovel.length;i++){%>
+              <div class="card text-white bg-dark me-3 mb-3">
+                <img
+                  src="<%=locals.lightnovel[i][5]%>"
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"><%=locals.lightnovel[i][1]%></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#lightnovelmodal<%=i%>">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          <%}%>
+          </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.lightnovel.length;i++){%>
+<div class="modal fade" id="lightnovelmodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Lightnovel Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="<%=locals.lightnovel[i][5]%>" alt="...">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.lightnovel[i][1]%></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Lightnovel</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span> <%=locals.lightnovel[i][10]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span> <%=locals.lightnovel[i][11]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span> <%=locals.lightnovel[i][12]%></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <p><%=locals.lightnovel[i][6]%></p>
+                  </div>
+    
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/admindashboard/contentdelete?id=<%=locals.lightnovel[i][0]%>">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    Delete Account
+                  </button>
+                </a>
+              </div>
+          </div>
+      </div>
+  </section>
+  </div>
+</div>
+</div>
+</div>
+<%}%>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-tabs-movie"
+              role="tabpanel"
+              aria-labelledby="v-tabs-settings-tab"
+            >
+            <div class="d-flex flex-wrap">
+              <%for(let i=0;i<locals.movie.length;i++){%>
+              <div class="card text-white bg-dark me-3 mb-3">
+                <img
+                  src="<%=locals.movie[i][5]%>"
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"><%=locals.movie[i][1]%></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#moviemodal<%=i%>">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          <%}%>
+          </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.movie.length;i++){%>
+<div class="modal fade" id="moviemodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Movie Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="<%=locals.movie[i][5]%>" alt="...">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.movie[i][1]%></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Movie</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Producers:</span> <%=locals.movie[i][9]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Licensors:</span> <%=locals.movie[i][10]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span> <%=locals.movie[i][11]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Source:</span> <%=locals.movie[i][12]%></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <p><%=locals.movie[i][6]%></p>
+                  </div>
+                     
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/admindashboard/contentdelete?id=<%=locals.movie[i][0]%>">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    Delete Account
+                  </button>
+                </a>
+              </div>
+          </div>
+      </div>
+  </section>
+  </div>
+</div>
+</div>
+</div>
+<%}%>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div id="menu2" class="tab-pane fade">
+          <div class="d-flex align-items-start">
+            <div
+              class="nav flex-column nav-tabs me-3"
+              id="v-tabs-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <button
+                class="nav-link active"
+                id="v-tabs-anime-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-anime2"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-anime"
+                aria-selected="true"
+              >
+                Anime
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-manga-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-manga2"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-manga"
+                aria-selected="false"
+              >
+                Manga
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-lightnovel-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-lightnovel2"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-lightnovel"
+                aria-selected="false"
+              >
+                LightNovel
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-movie-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-movie2"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-movie"
+                aria-selected="false"
+              >
+                Movie
+              </button>
+            </div>
+
+            <div class="tab-content" id="v-tabs-tabContent">
+                <div
+                class="tab-pane fade show active"
+                id="v-tabs-anime2"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">Animes</h1>
+                <form class="row g-3">
+                  <div class="col-md-12">
+                    <label for="inputTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputTitle">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="inputSourceTitle" class="form-label">Source Title</label>
+                    <input type="password" class="form-control" id="inputSourceTitle">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputSource" class="form-label">Source</label>
+                    <select id="inputSource" class="form-select">
+                      <option selected>None</option>
+                      <option>Anime</option>
+                      <option>Manga</option>
+                      <option>LightNovel</option>
+                      <option>Movie</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synapsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3"></textarea>                 
+                    </div>
+                    <div class="col-6">
+                      <label for="inputEpNo" class="form-label">Episodes No</label>
+                      <input type="text" class="form-control" id="inputEpNo" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select">
+                        <option selected>Ongoing</option>
+                        <option>Finished</option>
+                      </select>
+                    </div>                  
+                  <div class="col-md-6">
+                    <label for="AIR_START_DATE" class="form-label">AIR_START_DATE</label>
+                    <input type="date" class="form-control" id="AIR_START_DATE">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputCity" class="form-label">AIR_END_DATE</label>
+                    <input type="date" class="form-control" id="inputCity">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="AIR_END_DATE" class="form-label">Duration</label>
+                    <input type="text" class="form-control" id="AIR_END_DATE">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputSeason" class="form-label">Season</label>
+                    <input type="text" class="form-control" id="inputSeason">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputStudios" class="form-label">Studios</label>
+                    <input type="text" class="form-control" id="inputStudios">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputLicensors" class="form-label">Licensors</label>
+                    <input type="text" class="form-control" id="inputLicensors">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputProducers" class="form-label">Producers</label>
+                    <input type="text" class="form-control" id="inputProducers">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputGenries" class="form-label">Genries</label>
+                    <input type="text" class="form-control" id="inputGenries">
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+            </section>
+                </div>
+
+                <div
+                class="tab-pane fade"
+                id="v-tabs-manga2"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">Manga</h1>
+                <form class="row g-3">
+                  <div class="col-md-12">
+                    <label for="inputTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputTitle">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="inputSourceTitle" class="form-label">Source Title</label>
+                    <input type="password" class="form-control" id="inputSourceTitle">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputSource" class="form-label">Source</label>
+                    <select id="inputSource" class="form-select">
+                      <option selected>None</option>
+                      <option>Anime</option>
+                      <option>Manga</option>
+                      <option>LightNovel</option>
+                      <option>Movie</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synapsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3"></textarea>                 
+                    </div>
+                    <div class="col-md-4">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select">
+                        <option selected>Ongoing</option>
+                        <option>Finished</option>
+                      </select>
+                    </div>                 
+                  <div class="col-md-4">
+                    <label for="volumes" class="form-label">Volumes</label>
+                    <input type="text" class="form-control" id="volumes">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputChapters" class="form-label">Chapters</label>
+                    <input type="text" class="form-control" id="inputChapters">
+                  </div>
+                
+                  <div class="col-md-12">
+                    <label for="inputAuthors" class="form-label">Authors</label>
+                    <input type="text" class="form-control" id="inputAuthors">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputGenries" class="form-label">Genries</label>
+                    <input type="text" class="form-control" id="inputGenries">
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+            </section>
+                </div>
+
+                <div
+                class="tab-pane fade"
+                id="v-tabs-lightnovel2"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">LightNovel</h1>
+                <form class="row g-3">
+                  <div class="col-md-12">
+                    <label for="inputTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputTitle">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="inputSourceTitle" class="form-label">Source Title</label>
+                    <input type="password" class="form-control" id="inputSourceTitle">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputSource" class="form-label">Source</label>
+                    <select id="inputSource" class="form-select">
+                      <option selected>None</option>
+                      <option>Anime</option>
+                      <option>Manga</option>
+                      <option>LightNovel</option>
+                      <option>Movie</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synapsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3"></textarea>                 
+                    </div>
+                    <div class="col-md-4">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select">
+                        <option selected>Ongoing</option>
+                        <option>Finished</option>
+                      </select>
+                    </div>                 
+                  <div class="col-md-4">
+                    <label for="volumes" class="form-label">Volumes</label>
+                    <input type="text" class="form-control" id="volumes">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputPublishDate" class="form-label">Publish Date</label>
+                    <input type="date" class="form-control" id="inputPublishDate">
+                  </div>
+                
+                  <div class="col-md-12">
+                    <label for="inputAuthors" class="form-label">Authors</label>
+                    <input type="text" class="form-control" id="inputAuthors">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputGenries" class="form-label">Genries</label>
+                    <input type="text" class="form-control" id="inputGenries">
+                  </div>
+                  
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+            </section>
+                </div>
+
+                <div
+                class="tab-pane fade"
+                id="v-tabs-movie2"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">Movies</h1>
+                <form class="row g-3">
+                  <div class="col-md-12">
+                    <label for="inputTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputTitle">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="inputSourceTitle" class="form-label">Source Title</label>
+                    <input type="password" class="form-control" id="inputSourceTitle">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputSource" class="form-label">Source</label>
+                    <select id="inputSource" class="form-select">
+                      <option selected>None</option>
+                      <option>Anime</option>
+                      <option>Manga</option>
+                      <option>LightNovel</option>
+                      <option>Movie</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synapsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3"></textarea>                 
+                    </div>
+                    <div class="col-6">
+                      <label for="inputDuration" class="form-label">Duration</label>
+                      <input type="text" class="form-control" id="inputDuration" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select">
+                        <option selected>Ongoing</option>
+                        <option>Finished</option>
+                      </select>
+                    </div>                  
+                  <div class="col-md-6">
+                    <label for="releaseDate" class="form-label">Release Date</label>
+                    <input type="date" class="form-control" id="releaseDate">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="AIR_END_DATE" class="form-label">Duration</label>
+                    <input type="text" class="form-control" id="AIR_END_DATE">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputStudios" class="form-label">Studios</label>
+                    <input type="text" class="form-control" id="inputStudios">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputLicensors" class="form-label">Licensors</label>
+                    <input type="text" class="form-control" id="inputLicensors">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputProducers" class="form-label">Producers</label>
+                    <input type="text" class="form-control" id="inputProducers">
+                  </div>
+                
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+            </section>
+                </div>
+          </div>
+        </div>
+        </div>
+
+        <div id="menu3" class="tab-pane fade">
+          <div class="d-flex align-items-start">
+            <div
+              class="nav flex-column nav-tabs me-3"
+              id="v-tabs-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <button
+                class="nav-link active"
+                id="v-tabs-anime-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-anime3"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-anime"
+                aria-selected="true"
+              >
+                Anime
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-manga-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-manga3"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-manga"
+                aria-selected="false"
+              >
+                Manga
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-lightnovel-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-lightnovel3"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-lightnovel"
+                aria-selected="false"
+              >
+                LightNovel
+              </button>
+              <button
+                class="nav-link"
+                id="v-tabs-movie-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-movie3"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-movie"
+                aria-selected="false"
+              >
+                Movie
+              </button>
+            </div>
+
+            <div class="tab-content" id="v-tabs-tabContent">
+                <div
+                class="tab-pane fade show active"
+                id="v-tabs-anime3"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >
+                <div class="d-flex flex-wrap">
+                  <div class="card text-white bg-dark me-3 mb-3">
+                    <img
+                      src=""
+                      class="card-img rounded-circle"
+                      alt="..."
+                      style="height: 150px; width: 150px;"
+                    />
+                    <div class="card-body" style="height: 95px">
+                      <div
+                        class="text-wrap"
+                        style="width: 7rem; font-style: italic"
+                      >
+                        <p class="text-light"></p>
+                      </div>
+                    </div>
+                    <div class="card-footer" style="padding:0 ;">
+                      <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        see dtails
+                      </button>
+                    </div>
+                  </div>
+              </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Anime Content</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <section class="bg-light">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 mb-4 mb-sm-5">
+                      <div class="card card-style1 border-0">
+                          <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                              <div class="row align-items-center">
+                                  <div class="col-lg-6 mb-4 mb-lg-0">
+                                      <img src="" alt="...">
+                                  </div>
+                                  <div class="col-lg-6 px-xl-10">
+                                      <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                          <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"></h3>
+                                      </div>
+                                      <ul class="list-unstyled mb-1-9">
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Anime</li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Episodes:</span> </li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Locked:</span> </li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span></li>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 mb-4 mb-sm-5">
+                      <div>
+                          <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                          <p></p>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="lockStatus">
+                          <label class="form-check-label" for="lockStatus">
+                            Locked Status
+                          </label>
+                        </div>
+                      </div>
+
+        
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        ADD
+                      </button>
+                    </a>
+                    <a href="">
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        REJECT
+                      </button>
+                    </a>
+                    
+                  </div>
+              </div>
+          </div>
+      </section>
+      </div>
+    </div>
+    </div>
+    </div>
+
+
+
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-tabs-manga3"
+              role="tabpanel"
+              aria-labelledby="v-tabs-profile-tab"
+            >
+            
+            <div class="d-flex flex-wrap">
+              <div class="card text-white bg-dark me-3 mb-3">
+                <img
+                  src=""
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#mangamodal">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="mangamodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Manga Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="" alt="...">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Manga</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span> </li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <p></p>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    ADD
+                  </button>
+                </a>
+                <a href="">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    REJECT
+                  </button>
+                </a>
+              </div>
+          </div>
+      </div>
+    </section>
+    </div>
+    </div>
+    </div>
+    </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-tabs-lightnovel3"
+              role="tabpanel"
+              aria-labelledby="v-tabs-messages-tab"
+            >
+            <div class="d-flex flex-wrap">
+              <div class="card text-white bg-dark me-3 mb-3">
+                <img
+                  src=""
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#lightnovelmodal">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="lightnovelmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Lightnovel Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="" alt="...">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Lightnovel</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <p></p>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    ADD
+                  </button>
+                </a>
+                <a href="">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    REJECT
+                  </button>
+                </a>
+              </div>
+          </div>
+      </div>
+    </section>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    </div>
+            <div
+              class="tab-pane fade"
+              id="v-tabs-movie3"
+              role="tabpanel"
+              aria-labelledby="v-tabs-settings-tab"
+            >
+            <div class="d-flex flex-wrap">
+              <div class="card text-white bg-dark me-3 mb-3">
+                <img
+                  src=""
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#moviemodal">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="moviemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Movie Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="" alt="...">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Movie</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Producers:</span> </li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Licensors:</span> </li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span> </li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Source:</span> </li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <p></p>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lockStatus">
+                      <label class="form-check-label" for="lockStatus">
+                        Locked Status
+                      </label>
+                    </div>
+                  </div>
+                    
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    ADD
+                  </button>
+                </a>
+                <a href="">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    REJECT
+                  </button>
+                </a>
+              </div>
+          </div>
+      </div>
+    </section>
+    </div>
+    </div>
+    </div>
+    </div>
+
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div id="menu4" class="tab-pane fade">
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td>sjdbwjhddchew</td>
+                  <td>sdicnscndic</td>
+                  <td>
+                    <button type="button" class="btn btn-outline-primary"><i class=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                      <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                      <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg></i> Download </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                  
+                </tr>
+                
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

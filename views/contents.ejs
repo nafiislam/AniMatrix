@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contents</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .card{
+        background-color:#06283D !important;
+        color:#ffffff !important;
+        border: 2px solid black;
+      }
+      .card-body{
+        background-color:#1D1F39 !important;
+        color:#ffffff !important;
+        border: 2px solid black;
+      }
+        .my-link-style:hover{
+            text-decoration: underline;
+            background-color: white;
+            color: black;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+            color: black;
+            background-color:white;
+        }
+        .my-link-style2{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .img-eye{
+            
+        }
+        .fontstyle{
+            
+        }
+        .bgcolor{
+            background-color: #473144;
+        }
+        .rank{
+            color: black
+        }
+        .container{
+            border: 5px solid black;
+        }
+        .box{
+            background-color:white;
+            color: black
+        }
+        .cd{
+            background-color:#100720;
+            
+        }
+        pre {
+            white-space: pre-wrap;
+            font-size: 16px;
+            font-family: "Helvetica Neue",Helvetica;
+        }
+    </style>
+    <script>
+        try{
+            if(window.location.pathname[window.location.pathname.length-2]=='/'&&window.location.pathname.substring(0, window.location.pathname.length - 2)===sessionStorage.getItem('page')){
+            }
+            else{
+                try{
+                    if(sessionStorage.getItem('page')[sessionStorage.getItem('page').length-2]=='/'&&sessionStorage.getItem('page').substring(0, sessionStorage.getItem('page').length - 2)===window.location.pathname){
+                    }
+                    else{
+                        if(sessionStorage.getItem('page')===window.location.pathname){
+                        }
+                        else{
+                            sessionStorage.removeItem("_x_currentTab");
+                        }
+                    }
+                }
+                catch{
+                    if(sessionStorage.getItem('page')===window.location.pathname){
+                    }
+                    else{
+                        sessionStorage.removeItem("_x_currentTab");
+                    }
+                }
+            }
+        }
+        catch{
+            try{
+                if(sessionStorage.getItem('page')[sessionStorage.getItem('page').length-2]=='/'&&sessionStorage.getItem('page').substring(0, sessionStorage.getItem('page').length - 2)===window.location.pathname){
+                }
+                else{
+                    if(sessionStorage.getItem('page')===window.location.pathname){
+                    }
+                    else{
+                        sessionStorage.removeItem("_x_currentTab");
+                    }
+                }
+            }
+            catch{
+                if(sessionStorage.getItem('page')===window.location.pathname){
+                }
+                else{
+                    sessionStorage.removeItem("_x_currentTab");
+                }
+            }
+        }
+        sessionStorage.setItem("page", window.location.pathname);
+        sessionStorage.removeItem("_x_watchTab");
+        sessionStorage.removeItem("_x_collapse");
+        sessionStorage.removeItem("_x_type");
+    </script>
+</head>
+<body style="background-color: #1D1F39;">
+
+    <%if(locals.msg){%>
+        <%if(locals.msg=='You are not logged in'){%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><%=locals.msg%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <%}else if(locals.msg=='Successfully reviewed'){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><%=locals.msg%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <%}else if(locals.msg=='Successfully added to watchlist'){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><%=locals.msg%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <%}else if(locals.msg=='Successfully removed from watchlist'){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><%=locals.msg%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <%}%>
+    <%}%>
+    <div class="other-section ">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs py-3"style="background-color:#000;">
+                    <li class="nav-item me-auto">
+                        <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                    </li>
+                    <%if(username){%>
+                        <li class="nav-item dropdown me-5">
+                            <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                              <%if(locals.admin){%>
+                                <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                                <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                              <%}%>
+                              <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                              <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                              <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                              <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                              <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                              <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                              <li><a class="dropdown-item" href="/post">Forum</a></li>
+                              <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    <%}else{%>
+                        <li class="nav-item">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                        </li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>  
+    </div> 
+    <h1 class="text-primary"><%=rows.rows[0][0]%></h1>
+    <div class="other-section">
+        <div class="row my-link-style2">
+            <div class="col-3 fontstyle">
+                <!-- <img src="cover/goku-1660902833990.jpg" alt="..." class="img-thumbnail"> -->
+                <img class="img-eye img-thumbnail" src="<%=rows.rows[0][3]%>" alt="picture">
+                <br/>
+                <%if(rate){%>
+                    <a class="mb-3 d-block" href="#inforev" data-bs-toggle="collapse"aria-expanded="false" aria-controls="info">Edit review & rating</a>
+                    <div id="inforev" class="collapse">
+                        <form action="/review/update/<%=id%>/<%=type%>" method="post" onsubmit="return fetching(this)" name="revform">
+                            <label class="label-primary">Edit review and edit rating</label><br>
+                            <span id="1"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                            <span id="2"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                            <span id="3"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                            <span id="4"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                            <span id="5"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                            <div class="form-outline">
+                                <textarea name="review" class="form-control" placeholder="Enter your review" rows="4" id="rev"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" >Submit</button>
+                            <!-- <button type="submit"  class="btn btn-primary" id="nafsave" data-id="<%=id%>"data-type="<%=type%>">Submit</button> -->
+                        </form>
+                    </div>
+                    <br><br><br>
+                <%}else{%>
+                    <form action="/review/<%=id%>/<%=type%>" method="post" onsubmit="return fetching(this)" name="revform">
+                        <label class="label-primary">Write a review and give rating</label><br>
+                        <span name="one" id="1"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                        <span id="2"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                        <span id="3"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                        <span id="4"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                        <span id="5"  style="font-size:40px;cursor:pointer;" class="fa fa-star rank"></span>
+                        <div class="form-outline">
+                            <textarea name="review" class="form-control" placeholder="Enter your review" rows="4" id="rev"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" >Submit</button>
+                        <!-- <button type="submit"  class="btn btn-primary" id="nafsave" data-id="<%=id%>"data-type="<%=type%>">Submit</button> -->
+                    </form>
+                <%}%>
+                <!-- <form action="/review" method="post" id="myform"> -->
+            
+                </form>
+                <div class="card">
+                    <div class="card-body cd">
+                        <h4>Information</h4><hr>
+                        <p><B style="color:#FF869E"><%=rows.metaData[1].name%>:</B> <%=rows.rows[0][1]%><br>
+                            <%for(let i=5;i<rows.metaData.length;i++){%>
+                                <B style="color:#FF869E"><%=rows.metaData[i].name%>:</B> <%=rows.rows[0][i]%><br>
+                            <%}%>
+                            <%var count=0.0;%>
+                            <%for(let i=0;i<reviews.length;i++){%>
+                                <%count+=reviews[i][1]%>
+                            <%}%>
+                            <B style="color:#FF869E">Rating: </B><%=(count/reviews.length).toFixed(2)%>
+                        </p>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-9" x-data="{currentTab : $persist('details').using(sessionStorage)}">
+                <ul class="nav nav-pills py-3 bg-dark">
+                    <li class="nav-item" @click.prevent="currentTab ='details'">
+                        <a data-bs-toggle="pill" class="nav-link my-link-style my-link-style2 text-uppercase" :class="currentTab==='details' ? 'active' : ''" href="#Details" ><B>Details</B></a>
+                    </li>
+                    <li class="nav-item"@click.prevent="currentTab ='characters'">
+                        <a data-bs-toggle="pill" class="nav-link my-link-style  my-link-style2 text-uppercase" :class="currentTab==='characters' ? 'active' : ''" href="#Characters"><B>Characters</B></a>
+                    </li>
+                    <% if(rows3.length!=0){%> 
+                        <li class="nav-item" @click.prevent="currentTab ='videos'">
+                            <a data-bs-toggle="pill" class="nav-link my-link-style  my-link-style2 text-uppercase" :class="currentTab==='videos' ? 'active' : ''"  href="#Videos"><B>Videos</B></a>
+                        </li>
+                    <%}%>
+                    <li class="nav-item" @click.prevent="currentTab ='pictures'">
+                        <a data-bs-toggle="pill" class="nav-link my-link-style  my-link-style2 text-uppercase" :class="currentTab==='pictures' ? 'active' : ''" href="#Pictures"><B>Pictures</B></a>
+                    </li>
+                    <li class="nav-item" @click.prevent="currentTab ='reviews'">
+                        <a data-bs-toggle="pill" class="nav-link my-link-style  my-link-style2 text-uppercase" :class="currentTab==='reviews' ? 'active' : ''" href="#Reviews"><B>Reviews</B></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="Details" class="tab-pane my-link-style2" :class="currentTab==='details' ? 'active' : ''">
+                        <div class="row">
+                            <div class="col-12 ">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <br><br><br>
+                                        <BIG style="color:#FF869E">Rating score: </BIG><BIG><%=(count/reviews.length).toFixed(2)%></BIG> 
+                                    </div>
+                                    <div class="col-2 center">
+                                        <br><br><br>
+                                        <BIG style="color:#FF869E">Rank: </BIG><BIG>#<%=locals.rank%> </BIG> 
+                                    </div>
+                                    <div class="col-3 center">
+                                        <br><br><br>
+                                        <%if(locals.watchlist==0){%>
+                                            <form action="/watchlist/<%=locals.id%>/<%=locals.type%>" method="post">
+                                                <div class="form-group">
+                                                  <label style="color:#FF869E" for="exampleFormControlSelect1">Status</label>
+                                                  <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                                    <option>Finished</option>
+                                                    <option>Ongoing</option>
+                                                  </select>
+                                                </div>
+                                                <%if(locals.type=='anime'||locals.type=='movie'){%>
+                                                    <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+                                                <%}else{%>
+                                                    <button type="submit" class="btn btn-primary">Add to Readlist</button>
+                                                <%}%>
+                                                
+                                            </form>
+                                        <%}else if(locals.watchlist==1){%>
+                                            <form action="/watchlist/delete/<%=locals.id%>/<%=locals.type%>" method="get">
+                                                <%if(locals.type=='anime'||locals.type=='movie'){%>
+                                                    <button type="submit" class="btn btn-primary">Remove from Watchlist</button>
+                                                <%}else{%>
+                                                    <button type="submit" class="btn btn-primary">Remove from Readlist</button>
+                                                <%}%>
+                                            </form>
+                                        <%}else if(locals.watchlist==2){%>
+                                            <label class="label-primary">You have to login to add it to watchlist</label><br>
+                                        <%}%>
+                                    </div>
+                                    <div class="col-4 p-3 center">
+                                        <%if(rows3.length!=0){%>
+                                            <h4 style="color:#FF869E"><%=rows3[0][0].toUpperCase()%> :</h4>
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe class="embed-responsive-item" width="100%"
+                                                height="40%" src="<%=rows3[0][1]%>&mute=1"></iframe>
+                                            </div>
+                                        <%}%>
+                                    </div>
+                                </div>
+                                <h4>Synopsis</h4><hr>
+                                <pre><%=rows.rows[0][4]%></pre>
+                                <h4>Related Contents</h4><hr>
+                                <%if(source!=null){%>
+                                    <h6>Adaptation:   <a class ="atr" data-id="" data-type=""href="/contents/<%=rows.rows[0][2]%>/<%=source[1]%>"><%=source[0]%></a></h6>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Characters" class="tab-pane":class="currentTab==='characters' ? 'active' : ''">
+                        <div class="row">
+                            <div class="col-10 center">
+                                <%for(let i=0;i<rows2.length;i++){%>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <p><br><br>
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img src="<%=rows2[i][3]%>" class="img-eye img-thumbnail">
+                                                </div>
+                                                <div class="col-7 mx-auto my-auto">
+                                                    <B>Name: </B><%=rows2[i][1]%><br>
+                                                    <B>Role: </B><%=rows2[i][2]%><br>
+                                                </div>
+                                            </div>
+                                            <a class="mb-3 d-block" href="#info<%=i%>" data-bs-toggle="collapse"aria-expanded="false" aria-controls="info">For more information</a>
+                                            <div id="info<%=i%>" class="collapse">
+                                               <pre> <%=rows2[i][4]%></pre>
+                                            </div>
+                                            <br><br><br>
+                                        </div>
+                                        <div class="col-4 mx-auto my-auto">
+                                            <a href="/character/<%=locals.id%>/<%=locals.type%>/<%=rows2[i][0]%>"><button type="submit" class="btn btn-primary" >Details</button></a>
+                                        </div>
+                                            
+                                    </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Videos" class="tab-pane" :class="currentTab==='videos' ? 'active' : ''">
+                        <div class="row">
+                            <h4>OP</h4><hr>
+                            <%for(let i=0;i<rows3.length;i++){%>
+                                <%if(rows3[i][0]=='op'){%>
+                                    <div class="col-4 p-4 center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="100%"
+                                            height="50%" src="<%=rows3[i][1]%>&mute=1"></iframe>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                        <div class="row">
+                            <h4>ED</h4><hr>
+                            <%for(let i=0;i<rows3.length;i++){%>
+                                <%if(rows3[i][0]=='ed'){%>
+                                    <div class="col-4 p-4 center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="100%"
+                                            height="50%" src="<%=rows3[i][1]%>&mute=1"></iframe>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                        <div class="row">
+                            <h4>PV</h4><hr>
+                            <%for(let i=0;i<rows3.length;i++){%>
+                                <%if(rows3[i][0]=='pv'){%>
+                                    <div class="col-4 p-4 center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="100%"
+                                            height="50%" src="<%=rows3[i][1]%>&mute=1"></iframe>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                        <div class="row">
+                            <h4>Trailer</h4><hr>
+                            <%for(let i=0;i<rows3.length;i++){%>
+                                <%if(rows3[i][0]=='trailer'){%>
+                                    <div class="col-4 p-4 center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="100%"
+                                            height="50%" src="<%=rows3[i][1]%>&mute=1"></iframe>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                        <div class="row">
+                            <h4>Teaser</h4><hr>
+                            <%for(let i=0;i<rows3.length;i++){%>
+                                <%if(rows3[i][0]=='teaser'){%>
+                                    <div class="col-4 p-4 center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="100%"
+                                            height="50%" src="<%=rows3[i][1]%>&mute=1"></iframe>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                        <div class="row">
+                            <h4>CM</h4><hr>
+                            <%for(let i=0;i<rows3.length;i++){%>
+                                <%if(rows3[i][0]=='cm'){%>
+                                    <div class="col-4 p-4 center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="100%"
+                                            height="50%" src="<%=rows3[i][1]%>&mute=1"></iframe>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                    </div>
+                    <div id="Pictures" class="tab-pane" :class="currentTab==='pictures' ? 'active' : ''">
+                        <div class="row">
+                            <div class="col-6 p-4 center">
+                                <img class="img-eye img-thumbnail" src="<%=rows.rows[0][3]%>" alt="picture">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Reviews" class="tab-pane" :class="currentTab==='reviews' ? 'active' : ''">
+                        
+                            <%for(let i=0;i<reviews.length;i++){%>
+                            <div class="row py-5">
+                                <div class="card">
+                                    <h4>Username= <a href="/profile/<%=reviews[i][3]%>">#<%=reviews[i][0]%></h4></a>
+                                    <pre><BIG>Given score: <%=reviews[i][1]%></BIG></pre>
+                                    <div class="card-body" style="color:black">
+                                    <pre><%=reviews[i][2]%></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div> 
+    <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+    //     var target = document.querySelectorAll(".atr");
+    //     target.forEach(e=>{
+    //       e.addEventListener("click",function(){
+    //           myFunc(e);
+    //       },false);
+    //   })
+    //   function myFunc(item){
+    //       fetch('/contents',{
+    //           method: 'POST',
+    //           headers: {
+    //               'Content-Type': 'application/json'
+    //           },
+    //           body: JSON.stringify(
+    //               {
+    //                   "id":item.dataset.id,
+    //                   "type":item.dataset.type
+    //               }
+    //           )
+    //       })
+    //   }
+    // $(document).ready(()=>{
+    //     console.log('runnig')
+    // })
+
+    // function myfun(){
+    //  // Write your business logic here
+    //     console.log('hello');
+    // }
+    //     window.onbeforeunload = function(){
+    //     myfun();
+    //     return 'Are you sure you want to leave?';
+    // };
+    var path = window.location.pathname;
+    //var page = path.split("/").pop();
+    console.log( path );
+        var target = document.querySelectorAll(".fa");
+        target.forEach(e=>{
+          e.addEventListener("click",function(){
+              starmark2(e);
+          },false);
+        });
+        target.forEach(e=>{
+          e.addEventListener("mouseover",function(){
+              starmark(e);
+          },false);
+        });
+        target.forEach(e=>{
+          e.addEventListener("mouseout",function(){
+              starmarkout(e);
+          },false);
+        });
+        // target = document.querySelector("#nafsave");
+        // target.addEventListener("click",function(){
+        //       fetching(this);
+        // },false);
+        function fetching(id){
+            //console.log(count);
+            if(count==0){
+                swal({
+                title: "Error!",
+                text: "Give both review and rating",
+                icon: "warning",
+                button: "Ok",
+                });
+                // alert("Give both review and rating");
+                return false;
+            }
+            const form = document.forms['revform'];
+            if(form['review'].value.length==0){
+                swal({
+                title: "Error!",
+                text: "Give both review and rating",
+                icon: "warning",
+                button: "Ok",
+                });
+                // alert("Give both review and rating");
+                return false;
+            }
+            fetch('/review/rating',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        "rating":count
+                    }
+                )
+            });
+        //     fetch('/contents',{
+        //       method: 'POST',
+        //       headers: {
+        //           'Content-Type': 'application/json'
+        //       },
+        //       body: JSON.stringify(
+        //           {
+        //               "id":item.dataset.id,
+        //               "type":item.dataset.type
+        //           }
+        //       )
+        //   })
+        }
+        var count;
+        var bool=true;
+        function starmark(item)
+        {
+            if(bool){
+                count=item.id;
+                sessionStorage.starRating = count;
+                for(var i=1;i<=5;i++){
+                    if(i<=count){
+                        document.getElementById(i).style.color="orange";
+                    }
+                    else{
+                        document.getElementById(i).style.color="black";
+                    }
+                }
+            }
+        }
+        function starmark2(item)
+        {
+            bool=false;
+            count=item.id;
+            sessionStorage.starRating = count;
+            for(var i=1;i<=5;i++){
+                if(i<=count){
+                    document.getElementById(i).style.color="orange";
+                }
+                else{
+                    document.getElementById(i).style.color="black";
+                }
+            }
+        }
+        function starmarkout(item)
+        {
+            if(bool){
+                count=0;
+                for(var i=1;i<=5;i++){
+                    if(i<=count){
+                        document.getElementById(i).style.color="orange";
+                    }
+                    else{
+                        document.getElementById(i).style.color="black";
+                    }
+                }
+            }
+        }
+        function rank(){
+            return count;
+        }
+      </script> 
+</body>
+</html>

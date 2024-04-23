@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link href="/css/dashboard.css" />
+    <script>
+      sessionStorage.removeItem("_x_animecount");
+      sessionStorage.removeItem("_x_mangacount");
+      sessionStorage.removeItem("_x_lightnovelcount");
+      sessionStorage.removeItem("_x_moviecount");
+    </script>
+    <style>
+        .fontstyle{
+          font-weight: bold;
+          font-size: 20px;
+        }
+        .my-link-style:hover{
+            text-decoration: underline;
+            background-color: #A13131;
+            color: black;
+        }
+        .nav-link:hover{
+          text-decoration: underline;
+          background-color: #A13131;
+          color: black;
+        }
+        .nav-link.active{
+            color: white !important;
+            background-color:black !important;
+        }
+        /*code to change background color*/
+        /* .nav-link {
+            background-color: #C0C0C0 !important;
+            color: green !important;
+        }
+        .nav-link.active {
+            background-color: #C0C0C0 !important;
+            color: green !important;
+        } */
+        .my-link-style2{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .img-eye{
+          width:70%;
+          height:70%;
+        }
+        .bgcolor{
+            background-color: #1D1F39;
+        }
+        .rank{
+            color: black
+        }
+        .container{
+            border: 5px solid black;
+        }
+        .box{
+            background-color:white;
+            color: black
+        }
+        pre {
+            white-space: pre-line;
+            font-size: 16px;
+            font-family: "Helvetica Neue",Helvetica;
+        }
+        #loader{
+            background: #1D1F39 url('./pictures/admin.gif') no-repeat center center;
+            background-size:30%;
+            height:100vh !important;
+            width:100% !important;
+            position: fixed;
+        }
+      </style>
+  </head>
+  <body class="bgcolor">
+    <div id="loader">
+    </div>
+    <div id="mainbody" style="display: none;">
+    <% if(locals.msg) {%>
+      <% if(msg=='1'){ %> 
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          The user has been deleted
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+      <%}else if(msg==2){%>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Content successfully deleted
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <%}else if(msg==3){%>
+          <div class="alert alert-success  alert-dismissible fade show" role="alert">
+            Submission successfully deleted
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <%}else if(msg==4){%>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Content successfully added
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <%}else if(msg==5){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+             Recommendation successfully deleted
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <%}else if(msg==6){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Recommendation successfully added to contents
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <%}%>
+    <% } %>
+
+    <div class="other-section">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs py-3" style="background-color:#000">
+                    <li class="nav-item me-auto">
+                      <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                    </li>
+                </ul>
+            </div>
+        </div>  
+    </div> 
+    <br><br><br>
+
+    
+
+
+    <div class="container box" x-data="{admindashTab : $persist('userdelete').using(sessionStorage),animecount : $persist(<%=locals.anime.length%>).using(sessionStorage),mangacount : $persist(<%=locals.manga.length%>).using(sessionStorage),lightnovelcount : $persist(<%=locals.lightnovel.length%>).using(sessionStorage),moviecount : $persist(<%=locals.movie.length%>).using(sessionStorage)}" style="background-color:#06283D">
+      <ul class="nav nav-tabs">
+        <li @click.prevent="admindashTab ='userdelete'">
+          <a class="nav-link my-link-style":class="admindashTab==='userdelete' ? 'active' : ''" data-bs-toggle="tab" href="#home">User Delete</a>
+        </li>
+        <li @click.prevent="admindashTab ='contentdelete'">
+          <a class="nav-link my-link-style":class="admindashTab==='contentdelete' ? 'active' : ''" data-bs-toggle="tab" href="#menu1"
+            >Content Delete
+          </a>
+        </li>
+        <li @click.prevent="admindashTab ='contentadd'">
+          <a class="nav-link my-link-style":class="admindashTab==='contentadd' ? 'active' : ''" data-bs-toggle="tab" href="#menu2"
+            >Content Add
+          </a>
+        </li>
+        <li @click.prevent="admindashTab ='recom'">
+          <a class="nav-link my-link-style":class="admindashTab==='recom' ? 'active' : ''" data-bs-toggle="tab" href="#menu3"
+            >Recommendation
+          </a>
+        </li>
+        <li @click.prevent="admindashTab ='submission'">
+          <a class="nav-link my-link-style":class="admindashTab==='submission' ? 'active' : ''" data-bs-toggle="tab" href="#menu4"
+            >Submission
+          </a>
+        </li>
+        <li @click.prevent="admindashTab ='transaction'">
+          <a class="nav-link my-link-style":class="admindashTab==='transaction' ? 'active' : ''" data-bs-toggle="tab" href="#menu5"
+            >Transactions
+          </a>
+        </li>
+        <li @click.prevent="admindashTab ='postreport'">
+          <a class="nav-link my-link-style":class="admindashTab==='postreport' ? 'active' : ''" data-bs-toggle="tab" href="#menu6"
+            >Post reports
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content ">
+        <div id="home" class="tab-pane":class="admindashTab==='userdelete' ? 'active' : ''" >
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email Address</th>
+                <th>Click to Proceed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for(let i=0;i<locals.userlist.length;i++){%>
+                <tr id="td<%=i%>">
+                  <td><%=locals.userlist[i][3]%></td>
+                  <td><%=locals.userlist[i][1]%></td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-info"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop<%=i%>"
+                    >
+                      See Details
+                    </button>
+                  </td>
+                </tr>
+              <%}%>
+            </tbody>
+            <%for(let i=0;i<locals.userlist.length;i++){%>
+            <div
+              class="modal fade"
+              id="staticBackdrop<%=i%>"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+              >
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      User Info
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row align-items-center flex-row-reverse">
+                      <div class="col-lg-6">
+                        <div class="about-text go-to">
+                          <h3 class="dark-color"><%=locals.userlist[i][3]%></h3>
+                          <div class="row about-list">
+                            <div class="col-md-6">
+                              <div class="media">
+                                <label class="fontstyle">Birthday</label>
+                                <p><%=locals.userlist[i][7]%></p>
+                              </div>
+                              <div class="media">
+                                <label class="fontstyle">Age</label>
+                                <p><%=locals.userlist[i][10]%> Yr</p>
+                              </div>
+                              <div class="media">
+                                <label class="fontstyle">Country</label>
+                                <p><%=locals.userlist[i][5]%></p>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="media">
+                                <label class="fontstyle">E-mail</label>
+                                <p><%=locals.userlist[i][1]%></p>
+                              </div>
+                              <div class="media">
+                                <label class="fontstyle">Gender</label>
+                                <p><%=locals.userlist[i][8]%></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="about-avatar">
+                          <%if(locals.userlist[i][4]){%>
+                            <img class="img-account-profile img-thumbnail mb-2"
+                            src="<%=locals.userlist[i][4]%>"
+                            alt=""/>
+                          <%}else{%>
+                            <img
+                            src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                            title=""
+                            alt=""
+                            />
+                          <%}%>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="counter">
+                      <div class="row">
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="500" data-speed="500">
+                              500
+                            </h6>
+                            <p class="m-0px font-w-600">Followers</p>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="150" data-speed="150">
+                              150
+                            </h6>
+                            <p class="m-0px font-w-600">Following</p>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="850" data-speed="850">
+                              850
+                            </h6>
+                            <p class="m-0px font-w-600">Blog Posts</p>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                          <div class="count-data text-center">
+                            <h6 class="count h2" data-to="190" data-speed="190">
+                              190
+                            </h6>
+                            <p class="m-0px font-w-600">Recommendations</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <!-- <a href="/admindashboard/delete?id=<%=locals.userlist[i][0]%>"> -->
+                      <button type="button" onclick="userdelete(<%=locals.userlist[i][0]%>,this,'td<%=i%>')" class="btn btn-danger" data-bs-dismiss="modal">
+                        Delete Account
+                      </button>
+                    <!-- </a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%}%>
+          </table>
+        </div>
+
+        <div id="menu1" class="tab-pane":class="admindashTab==='contentdelete' ? 'active' : ''">
+          <div class="d-flex align-items-start" x-data="{admindashTabContent : $persist('anime').using(sessionStorage)}">
+            <div
+              class="nav flex-column nav-tabs me-3"
+              id="v-tabs-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <button
+                @click.prevent="admindashTabContent ='anime'"
+                class="nav-link .my-link-style":class="admindashTabContent==='anime' ? 'active' : ''"
+                id="v-tabs-anime-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-anime"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-anime"
+                aria-selected="true"
+              >
+                Anime
+              </button>
+              <button
+                @click.prevent="admindashTabContent ='manga'"
+                class="nav-link .my-link-style":class="admindashTabContent==='manga' ? 'active' : ''"
+                id="v-tabs-manga-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-manga"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-manga"
+                aria-selected="false"
+              >
+                Manga
+              </button>
+              <button
+                @click.prevent="admindashTabContent ='lightnovel'"
+                class="nav-link .my-link-style":class="admindashTabContent==='lightnovel' ? 'active' : ''"
+                id="v-tabs-lightnovel-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-lightnovel"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-lightnovel"
+                aria-selected="false"
+              >
+                LightNovel
+              </button>
+              <button
+                @click.prevent="admindashTabContent ='movie'"
+                class="nav-link .my-link-style":class="admindashTabContent==='movie' ? 'active' : ''"
+                id="v-tabs-movie-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-movie"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-movie"
+                aria-selected="false"
+              >
+                Movie
+              </button>
+            </div>
+
+            <div class="tab-content" id="v-tabs-tabContent">
+                <div
+                class="tab-pane":class="admindashTabContent==='anime' ? 'active' : ''"
+                id="v-tabs-anime"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >
+                <div class="d-flex flex-wrap" id="addanimecontent">
+                  <%for(let i=0;i<locals.anime.length;i++){%>
+                  <div class="card text-white bg-dark me-3 mb-3" id="anime<%=i%>">
+                    <img
+                      src="<%=locals.anime[i][5]%>"
+                      class="card-img rounded-circle"
+                      alt="..."
+                      style="height: 150px; width: 150px;"
+                    />
+                    <div class="card-body" style="height: 95px">
+                      <div
+                        class="text-wrap"
+                        style="width: 7rem; font-style: italic"
+                      >
+                        <p class="text-light"><%=locals.anime[i][1]%></p>
+                      </div>
+                    </div>
+                    <div class="card-footer" style="padding:0 ;">
+                      <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#exampleModal<%=i%>">
+                        see dtails
+                      </button>
+                    </div>
+                  </div>
+              <%}%>
+              </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.anime.length;i++){%>
+<div class="modal fade" id="exampleModal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Anime Content</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <section class="bg-light">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 mb-4 mb-sm-5">
+                      <div class="card card-style1 border-0">
+                          <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                              <div class="row align-items-center">
+                                  <div class="col-lg-6 mb-4 mb-lg-0">
+                                      <img src="<%=locals.anime[i][5]%>" alt="..." class="img-thumbnail">
+                                  </div>
+                                  <div class="col-lg-6 px-xl-10">
+                                      <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                          <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.anime[i][1]%></h3>
+                                      </div>
+                                      <ul class="list-unstyled mb-1-9">
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Anime</li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Episodes:</span> <%=locals.anime[i][8]%></li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Locked:</span> <%=locals.anime[i][4]%></li>
+                                          <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span> <%=locals.anime[i][15]%></li>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 mb-4 mb-sm-5">
+                      <div>
+                          <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                          <pre><%=locals.anime[i][6]%></pre>
+                      </div>
+        
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- <a href="/admindashboard/contentdelete?id=<%=locals.anime[i][0]%>"> -->
+                      <button type="button" class="btn btn-danger" onclick="contentdelete(<%=locals.anime[i][0]%>,this,'anime<%=i%>')" data-bs-dismiss="modal">
+                        Delete Content
+                      </button>
+                    <!-- </a> -->
+                  </div>
+              </div>
+          </div>
+      </section>
+      </div>
+    </div>
+  </div>
+</div>
+<%}%>
+
+
+
+            </div>
+            <div
+              class="tab-pane":class="admindashTabContent==='manga' ? 'active' : ''"
+              id="v-tabs-manga"
+              role="tabpanel"
+              aria-labelledby="v-tabs-profile-tab"
+            >
+            
+            <div class="d-flex flex-wrap" id="addmangacontent">
+              <%for(let i=0;i<locals.manga.length;i++){%>
+              <div class="card text-white bg-dark me-3 mb-3" id="manga<%=i%>">
+                <img
+                  src="<%=locals.manga[i][5]%>"
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"><%=locals.manga[i][1]%></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#mangamodal<%=i%>">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          <%}%>
+          </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.manga.length;i++){%>
+<div class="modal fade" id="mangamodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Manga Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="<%=locals.manga[i][5]%>" alt="..."class="img-thumbnail">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.manga[i][1]%></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Manga</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span> <%=locals.manga[i][10]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span> <%=locals.manga[i][11]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span> <%=locals.manga[i][12]%></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <pre><%=locals.manga[i][6]%></pre>
+                  </div>
+    
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- <a href="/admindashboard/contentdelete?id=<%=locals.manga[i][0]%>"> -->
+                  <button type="button" class="btn btn-danger" onclick="contentdelete(<%=locals.manga[i][0]%>,this,'manga<%=i%>')" data-bs-dismiss="modal">
+                    Delete Content
+                  </button>
+                <!-- </a> -->
+              </div>
+          </div>
+      </div>
+  </section>
+  </div>
+</div>
+</div>
+</div>
+<%}%>
+            </div>
+            <div
+              class="tab-pane":class="admindashTabContent==='lightnovel' ? 'active' : ''"
+              id="v-tabs-lightnovel"
+              role="tabpanel"
+              aria-labelledby="v-tabs-messages-tab"
+            >
+            <div class="d-flex flex-wrap" id="addlightnovelcontent">
+              <%for(let i=0;i<locals.lightnovel.length;i++){%>
+              <div class="card text-white bg-dark me-3 mb-3" id="lightnovel<%=i%>">
+                <img
+                  src="<%=locals.lightnovel[i][5]%>"
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"><%=locals.lightnovel[i][1]%></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#lightnovelmodal<%=i%>">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          <%}%>
+          </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.lightnovel.length;i++){%>
+<div class="modal fade" id="lightnovelmodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Lightnovel Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="<%=locals.lightnovel[i][5]%>" alt="..." class="img-thumbnail">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.lightnovel[i][1]%></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Lightnovel</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span> <%=locals.lightnovel[i][10]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span> <%=locals.lightnovel[i][11]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span> <%=locals.lightnovel[i][12]%></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <pre><%=locals.lightnovel[i][6]%></pre>
+                  </div>
+    
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- <a href="/admindashboard/contentdelete?id=<%=locals.lightnovel[i][0]%>"> -->
+                  <button type="button" class="btn btn-danger contentdelete" onclick="contentdelete(<%=locals.lightnovel[i][0]%>,this,'lightnovel<%=i%>')" data-bs-dismiss="modal">
+                    Delete Content
+                  </button>
+                <!-- </a> -->
+              </div>
+          </div>
+      </div>
+  </section>
+  </div>
+</div>
+</div>
+</div>
+<%}%>
+            </div>
+            <div
+              class="tab-pane ":class="admindashTabContent==='movie' ? 'active' : ''"
+              id="v-tabs-movie"
+              role="tabpanel"
+              aria-labelledby="v-tabs-settings-tab"
+            >
+            <div class="d-flex flex-wrap" id="addmoviecontent">
+              <%for(let i=0;i<locals.movie.length;i++){%>
+              <div class="card text-white bg-dark me-3 mb-3" id="movie<%=i%>">
+                <img
+                  src="<%=locals.movie[i][5]%>"
+                  class="card-img rounded-circle"
+                  alt="..."
+                  style="height: 150px; width: 150px;"
+                />
+                <div class="card-body" style="height: 95px">
+                  <div
+                    class="text-wrap"
+                    style="width: 7rem; font-style: italic"
+                  >
+                    <p class="text-light"><%=locals.movie[i][1]%></p>
+                  </div>
+                </div>
+                <div class="card-footer" style="padding:0 ;">
+                  <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#moviemodal<%=i%>">
+                    see dtails
+                  </button>
+                </div>
+              </div>
+          <%}%>
+          </div>
+
+<!-- Modal -->
+<%for(let i=0;i<locals.movie.length;i++){%>
+<div class="modal fade" id="moviemodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Movie Content</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <section class="bg-light">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div class="card card-style1 border-0">
+                      <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                          <div class="row align-items-center">
+                              <div class="col-lg-6 mb-4 mb-lg-0">
+                                  <img src="<%=locals.movie[i][5]%>" alt="..." class="img-thumbnail">
+                              </div>
+                              <div class="col-lg-6 px-xl-10">
+                                  <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                      <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.movie[i][1]%></h3>
+                                  </div>
+                                  <ul class="list-unstyled mb-1-9">
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Movie</li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Producers:</span> <%=locals.movie[i][9]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Licensors:</span> <%=locals.movie[i][10]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span> <%=locals.movie[i][11]%></li>
+                                      <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Source:</span> <%=locals.movie[i][12]%></li>
+                                      </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                      <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                      <pre><%=locals.movie[i][6]%></pre>
+                  </div>
+    
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- <a href="/admindashboard/contentdelete?id=<%=locals.movie[i][0]%>"> -->
+                  <button type="button" class="btn btn-danger contentdelete" onclick="contentdelete(<%=locals.movie[i][0]%>,this,'movie<%=i%>')" data-bs-dismiss="modal">
+                    Delete Content
+                  </button>
+                <!-- </a> -->
+              </div>
+          </div>
+      </div>
+  </section>
+  </div>
+</div>
+</div>
+</div>
+<%}%>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="menu2" class="tab-pane":class="admindashTab==='contentadd' ? 'active' : ''">
+        <div class="d-flex align-items-start"x-data="{ contentaddTab : $persist('anime').using(sessionStorage)}">
+          <div
+            class="nav flex-column nav-tabs me-3"
+            id="v-tabs-tab"
+            role="tablist"
+            aria-orientation="vertical"
+          >
+            <button
+              @click.prevent="contentaddTab ='anime'"
+              class="nav-link":class="contentaddTab==='anime' ? 'active' : ''"
+              id="v-tabs-anime-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-anime2"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-anime"
+              aria-selected="true"
+            >
+              Anime
+            </button>
+            <button
+              @click.prevent="contentaddTab ='manga'"
+              class="nav-link":class="contentaddTab==='manga' ? 'active' : ''"
+              id="v-tabs-manga-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-manga2"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-manga"
+              aria-selected="false"
+            >
+              Manga
+            </button>
+            <button
+              @click.prevent="contentaddTab ='lightnovel'"
+              class="nav-link":class="contentaddTab==='lightnovel' ? 'active' : ''"
+              id="v-tabs-lightnovel-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-lightnovel2"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-lightnovel"
+              aria-selected="false"
+            >
+              LightNovel
+            </button>
+            <button
+              @click.prevent="contentaddTab ='movie'"
+              class="nav-link":class="contentaddTab==='movie' ? 'active' : ''"
+              id="v-tabs-movie-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-movie2"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-movie"
+              aria-selected="false"
+            >
+              Movie
+            </button>
+          </div>
+
+          <div class="tab-content" id="v-tabs-tabContent" style="color:white">
+              <div
+              class="tab-pane":class="contentaddTab==='anime' ? 'active' : ''"
+              id="v-tabs-anime2"
+              role="tabpanel"
+              aria-labelledby="v-tabs-home-tab"
+            >   
+            <section class="get-in-touch">
+              <h1 class="title">Anime</h1>
+              <form id="animeadd" onsubmit="return animeAdd()" class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputSourceTitle" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="inputSourceTitle" name="title" required>
+                </div>
+                <div class="col-md-5">
+                  <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                  <input type="file" class="form-control" id="SubmissionFile" name="cover_pic" required/>
+                </div>
+                <div class="col-md-7">
+                  <label for="inputSource" class="form-label">Source Title</label>
+                  <select id="inputSource" class="form-select" name="source_id_1">
+                    <option selected></option>
+                    <%for(let i=0;i<locals.title.length;i++){%>
+                      <option><%=locals.title[i]%></option>
+                    <%}%>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="inputSynapsis" class="form-label">Synopsis</label>
+                  <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                   </div>
+                  <div class="col-6">
+                    <label for="inputEpNo" class="form-label">Episodes No</label>
+                    <input type="number" class="form-control" id="inputEpNo" placeholder="" name="episode_no">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputStatus" class="form-label">Status</label>
+                    <select id="inputStatus" class="form-select" name="status" required>
+                      <option selected>Currently Airing</option>
+                      <option>Finished Airing</option>
+                    </select>
+                  </div>                  
+                <div class="col-md-6">
+                  <label for="AIR_START_DATE" class="form-label">AIR_START_DATE</label>
+                  <input type="date" class="form-control" id="AIR_START_DATE" name="air_start_date">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputCity" class="form-label">AIR_END_DATE</label>
+                  <input type="date" class="form-control" id="inputCity" name="air_end_date">
+                </div>
+                <div class="col-md-6">
+                  <label for="AIR_END_DATE" class="form-label">Duration</label>
+                  <input type="text" class="form-control" id="AIR_END_DATE" name="duration">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputSeason" class="form-label">Season</label>
+                  <input type="text" class="form-control" id="inputSeason" name="season">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputStudios" class="form-label">Studios</label>
+                  <input type="text" class="form-control" id="inputStudios" name="studios">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputLicensors" class="form-label">Licensors</label>
+                  <input type="text" class="form-control" id="inputLicensors" name="licensors">
+                </div>
+                <div class="col-md-8">
+                  <label for="inputProducers" class="form-label">Producers</label>
+                  <input type="text" class="form-control" id="inputProducers" name="producers">
+                </div>
+                <div class="col-md-4">
+                  <label for="inputStatus" class="form-label">Source</label>
+                  <select id="inputStatus" class="form-select" name="source">
+                    <option selected></option>
+                    <option>anime</option>
+                    <option>manga</option>
+                    <option>lightnovel</option>
+                    <option>movie</option>
+                  </select>
+                </div> 
+                <div class="col-md-12">
+                  <label for="inputGenries" class="form-label">Genries</label>
+                  <input type="text" class="form-control" id="inputGenries" name="genres">
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lockStatus" name="lock">
+                    <label class="form-check-label" for="lockStatus">
+                      Locked Status
+                    </label>
+                  </div>
+                </div>
+                <!--
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+              -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+           </section>
+              </div>
+
+              <div
+              class="tab-pane":class="contentaddTab==='manga' ? 'active' : ''"
+              id="v-tabs-manga2"
+              role="tabpanel"
+              aria-labelledby="v-tabs-home-tab"
+            >   
+            <section class="get-in-touch">
+              <h1 class="title">Manga</h1>
+              <form id="mangaadd" onsubmit="return mangaAdd()" class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputSourceTitle" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="inputSourceTitle" name="title"required>
+                </div> 
+                <div class="col-md-5">
+                  <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                  <input type="file" class="form-control" id="SubmissionFile" name="cover_pic"required/>
+                </div>
+                <div class="col-md-7">
+                  <label for="inputSource" class="form-label">Source Title</label>
+                  <select id="inputSource" class="form-select" name="source_id_1">
+                    <option selected></option>
+                    <%for(let i=0;i<locals.title.length;i++){%>
+                      <option><%=locals.title[i]%></option>
+                    <%}%>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="inputSynapsis" class="form-label">Synopsis</label>
+                  <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                </div>
+                  <div class="col-md-4">
+                    <label for="inputStatus" class="form-label">Status</label>
+                    <select id="inputStatus" class="form-select" name="status"required>
+                      <option selected>Publishing</option>
+                      <option>Finished</option>
+                    </select>
+                  </div>                 
+                <div class="col-md-4">
+                  <label for="volumes" class="form-label">Volumes</label>
+                  <input type="number" class="form-control" id="volumes" name="volumes">
+                </div>
+                <div class="col-md-4">
+                  <label for="inputChapters" class="form-label">Chapters</label>
+                  <input type="number" class="form-control" id="inputChapters" name="chapters">
+                </div>
+              
+                <div class="col-md-12">
+                  <label for="inputAuthors" class="form-label">Authors</label>
+                  <input type="text" class="form-control" id="inputAuthors" name="authors_artists">
+                </div>
+                <div class="col-md-12">
+                  <label for="inputGenries" class="form-label">Genries</label>
+                  <input type="text" class="form-control" id="inputGenries" name="genres">
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lockStatus" name="lock">
+                    <label class="form-check-label" for="lockStatus">
+                      Locked Status
+                    </label>
+                  </div>
+                </div>
+                <!--
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+              -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+          </section>
+              </div>
+
+              <div
+              class="tab-pane":class="contentaddTab==='lightnovel' ? 'active' : ''"
+              id="v-tabs-lightnovel2"
+              role="tabpanel"
+              aria-labelledby="v-tabs-home-tab"
+            >   
+            <section class="get-in-touch">
+              <h1 class="title">LightNovel</h1>
+              <form id="lightnoveladd" onsubmit="return lightnovelAdd()"class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputSourceTitle" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="inputSourceTitle" name="title" required>
+                </div> 
+                <div class="col-md-5">
+                  <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                  <input type="file" class="form-control" id="SubmissionFile" name="cover_pic" required/>
+                </div>
+                <div class="col-md-7">
+                  <label for="inputSource" class="form-label">Source Title</label>
+                  <select id="inputSource" class="form-select" name="source_id_1">
+                    <option selected></option>
+                    <%for(let i=0;i<locals.title.length;i++){%>
+                      <option><%=locals.title[i]%></option>
+                    <%}%>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="inputSynapsis" class="form-label">Synopsis</label>
+                  <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                </div>
+                  <div class="col-md-4">
+                    <label for="inputStatus" class="form-label">Status</label>
+                    <select id="inputStatus" class="form-select" name="status" required>
+                      <option selected>Publishing</option>
+                      <option>Finished</option>
+                    </select>
+                  </div>                 
+                <div class="col-md-4">
+                  <label for="volumes" class="form-label">Volumes</label>
+                  <input type="number" class="form-control" id="volumes" name="volumes">
+                </div>
+                <div class="col-md-4">
+                  <label for="inputPublishDate" class="form-label">Publish Date</label>
+                  <input type="date" class="form-control" id="inputPublishDate" name="publish_date">
+                </div>
+              
+                <div class="col-md-12">
+                  <label for="inputAuthors" class="form-label">Authors</label>
+                  <input type="text" class="form-control" id="inputAuthors" name="genres">
+                </div>
+                <div class="col-md-12">
+                  <label for="inputGenries" class="form-label">Genries</label>
+                  <input type="text" class="form-control" id="inputGenries" name="authors">
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lockStatus" name="lock">
+                    <label class="form-check-label" for="lockStatus">
+                      Locked Status
+                    </label>
+                  </div>
+                </div>
+                <!--
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+              -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+          </section>
+              </div>
+
+              <div
+              class="tab-pane":class="contentaddTab==='movie' ? 'active' : ''"
+              id="v-tabs-movie2"
+              role="tabpanel"
+              aria-labelledby="v-tabs-home-tab"
+            >   
+            <section class="get-in-touch">
+              <h1 class="title">Movies</h1>
+              <form id="movieadd" onsubmit="return movieAdd()" class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputSourceTitle" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="inputSourceTitle" name="title" required>
+                </div> 
+                <div class="col-md-5">
+                  <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                  <input type="file" class="form-control" id="SubmissionFile" name="cover_pic" required/>
+                </div>
+                <div class="col-md-7">
+                  <label for="inputSource" class="form-label">Source Title</label>
+                  <select id="inputSource" class="form-select" name="source_id_1">
+                    <option selected></option>
+                    <%for(let i=0;i<locals.title.length;i++){%>
+                      <option><%=locals.title[i]%></option>
+                    <%}%>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="inputSynapsis" class="form-label">Synopsis</label>
+                  <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                </div>
+                  
+                  <div class="col-md-6">
+                    <label for="inputStatus" class="form-label">Source</label>
+                    <select id="inputStatus" class="form-select"name="source">
+                      <option selected></option>
+                      <option>anime</option>
+                      <option>manga</option>
+                      <option>lightnovel</option>
+                      <option>movie</option>
+                    </select>
+                  </div>                  
+                <div class="col-md-6">
+                  <label for="releaseDate" class="form-label">Release Date</label>
+                  <input type="date" class="form-control" id="releaseDate" name="release_date">
+                </div>
+                <div class="col-md-6">
+                  <label for="AIR_END_DATE" class="form-label">Duration</label>
+                  <input type="text" class="form-control" id="AIR_END_DATE" name="duration">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputStudios" class="form-label">Studios</label>
+                  <input type="text" class="form-control" id="inputStudios" name="studios">
+                </div>
+                <div class="col-md-12">
+                  <label for="inputLicensors" class="form-label">Licensors</label>
+                  <input type="text" class="form-control" id="inputLicensors" name="licensors">
+                </div>
+                <div class="col-md-12">
+                  <label for="inputProducers" class="form-label">Producers</label>
+                  <input type="text" class="form-control" id="inputProducers" name="producers">
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lockStatus" name="lock">
+                    <label class="form-check-label" for="lockStatus">
+                      Locked Status
+                    </label>
+                  </div>
+                </div>
+                <!--
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+              -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+           </section>
+              </div>
+        </div>
+      </div>
+      </div>
+
+      <div id="menu3" class="tab-pane":class="admindashTab==='recom' ? 'active' : ''">
+        <div class="d-flex align-items-start" x-data="{ adminrecomTab : $persist('anime').using(sessionStorage)}">
+          <div
+            class="nav flex-column nav-tabs me-3"
+            id="v-tabs-tab"
+            role="tablist"
+            aria-orientation="vertical"
+          >
+            <button
+              @click.prevent="adminrecomTab ='anime'"
+              class="nav-link":class="adminrecomTab==='anime' ? 'active' : ''"
+              id="v-tabs-anime-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-anime3"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-anime"
+              aria-selected="true"
+            >
+              Anime
+            </button>
+            <button
+              @click.prevent="adminrecomTab ='manga'"
+              class="nav-link":class="adminrecomTab==='manga' ? 'active' : ''"
+              id="v-tabs-manga-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-manga3"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-manga"
+              aria-selected="false"
+            >
+              Manga
+            </button>
+            <button
+              @click.prevent="adminrecomTab ='lightnovel'"
+              class="nav-link":class="adminrecomTab==='lightnovel' ? 'active' : ''"
+              id="v-tabs-lightnovel-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-lightnovel3"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-lightnovel"
+              aria-selected="false"
+            >
+              LightNovel
+            </button>
+            <button
+              @click.prevent="adminrecomTab ='movie'"
+              class="nav-link":class="adminrecomTab==='movie' ? 'active' : ''"
+              id="v-tabs-movie-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-tabs-movie3"
+              type="button"
+              role="tab"
+              aria-controls="v-tabs-movie"
+              aria-selected="false"
+            >
+              Movie
+            </button>
+          </div>
+
+          <div class="tab-content" id="v-tabs-tabContent">
+              <div
+              class="tab-pane":class="adminrecomTab==='anime' ? 'active' : ''"
+              id="v-tabs-anime3"
+              role="tabpanel"
+              aria-labelledby="v-tabs-home-tab"
+            >
+              <div class="d-flex flex-wrap">
+                <%for(let i=0;i<locals.animerecom.length;i++){%>
+                <div class="card text-white bg-dark me-3 mb-3" id="animerecomid<%=i%>">
+                  <img
+                    src="<%=locals.animerecom[i][6]%>"
+                    class="card-img rounded-circle"
+                    alt="..."
+                    style="height: 150px; width: 150px;"
+                  />
+                  <div class="card-body" style="height: 95px">
+                    <div
+                      class="text-wrap"
+                      style="width: 7rem; font-style: italic"
+                    >
+                      <p class="text-light"><%=locals.animerecom[i][2]%></p>
+                    </div>
+                  </div>
+                  <div class="card-footer" style="padding:0 ;">
+                    <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#animerecomModal<%=i%>">
+                      see dtails
+                    </button>
+                  </div>
+                </div>
+                <%}%>
+            </div>
+
+  <!-- Modal -->
+  <%for(let i=0;i<locals.animerecom.length;i++){%>
+  <div class="modal fade" id="animerecomModal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Anime Content</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-4 mb-sm-5">
+                    <div class="card card-style1 border-0">
+                        <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <img src="<%=locals.animerecom[i][6]%>" alt="..." class="img-thumbnail">
+                                </div>
+                                <div class="col-lg-6 px-xl-10">
+                                    <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                        <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.animerecom[i][2]%></h3>
+                                    </div>
+                                    <ul class="list-unstyled mb-1-9">
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Anime</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Episodes:</span><%=locals.animerecom[i][8]%> </li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Locked:</span><%=locals.animerecom[i][5]%> </li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span><%=locals.animerecom[i][15]%></li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-4 mb-sm-5">
+                    <div>
+                        <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                        <pre>
+                          <%=locals.animerecom[i][7]%>
+                        </pre>
+                    </div>
+                <div class="modal-footer">
+                  <form onsubmit="return animeRecomAdd(<%=locals.animerecom[i][1]%>,this,'animerecomid<%=i%>')">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="animelock<%=locals.animerecom[i][1]%>" name="lock">
+                      <label class="form-check-label" for="exampleCheck1">Locked Status</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">ADD</button>
+                  </form>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <!-- <a href="/adminrecom/anime/delete/<%=locals.animerecom[i][1]%>"> -->
+                    <button type="button" onclick="animeRecomDelete(<%=locals.animerecom[i][1]%>,this,'animerecomid<%=i%>')" class="btn btn-danger" data-bs-dismiss="modal">
+                      REJECT
+                    </button>
+                  <!-- </a> -->
+                  
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+  </div>
+  </div>
+  </div>
+  <%}%>
+
+
+          </div>
+          <div
+            class="tab-pane":class="adminrecomTab==='manga' ? 'active' : ''"
+            id="v-tabs-manga3"
+            role="tabpanel"
+            aria-labelledby="v-tabs-profile-tab"
+          >
+          
+          <div class="d-flex flex-wrap">
+            <%for(let i=0;i<locals.mangarecom.length;i++){%>
+            <div class="card text-white bg-dark me-3 mb-3" id="mangarecomid<%=i%>">
+              <img
+                src="<%=locals.mangarecom[i][6]%>"
+                class="card-img rounded-circle"
+                alt="..."
+                style="height: 150px; width: 150px;"
+              />
+              <div class="card-body" style="height: 95px">
+                <div
+                  class="text-wrap"
+                  style="width: 7rem; font-style: italic"
+                >
+                  <p class="text-light"><%=locals.mangarecom[i][2]%></p>
+                </div>
+              </div>
+              <div class="card-footer" style="padding:0 ;">
+                <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#mangarecommodal<%=i%>">
+                  see dtails
+                </button>
+              </div>
+            </div>
+            <%}%>
+        </div>
+
+  <!-- Modal -->
+  <%for(let i=0;i<locals.mangarecom.length;i++){%>
+  <div class="modal fade" id="mangarecommodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-content">
+  <div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Manga Content</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+  <section class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div class="card card-style1 border-0">
+                    <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                <img src="<%=locals.mangarecom[i][6]%>" alt="..."class="img-thumbnail">
+                            </div>
+                            <div class="col-lg-6 px-xl-10">
+                                <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                    <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.mangarecom[i][2]%></h3>
+                                </div>
+                                <ul class="list-unstyled mb-1-9">
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Manga</li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span><%=locals.mangarecom[i][10]%> </li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span><%=locals.mangarecom[i][11]%></li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span><%=locals.mangarecom[i][12]%></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div>
+                    <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                    <pre>
+                      <%=locals.mangarecom[i][7]%>
+                    </pre>
+                </div>
+
+            <div class="modal-footer">
+              <form onsubmit="return mangaRecomAdd(<%=locals.mangarecom[i][1]%>,this,'mangarecomid<%=i%>')">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="mangalock<%=locals.mangarecom[i][1]%>" name="lock">
+                  <label class="form-check-label" for="exampleCheck1">Locked Status</label>
+                </div>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">ADD</button>
+              </form>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <!-- <a href="/adminrecom/manga/delete/<%=locals.mangarecom[i][1]%>"> -->
+                <button type="button" class="btn btn-danger" onclick="mangaRecomDelete(<%=locals.mangarecom[i][1]%>,id,'mangarecomid<%=i%>')" data-bs-dismiss="modal">
+                  REJECT
+                </button>
+              <!-- </a> -->
+            </div>
+        </div>
+    </div>
+  </section>
+  </div>
+  </div>
+  </div>
+  </div>
+  <%}%>
+          </div>
+          <div
+            class="tab-pane":class="adminrecomTab==='lightnovel' ? 'active' : ''"
+            id="v-tabs-lightnovel3"
+            role="tabpanel"
+            aria-labelledby="v-tabs-messages-tab"
+          >
+          <div class="d-flex flex-wrap">
+            <%for(let i=0;i<locals.lightnovelrecom.length;i++){%>
+            <div class="card text-white bg-dark me-3 mb-3" id="lightnovelrecomid=<%=i%>">
+              <img
+                src="<%=locals.lightnovelrecom[i][6]%>"
+                class="card-img rounded-circle"
+                alt="..."
+                style="height: 150px; width: 150px;"
+              />
+              <div class="card-body" style="height: 95px">
+                <div
+                  class="text-wrap"
+                  style="width: 7rem; font-style: italic"
+                >
+                  <p class="text-light"><%=locals.lightnovelrecom[i][2]%></p>
+                </div>
+              </div>
+              <div class="card-footer" style="padding:0 ;">
+                <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#lightnovelrecommodal<%=i%>">
+                  see dtails
+                </button>
+              </div>
+            </div>
+            <%}%>
+        </div>
+
+  <!-- Modal -->
+  <%for(let i=0;i<locals.lightnovelrecom.length;i++){%>
+  <div class="modal fade" id="lightnovelrecommodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-content">
+  <div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Lightnovel Content</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+  <section class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div class="card card-style1 border-0">
+                    <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                <img src="<%=locals.lightnovelrecom[i][6]%>" alt="..."class="img-thumbnail">
+                            </div>
+                            <div class="col-lg-6 px-xl-10">
+                                <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                    <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.lightnovelrecom[i][2]%></h3>
+                                </div>
+                                <ul class="list-unstyled mb-1-9">
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Lightnovel</li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Status:</span><%=locals.lightnovelrecom[i][10]%></li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Genres:</span><%=locals.lightnovelrecom[i][11]%></li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Author-Artist:</span><%=locals.lightnovelrecom[i][12]%></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div>
+                    <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                    <pre>
+                      <%=locals.lightnovelrecom[i][7]%>
+                    </pre>
+                </div>
+
+            <div class="modal-footer">
+              <form onsubmit="return lightnovelRecomAdd(<%=locals.lightnovelrecom[i][1]%>,this,'lightnovelrecomid=<%=i%>')">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="lightnovellock<%=locals.lightnovelrecom[i][1]%>" name="lock">
+                  <label class="form-check-label" for="exampleCheck1" id="lightnovellock<%=locals.lightnovelrecom[i][1]%>">Locked Status</label>
+                </div>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">ADD</button>
+              </form>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <!-- <a href="/adminrecom/lightnovel/delete/<%=locals.lightnovelrecom[i][1]%>"> -->
+                <button type="button" class="btn btn-danger" onclick="lightnovelRecomDelete(<%=locals.lightnovelrecom[i][1]%>,this,'lightnovelrecomid=<%=i%>')" data-bs-dismiss="modal">
+                  REJECT
+                </button>
+              <!-- </a> -->
+            </div>
+        </div>
+    </div>
+  </section>
+  </div>
+  </div>
+  </div>
+  </div>
+  <%}%>
+  </div>
+          <div
+            class="tab-pane":class="adminrecomTab==='movie' ? 'active' : ''"
+            id="v-tabs-movie3"
+            role="tabpanel"
+            aria-labelledby="v-tabs-settings-tab"
+          >
+          <div class="d-flex flex-wrap">
+            <%for(let i=0;i<locals.movierecom.length;i++){%>
+            <div class="card text-white bg-dark me-3 mb-3" id="movierecomid<%=i%>">
+              <img
+                src="<%=locals.movierecom[i][6]%>"
+                class="card-img rounded-circle"
+                alt="..."
+                style="height: 150px; width: 150px;"
+              />
+              <div class="card-body" style="height: 95px">
+                <div
+                  class="text-wrap"
+                  style="width: 7rem; font-style: italic"
+                >
+                  <p class="text-light"><%=locals.movierecom[i][2]%></p>
+                </div>
+              </div>
+              <div class="card-footer" style="padding:0 ;">
+                <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#movierecommodal<%=i%>">
+                  see dtails
+                </button>
+              </div>
+            </div>
+            <%}%>
+        </div>
+
+  <!-- Modal -->
+  <%for(let i=0;i<locals.movierecom.length;i++){%>
+  <div class="modal fade" id="movierecommodal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-content">
+  <div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Movie Content</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+  <section class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div class="card card-style1 border-0">
+                    <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                <img src="<%=locals.movierecom[i][6]%>" alt="..."class="img-thumbnail">
+                            </div>
+                            <div class="col-lg-6 px-xl-10">
+                                <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                    <h3 class="h6 text-white mb-3 ms-3 me-3 mt-3"><%=locals.movierecom[i][2]%></h3>
+                                </div>
+                                <ul class="list-unstyled mb-1-9">
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Type:</span> Movie</li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Producers:</span><%=locals.movierecom[i][9]%> </li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Licensors:</span><%=locals.movierecom[i][10]%> </li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Studios:</span><%=locals.movierecom[i][11]%> </li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Source:</span><%=locals.movierecom[i][12]%> </li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div>
+                    <span class="section-title text-primary mb-3 mb-sm-4">About This</span>
+                    <pre>
+                      <%=locals.movierecom[i][7]%>
+                    </pre>
+                </div>
+                <!-- <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lockStatus" name="lock">
+                    <label class="form-check-label" for="lockStatus">
+                      Locked Status
+                    </label>
+                  </div>
+                </div> -->
+                  
+            <div class="modal-footer">
+              <form class="form" onsubmit="return movieRecomAdd(<%=locals.movierecom[i][1]%>,this,'movierecomid<%=i%>')">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="movielock<%=locals.movierecom[i][1]%>" name="lock">
+                  <label class="form-check-label" for="exampleCheck1">Locked Status</label>
+                </div>
+                <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">ADD</button>
+              </form>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <!-- <a href="/adminrecom/movie/delete/<%=locals.movierecom[i][1]%>"> -->
+                <button type="button" class="btn btn-danger" onclick="movieRecomDelete(<%=locals.movierecom[i][1]%>,this,'movierecomid<%=i%>')" data-bs-dismiss="modal">
+                  REJECT
+                </button>
+              <!-- </a> -->
+            </div>
+        </div>
+    </div>
+  </section>
+  </div>
+  </div>
+  </div>
+  </div>
+  <%}%>
+
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div id="menu4" class="tab-pane":class="admindashTab==='submission' ? 'active' : ''">
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Show Description</th>
+              <th>Download File</th>
+              <th>Remove File</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <%for(let i=0;i<locals.submission.length;i++){%>
+              <tr id="mysubtr<%=i%>">
+                <td><%=locals.submission[i][1]%></td>
+                <td><%=locals.submission[i][2]%></td>
+                <td>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submissiondrop<%=i%>">
+                    Description
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="submissiondrop<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="color:black">
+                        <pre style="white-space: pre-wrap;">
+                          <%=locals.submission[i][3]%>
+                        </pre>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <a href="/submission/download/<%=locals.submission[i][0]%>">
+                  <button type="button" class="btn btn-outline-primary"><i class=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                  </svg></i> Download </button></a>
+                </td>
+                <td>
+                  <!-- <a href="/submission/delete/<%=locals.submission[i][0]%>"> -->
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="modal"
+                    onclick="submissionDelete(<%=locals.submission[i][0]%>,this,'mysubtr<%=i%>')"
+                  >
+                    Delete
+                  </button>
+                <!-- </a> -->
+                </td>
+              </tr>
+            <%}%>
+          </tbody>
+          </table>
+      </div>
+
+      <div id="menu5" class="tab-pane":class="admindashTab==='transaction' ? 'active' : ''">
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>TransactionID</th>
+              <th>Give power</th>
+              <th>Remove</th>  
+            </tr>
+          </thead>
+          <tbody>
+            <%for(let i=0;i<locals.transactions.length;i++){%>
+              <tr id="mytidtr<%=i%>">
+                <td><%=locals.transactions[i][1]%></td>
+                <td><%=locals.transactions[i][2]%></td>
+                <td>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transactiondrop<%=i%>">
+                    Add balance
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="transactiondrop<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Add to balance</h5>
+                        </div>
+                        <div class="modal-body" style="background-color:black;color:white">
+                          <label for="exampleFormControlInput1" class="form-label"
+                              >Amount</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="amount<%=i%>"
+                              placeholder="Enter amount to be added"
+                              name="amount"
+                            />
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button onclick="transactionAdd(<%=locals.transactions[i][0]%>,this,'mytidtr<%=i%>',<%=locals.transactions[i][3]%>,'amount<%=i%>')" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <!-- <a href="/submission/delete/<%=locals.transactions[i][0]%>"> -->
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="modal"
+                    onclick="transactionDelete(<%=locals.transactions[i][0]%>,this,'mytidtr<%=i%>')"
+                  >
+                    Reject
+                  </button>
+                <!-- </a> -->
+                </td>
+              </tr>
+            <%}%>
+          </tbody>
+          </table>
+      </div>
+
+      <div id="menu6" class="tab-pane":class="admindashTab==='postreport' ? 'active' : ''">
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Post ID</th>
+              <th>Problem list</th>
+              <th>Remove post</th>
+              <th>Reject</th>  
+            </tr>
+          </thead>
+          <tbody>
+            <%for(let i=0;i<locals.reports.length;i++){%>
+              <tr id="myreporttr<%=i%>" class="myreporttr<%=locals.reports[i][1]%>">
+                <td><%=locals.reports[i][1]%></td>
+                <td>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportdrop<%=i%>">
+                    Problems
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="reportdrop<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Reports of post</h5>
+                        </div>
+                        <div class="modal-body" style="color:black">
+                          <%var token= locals.reports[i][3].split(';')%>
+                          <h5>Tags:</h5>
+                          <%for(let j=0;j<token.length;j++) {%>
+                            <p><%=token[j]%></p>
+                          <%}%>
+                          <h5>Description:</h5>
+                          <pre style="white-space: pre-wrap;"><%=locals.reports[i][4]%></pre>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="modal"
+                    onclick="postDelete(<%=locals.reports[i][1]%>,this,'myreporttr<%=i%>')"
+                  >
+                    Delete post
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="modal"
+                    onclick="reportDelete(<%=locals.reports[i][0]%>,this,'myreporttr<%=i%>')"
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            <%}%>
+          </tbody>
+          </table>
+      </div>
+
+    </div>
+
+    </div>
+    <!-- Optional JavaScript; choose one of the two! -->
+    <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/scripts/admindashboard.js"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

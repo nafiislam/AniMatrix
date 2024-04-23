@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .my-link-style:hover{
+            text-decoration: underline;
+            background-color: white;
+            color: black;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+            color: black;
+            background-color:white;
+        }
+        .my-link-style2{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .img-eye{
+          width:70%;
+          height:70%;
+        }
+        .fontstyle{
+            text-decoration: none;
+            font-size: 20px;
+            color:#FFF89C;
+        }
+        .bgcolor{
+            background-color: #293462;
+        }
+        .rank{
+            color: black
+        }
+        .container{
+            border: 5px solid black;
+        }
+        .box{
+            background-color:white;
+            color: black
+        }
+    </style>
+</head>
+<body style="background-color: #1D1F39;">
+    <div class="other-section ">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs py-3" style="background-color:#000;">
+                    <li class="nav-item me-auto">
+                      <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                    </li>
+                    <%if(username){%>
+                        <li class="nav-item dropdown me-5">
+                            <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                              <%if(locals.admin){%>
+                                <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                                <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                              <%}%>
+                              <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                              <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                              <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                              <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                              <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                              <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                              <li><a class="dropdown-item" href="/post">Forum</a></li>
+                              <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    <%}else{%>
+                        <li class="nav-item">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                        </li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>  
+    </div> 
+    <br>
+    <h1 style="color:#FFF89C">Report on Contents</h1><br><br>
+
+    <div class="container box" x-data="{contreportTab : $persist('anime').using(sessionStorage)}" style="background-color:#06283D">
+        <ul class="nav nav-tabs">
+          <li @click.prevent="contreportTab ='anime'">
+            <a class="nav-link my-link-style":class="contreportTab==='anime' ? 'active' : ''" data-bs-toggle="tab" href="#anime">Anime</a>
+          </li>
+          <li @click.prevent="contreportTab ='manga'">
+            <a class="nav-link my-link-style":class="contreportTab==='manga' ? 'active' : ''" data-bs-toggle="tab" href="#manga"
+              >Manga
+            </a>
+          </li>
+          <li @click.prevent="contreportTab ='lightnovel'">
+            <a class="nav-link my-link-style":class="contreportTab==='lightnovel' ? 'active' : ''" data-bs-toggle="tab" href="#lightnovel"
+              >Lightnovel
+            </a>
+          </li>
+          <li @click.prevent="contreportTab ='movie'">
+            <a class="nav-link my-link-style":class="contreportTab==='movie' ? 'active' : ''" data-bs-toggle="tab" href="#movie"
+              >Movie
+            </a>
+          </li>
+        </ul>
+  
+        <div class="tab-content ">
+            <div id="anime" class="tab-pane":class="contreportTab==='anime' ? 'active' : ''" >
+              <div class="float-end mb-2 me-2 mt-2">
+                <button onclick="download1()" class="btn btn-primary" >Download Excel</button>
+            </div>
+            <div class="float-end mb-2 me-2 mt-2">
+                <button id="pdf1" class="btn btn-primary" >Download pdf</button>
+            </div>
+                <table class="table table-dark table-striped" id="target1">
+                    <thead>
+                      <tr>
+                        <th scope="col">Content_id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">No of posts</th>
+                        <th scope="col">No of ratings & reviews</th>
+                        <th scope="col">No of watches/reads?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <%for(let i=0;i<locals.anime.length;i++){%>
+                      <tr>
+                        <th scope="row"><%=locals.anime[i][0]%></th>
+                        <td><a style="text-decoration:none;" href="/contents/<%=locals.anime[i][0]%>/anime"><%=locals.anime[i][1]%></a></td>
+                        <td><%=locals.anime[i][2]%></td>
+                        <td><%=locals.anime[i][3]%></td>
+                        <td><%=locals.anime[i][4]%></td>
+                      </tr>
+                    <%}%>
+                    </tbody>
+                </table>
+            </div>
+            <div id="manga" class="tab-pane":class="contreportTab==='manga' ? 'active' : ''" >
+              <div class="float-end mb-2 me-2 mt-2">
+                <button onclick="download2()" class="btn btn-primary" >Download Excel</button>
+            </div>
+            <div class="float-end mb-2 me-2 mt-2">
+                <button id="pdf2" class="btn btn-primary" >Download pdf</button>
+            </div>
+                <table class="table table-dark table-striped" id="target2">
+                    <thead>
+                      <tr>
+                        <th scope="col">Content_id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">No of posts</th>
+                        <th scope="col">No of ratings & reviews</th>
+                        <th scope="col">No of watches/reads?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <%for(let i=0;i<locals.manga.length;i++){%>
+                      <tr>
+                        <th scope="row"><%=locals.manga[i][0]%></th>
+                        <td><a style="text-decoration:none;" href="/contents/<%=locals.manga[i][0]%>/manga"><%=locals.manga[i][1]%></a></td>
+                        <td><%=locals.manga[i][2]%></td>
+                        <td><%=locals.manga[i][3]%></td>
+                        <td><%=locals.manga[i][4]%></td>
+                      </tr>
+                    <%}%>
+                    </tbody>
+                </table>
+            </div>
+            <div id="lightnovel" class="tab-pane":class="contreportTab==='lightnovel' ? 'active' : ''" >
+              <div class="float-end mb-2 me-2 mt-2">
+                <button onclick="download3()" class="btn btn-primary" >Download Excel</button>
+            </div>
+            <div class="float-end mb-2 me-2 mt-2">
+                <button id="pdf3" class="btn btn-primary" >Download pdf</button>
+            </div>  
+              <table class="table table-dark table-striped" id="target3">
+                    <thead>
+                      <tr>
+                        <th scope="col">Content_id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">No of posts</th>
+                        <th scope="col">No of ratings & reviews</th>
+                        <th scope="col">No of watches/reads?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <%for(let i=0;i<locals.lightnovel.length;i++){%>
+                      <tr>
+                        <th scope="row"><%=locals.lightnovel[i][0]%></th>
+                        <td><a style="text-decoration:none;" href="/contents/<%=locals.lightnovel[i][0]%>/lightnovel"><%=locals.lightnovel[i][1]%></a></td>
+                        <td><%=locals.lightnovel[i][2]%></td>
+                        <td><%=locals.lightnovel[i][3]%></td>
+                        <td><%=locals.lightnovel[i][4]%></td>
+                      </tr>
+                    <%}%>
+                    </tbody>
+                </table>
+            </div>
+            <div id="movie" class="tab-pane":class="contreportTab==='movie' ? 'active' : ''" >
+              <div class="float-end mb-2 me-2 mt-2">
+                <button onclick="download4()" class="btn btn-primary" >Download Excel</button>
+            </div>
+            <div class="float-end mb-2 me-2 mt-2">
+                <button id="pdf4" class="btn btn-primary" >Download pdf</button>
+            </div>
+                <table class="table table-dark table-striped" id="target4">
+                    <thead>
+                      <tr>
+                        <th scope="col">Content_id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">No of posts</th>
+                        <th scope="col">No of ratings & reviews</th>
+                        <th scope="col">No of watches/reads?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <%for(let i=0;i<locals.movie.length;i++){%>
+                      <tr>
+                        <th scope="row"><%=locals.movie[i][0]%></th>
+                        <td><a style="text-decoration:none;" href="/contents/<%=locals.movie[i][0]%>/movie"><%=locals.movie[i][1]%></a></td>
+                        <td><%=locals.movie[i][2]%></td>
+                        <td><%=locals.movie[i][3]%></td>
+                        <td><%=locals.movie[i][4]%></td>
+                      </tr>
+                    <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    
+
+
+
+
+    <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+      <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.js" integrity="sha512-Fd3EQng6gZYBGzHbKd52pV76dXZZravPY7lxfg01nPx5mdekqS8kX4o1NfTtWiHqQyKhEGaReSf4BrtfKc+D5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="/scripts/printThis.js"></script> -->
+    <script type="text/javascript">
+        function download1(){
+            const table=document.getElementById('target1');
+            var pointer = XLSX.utils.table_to_book(table,{sheet:'Anime_Report'});
+            XLSX.write(pointer,{
+                bookType:'xlsx',
+                type:'base64'
+            });
+            XLSX.writeFile(pointer,'Anime_Report.xlsx')
+        }
+        function download2(){
+            const table=document.getElementById('target2');
+            var pointer = XLSX.utils.table_to_book(table,{sheet:'Manga_Report'});
+            XLSX.write(pointer,{
+                bookType:'xlsx',
+                type:'base64'
+            });
+            XLSX.writeFile(pointer,'Manga_Report.xlsx')
+        }
+        function download3(){
+            const table=document.getElementById('target3');
+            var pointer = XLSX.utils.table_to_book(table,{sheet:'Lightnovel_Report'});
+            XLSX.write(pointer,{
+                bookType:'xlsx',
+                type:'base64'
+            });
+            XLSX.writeFile(pointer,'Lightnovel_Report.xlsx')
+        }
+        function download4(){
+            const table=document.getElementById('target4');
+            var pointer = XLSX.utils.table_to_book(table,{sheet:'Movie_Report'});
+            XLSX.write(pointer,{
+                bookType:'xlsx',
+                type:'base64'
+            });
+            XLSX.writeFile(pointer,'Movie_Report.xlsx')
+        }
+        $( document ).ready(function() {
+            $('#pdf1').click(function(){
+                $('#target1').printThis();
+            });
+            $('#pdf2').click(function(){
+                $('#target2').printThis();
+            });
+            $('#pdf3').click(function(){
+                $('#target3').printThis();
+            });
+            $('#pdf4').click(function(){
+                $('#target4').printThis();
+            });
+        });
+    </script>
+</body>
+</html>

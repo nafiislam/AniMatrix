@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script>
+      sessionStorage.removeItem("_x_type");
+    </script>
+    <style>
+      .fontstyle{
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .my-link-style:hover{
+          text-decoration: underline;
+          background-color: white;
+          color: black;
+      }
+      .nav-link:hover{
+          text-decoration: underline !important;
+          background-color: #293462 !important;
+          color: white !important;
+        }
+        .nav-link.active{
+            color: white !important;
+            background-color:black !important;
+        }
+      .my-link-style2{
+          color: white;
+          font-family: Arial, Helvetica, sans-serif;
+      }
+      .img-eye{
+        width:70%;
+        height:70%;
+      }
+      .bgcolor{
+          background-color: #A13131;
+      }
+      .rank{
+          color: black
+      }
+      
+      .box{
+          background-color:white;
+          color: black
+      }
+    </style>
+    <title></title>
+  </head>
+  <body style="background-color: #1D1F39;">
+    <div class="other-section ">
+      <div class="row">
+          <div class="col-12">
+              <ul class="nav nav-tabs py-3 "style="background-color:#000;">
+                  <li class="nav-item me-auto">
+                      <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                  </li>
+                  <%if(username){%>
+                      <li class="nav-item dropdown me-5">
+                          <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                            <%if(locals.admin){%>
+                              <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                              <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                              <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                            <%}%>
+                            <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                            <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                            <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                            <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                            <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                            <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                            <li><a class="dropdown-item" href="/post">Forum</a></li>
+                            <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                          </ul>
+                      </li>
+                  <%}else{%>
+                      <li class="nav-item">
+                          <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                      </li>
+                      <li class="nav-item ">
+                          <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                      </li>
+                  <%}%>
+              </ul>
+          </div>
+      </div>  
+  </div> 
+  <br>
+    <section >
+      <div class="container py-5">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card mb-4">
+              <div class="card-body text-center">
+                <%if(locals.user[0][4]){%>
+                  <img
+                    src="<%='/'+locals.user[0][4]%>"
+                    alt="avatar"
+                    class="rounded-circle img-fluid"
+                    style="width: 150px"
+                  />
+                <%}else{%>
+                  <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                    alt="avatar"
+                    class="rounded-circle img-fluid"
+                    style="width: 150px"
+                  />
+                <%}%>
+                
+                <a href="/profile/<%=locals.user[0][0]%>"><h5 class="my-3"><%=locals.user[0][3]%></h5></a>
+                <p class="text-muted mb-1">Joined</p>
+                <p class="text-muted mb-4">User since: <%=(locals.user[0][6]+'').substring(4,15)%></p>
+                
+                <div class="d-flex justify-content-center mb-2" x-data="{type : $persist('<%=locals.type%>').using(sessionStorage)}">
+                  
+                  <template x-if="type==='followed'">
+                    <button  @click="type='follow'"onclick="unfollow(<%=locals.user[0][0]%>)" type="button" class="btn btn-outline-primary ms-1">
+                      Unfollow
+                    </button>
+                  </template>
+                  <template x-if="type==='follow'">
+                      <button @click="type='followed'"onclick="follow(<%=locals.user[0][0]%>)" type="button" class="btn btn-outline-primary ms-1">
+                        Follow
+                      </button>
+                  </template>
+                      
+                </div>
+              </div>
+            </div>
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <p class="mb-4">
+                  <span class="text-primary font-italic me-1"
+                    >Watching/Reading Status</span
+                  >
+                </p>
+                <p class="mb-1" style="font-size: 0.77rem">Anime Watched #<%=locals.anime.length%> </p>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: <%=locals.anime.length!=0? ((locals.anime.length/locals.total)*100).toFixed(0): 0%>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><%=locals.anime.length!=0? ((locals.anime.length/locals.total)*100).toFixed(0): 0%>%</div>
+                </div>
+                <p class="mt-4 mb-1" style="font-size: 0.77rem">Manga read #<%=locals.manga.length%> </p>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: <%=locals.manga.length!=0? ((locals.manga.length/locals.total)*100).toFixed(0): 0%>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><%=locals.manga.length!=0? ((locals.manga.length/locals.total)*100).toFixed(0): 0%>%</div>
+                </div>
+                <p class="mt-4 mb-1" style="font-size: 0.77rem">
+                  LightNovel Read #<%=locals.lightnovel.length%>
+                </p>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: <%=locals.lightnovel.length!=0? ((locals.lightnovel.length/locals.total)*100).toFixed(0): 0%>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><%=locals.lightnovel.length!=0? ((locals.lightnovel.length/locals.total)*100).toFixed(0): 0%>%</div>
+                </div>
+                <p class="mt-4 mb-1" style="font-size: 0.77rem">
+                  Movie Watched #<%=locals.movie.length%>
+                </p>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: <%=locals.movie.length!=0? ((locals.movie.length/locals.total)*100).toFixed(0): 0%>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><%=locals.movie.length!=0 ? ((locals.movie.length/locals.total)*100).toFixed(0) : 0 %>%</div>
+                </div>
+                <p class="mt-4 mb-1" style="font-size: 0.77rem">
+                  Overall Enjoyed #<%=locals.total%>
+                </p>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: <%=locals.total!=0? 100 : 0%>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><%=locals.total!=0? 100 : 0%>%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Username</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%=locals.user[0][3]%></p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%=locals.user[0][1]%></p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Country</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%=locals.user[0][5]%></p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Gender</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%=locals.user[0][8]%></p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Birthday</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%=(locals.user[0][7]+'').substring(4,15)%></p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row" x-data="{collapse : $persist(false).using(sessionStorage)}">
+                  <div class="col-sm-12">
+                    <p>
+                      <button
+                        @click.prevent="collapse =!collapse"
+                        class="btn btn-secondary"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample"
+                        aria-expanded="true"
+                        aria-controls="collapseExample"
+                        style="width:100%;"
+                      >
+                        v____________________________________See_Watchlist/Readlist_____________________________________v
+                      </button>
+                    </p>
+                    <div class="collapse":class="collapse=== true ? 'show' : ''" id="collapseExample" x-data="{watchTab : $persist('all').using(sessionStorage)}">
+                      <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <button
+                            @click.prevent="watchTab ='all'"
+                            class="nav-link":class="watchTab==='all' ? 'active' : ''"
+                            id="nav-all-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-all"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-all"
+                            aria-selected="true"
+                          >
+                            All
+                          </button>
+                          <button
+                            @click.prevent="watchTab ='anime'"
+                            class="nav-link":class="watchTab==='anime' ? 'active' : ''"
+                            id="nav-anime-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-anime"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-anime"
+                            aria-selected="false"
+                          >
+                            Anime
+                          </button>
+                          <button
+                            @click.prevent="watchTab ='manga'"
+                            class="nav-link":class="watchTab==='manga' ? 'active' : ''"
+                            id="nav-manga-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-manga"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-manga"
+                            aria-selected="false"
+                          >
+                            Manga
+                          </button>
+                          <button
+                            @click.prevent="watchTab ='lightnovel'"
+                            class="nav-link":class="watchTab==='lightnovel' ? 'active' : ''"
+                            id="nav-lightnovel-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-lightnovel"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-lightnovel"
+                            aria-selected="false"
+                          >
+                            LightNovel
+                          </button>
+                          <button
+                            @click.prevent="watchTab ='movie'"
+                            class="nav-link":class="watchTab==='movie' ? 'active' : ''"
+                            id="nav-movie-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-movie"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-movie"
+                            aria-selected="false"
+                          >
+                            Movie
+                          </button>
+                        </div>
+                      </nav>
+                      <div class="tab-content" id="nav-tabContent">
+                        <div
+                          class="tab-pane":class="watchTab==='all' ? 'active' : ''"
+                          id="nav-all"
+                          role="tabpanel"
+                          aria-labelledby="nav-all-tab"
+                        >
+                          <div class="d-flex flex-wrap">
+                            <% for(let i=0;i<locals.full.length;i++){%>
+                            <div class="card text-white bg-dark me-3 mb-3">
+                              <img
+                                src="<%=locals.full[i][5]%>"
+                                class="card-img rounded-circle"
+                                alt="..."
+                                style="height: 150px; width: 150px"
+                              />
+                              <div class="card-body" style="height: 95px">
+                                <div
+                                  class="text-wrap"
+                                  style="width: 7rem; font-style: italic"
+                                >
+                                  <p class="text-light"><%=locals.full[i][4]%></p>
+                                </div>
+                              </div>
+                              <div class="card-footer" style="padding: 0">
+                                <div class="d-grid gap-0">
+                                  <a style="background-color:#D61C4E;"
+                                    class="btn btn-outline-light"
+                                    href="/contents/<%=locals.full[i][1]%>/<%=locals.full[i][3]%>"
+                                    role="button"
+                                    >Go to content</a
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          <%}%>
+
+                            
+                          </div>
+                        </div>
+                        <div
+                          class="tab-pane":class="watchTab==='anime' ? 'active' : ''"
+                          id="nav-anime"
+                          role="tabpanel"
+                          aria-labelledby="nav-anime-tab"
+                        >
+                          <div class="d-flex flex-wrap">
+                            <% for(let i=0;i<locals.anime.length;i++){%>
+                            <div class="card text-white bg-dark me-3 mb-3">
+                              <img
+                                src="<%=locals.anime[i][5]%>"
+                                class="card-img rounded-circle"
+                                alt="..."
+                                style="height: 150px; width: 150px"
+                              />
+                              <div class="card-body" style="height: 95px">
+                                <div
+                                  class="text-wrap"
+                                  style="width: 7rem; font-style: italic"
+                                >
+                                  <p class="text-light"><%=locals.anime[i][4]%></p>
+                                </div>
+                              </div>
+                              <div class="card-footer" style="padding: 0">
+                                <div class="d-grid gap-0">
+                                  <a style="background-color:#D61C4E;"
+                                    class="btn btn-outline-light"
+                                    href="/contents/<%=locals.anime[i][1]%>/<%=locals.anime[i][3]%>"
+                                    role="button"
+                                    >Go to content</a
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          <%}%>
+
+                          </div>
+                        </div>
+                        <div
+                          class="tab-pane":class="watchTab==='manga' ? 'active' : ''"
+                          id="nav-manga"
+                          role="tabpanel"
+                          aria-labelledby="nav-manga-tab"
+                        >
+                          <div class="d-flex flex-wrap">
+                            <% for(let i=0;i<locals.manga.length;i++){%>
+                            <div class="card text-white bg-dark me-3 mb-3">
+                              <img
+                                src="<%=locals.manga[i][5]%>"
+                                class="card-img rounded-circle"
+                                alt="..."
+                                style="height: 150px; width: 150px"
+                              />
+                              <div class="card-body" style="height: 95px">
+                                <div
+                                  class="text-wrap"
+                                  style="width: 7rem; font-style: italic"
+                                >
+                                  <p class="text-light"><%=locals.manga[i][4]%></p>
+                                </div>
+                              </div>
+                              <div class="card-footer" style="padding: 0">
+                                <div class="d-grid gap-0">
+                                  <a style="background-color:#D61C4E;"
+                                    class="btn btn-outline-light"
+                                    href="/contents/<%=locals.manga[i][1]%>/<%=locals.manga[i][3]%>"
+                                    role="button"
+                                    >Go to content</a
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          <%}%>
+
+                          </div>
+                          
+                        </div>
+                        <div
+                          class="tab-pane":class="watchTab==='lightnovel' ? 'active' : ''"
+                          id="nav-lightnovel"
+                          role="tabpanel"
+                          aria-labelledby="nav-lightnovel-tab"
+                        >
+                          <div class="d-flex flex-wrap">
+                            <% for(let i=0;i<locals.lightnovel.length;i++){%>
+                            <div class="card text-white bg-dark me-3 mb-3">
+                              <img
+                                src="<%=locals.lightnovel[i][5]%>"
+                                class="card-img rounded-circle"
+                                alt="..."
+                                style="height: 150px; width: 150px"
+                              />
+                              <div class="card-body" style="height: 95px">
+                                <div
+                                  class="text-wrap"
+                                  style="width: 7rem; font-style: italic"
+                                >
+                                  <p class="text-light"><%=locals.lightnovel[i][4]%></p>
+                                </div>
+                              </div>
+                              <div class="card-footer" style="padding: 0">
+                                <div class="d-grid gap-0">
+                                  <a style="background-color:#D61C4E;"
+                                    class="btn btn-outline-light"
+                                    href="/contents/<%=locals.lightnovel[i][1]%>/<%=locals.lightnovel[i][3]%>"
+                                    role="button"
+                                    >Go to content</a
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          <%}%>
+
+                          </div>
+
+                        </div>
+                        <div
+                          class="tab-pane":class="watchTab==='movie' ? 'active' : ''"
+                          id="nav-movie"
+                          role="tabpanel"
+                          aria-labelledby="nav-movie-tab"
+                        >
+                          <div class="d-flex flex-wrap">
+                            <% for(let i=0;i<locals.movie.length;i++){%>
+                            <div class="card text-white bg-dark me-3 mb-3">
+                              <img
+                                src="<%=locals.movie[i][5]%>"
+                                class="card-img rounded-circle"
+                                alt="..."
+                                style="height: 150px; width: 150px"
+                              />
+                              <div class="card-body" style="height: 95px">
+                                <div
+                                  class="text-wrap"
+                                  style="width: 7rem; font-style: italic"
+                                >
+                                  <p class="text-light"><%=locals.movie[i][4]%></p>
+                                </div>
+                              </div>
+                              <div class="card-footer" style="padding: 0">
+                                <div class="d-grid gap-0">
+                                  <a style="background-color:#D61C4E;"
+                                    class="btn btn-outline-light"
+                                    href="/contents/<%=locals.movie[i][1]%>/<%=locals.movie[i][3]%>"
+                                    role="button"
+                                    >Go to content</a
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          <%}%>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/scripts/follow.js"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

@@ -1,0 +1,506 @@
+CREATE OR REPLACE PROCEDURE follow
+(my_name IN VARCHAR2,other_id IN NUMBER,anime OUT SYS_REFCURSOR, manga OUT SYS_REFCURSOR, lightnovel OUT SYS_REFCURSOR, movie OUT SYS_REFCURSOR, full OUT SYS_REFCURSOR, follower OUT SYS_REFCURSOR, user OUT SYS_REFCURSOR,name OUT VARCHAR2)
+AS
+BEGIN
+OPEN full FOR select user_id,CONTENT_ID,status,type,title,cover_pic  from WATCH_LIST join CONTENTS on id=CONTENT_ID where USER_ID=other_id;
+OPEN anime FOR select user_id,CONTENT_ID,status,type,title,cover_pic  from WATCH_LIST join CONTENTS on id=CONTENT_ID where (type ='anime') AND USER_ID=other_id;
+OPEN manga FOR select user_id,CONTENT_ID,status,type,title,cover_pic  from WATCH_LIST join CONTENTS on id=CONTENT_ID where (type ='manga') AND USER_ID=other_id;
+OPEN lightnovel FOR select user_id,CONTENT_ID,status,type,title,cover_pic  from WATCH_LIST join CONTENTS on id=CONTENT_ID where (type ='lightnovel') AND USER_ID=other_id;
+OPEN movie FOR select user_id,CONTENT_ID,status,type,title,cover_pic  from WATCH_LIST join CONTENTS on id=CONTENT_ID where (type ='movie') AND USER_ID=other_id;
+OPEN follower FOR select since from follow_list where user_id=idreturn(my_name) and following_id=other_id;
+OPEN user FOR select * from users where user_id=other_id;
+select username into name from users where user_id=other_id;
+END;
+/
+
+CREATE OR REPLACE FUNCTION contentidreturner
+RETURN NUMBER IS
+value NUMBER(15);
+BEGIN
+SELECT MAX(id) INTO value FROM contents;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN 1;
+ELSE
+RETURN value+1;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION submissioncount
+RETURN NUMBER IS
+value NUMBER(15);
+BEGIN
+SELECT MAX(file_id) INTO value FROM SUBMISSIONS;
+-- dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN 1;
+ELSE
+RETURN value+1;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION idreturn(nam IN VARCHAR2)
+RETURN NUMBER IS
+value NUMBER(15);
+BEGIN
+SELECT user_id INTO value FROM users where USERNAME=nam;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN NULL;
+ELSE
+RETURN value;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION agereturn(id NUMBER)
+RETURN NUMBER IS
+value NUMBER(15);
+temp DATE;
+BEGIN
+SELECT BIRTHDAY INTO temp FROM users where USER_ID=id;
+value:=(MONTHS_BETWEEN(SYSDATE,temp)/12);
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN NULL;
+ELSE
+RETURN value;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION typereturn(num IN NUMBER)
+RETURN VARCHAR2 IS
+value VARCHAR2(255);
+BEGIN
+SELECT type INTO value FROM contents where id=num;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN NULL;
+ELSE
+RETURN value;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION toprank(id IN NUMBER)
+RETURN NUMBER IS
+value NUMBER(15,5);
+BEGIN
+SELECT AVG(rating) INTO value FROM enjoys where content_id=id;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN NULL;
+ELSE
+RETURN value;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION topwatch(id IN NUMBER)
+RETURN NUMBER IS
+value NUMBER(15);
+BEGIN
+select count(*) INTO value from WATCH_LIST where CONTENT_ID=id;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN NULL;
+ELSE
+RETURN value;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION rank(id IN NUMBER)
+RETURN NUMBER IS
+value NUMBER(15);
+PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+value:=0;
+FOR R IN (select CONTENT_ID from ENJOYS GROUP BY content_id ORDER BY AVG(RATING) DESC)
+LOOP
+	value:=value+1;
+	IF R.CONTENT_ID=id THEN
+		RETURN value;
+	END IF;
+END LOOP;
+RETURN NULL;
+END;
+/
+
+
+CREATE OR REPLACE FUNCTION namereturn(id IN NUMBER)
+RETURN VARCHAR2 IS
+value VARCHAR2(255);
+BEGIN
+SELECT username INTO value FROM users where user_id=id;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN NULL;
+ELSE
+RETURN value;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION idreturner
+RETURN NUMBER IS
+value NUMBER(15);
+BEGIN
+SELECT MAX(user_id) INTO value FROM users;
+--dbms_output.put_line(value);
+IF value IS NULL THEN
+RETURN 1;
+ELSE
+RETURN value+1;
+END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER CONTENTDELETION
+BEFORE DELETE
+ON contents
+FOR EACH ROW
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+UPDATE contents set source_id=NULL WHERE source_id=:old.id;
+commit;
+END;
+/
+
+CREATE OR REPLACE TRIGGER USERLOGIN
+BEFORE INSERT
+ON users
+FOR EACH ROW
+DECLARE
+  cnt NUMBER;
+  e EXCEPTION;
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+  SELECT COUNT(*) INTO cnt FROM users WHERE username = :new.username;
+commit;
+  IF cnt<> 0 THEN
+    raise e;
+  END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER USERLOGINNAME
+BEFORE UPDATE
+OF username
+ON users
+FOR EACH ROW
+DECLARE
+  cnt NUMBER;
+  e EXCEPTION;
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+  SELECT COUNT(*) INTO cnt FROM users WHERE username = :new.username;
+commit;
+  IF cnt<> 0 THEN
+    raise e;
+  END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER ONLYANIMECHECKER
+BEFORE INSERT
+ON ANIME
+FOR EACH ROW
+DECLARE
+e EXCEPTION;
+val VARCHAR2(255);
+BEGIN
+SELECT type INTO val FROM contents WHERE :new.id=contents.id;
+--DBMS_OUTPUT.PUT_LINE(val);
+IF val!='anime' THEN
+raise e;
+END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER ONLYMANGACHECKER
+BEFORE INSERT
+ON MANGA
+FOR EACH ROW
+DECLARE
+e EXCEPTION;
+val VARCHAR2(255);
+BEGIN
+SELECT type INTO val FROM contents WHERE :new.id=contents.id;
+--DBMS_OUTPUT.PUT_LINE(val);
+IF val!='manga' THEN
+raise e;
+END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER ONLYLIGHTNOVELCHECKER
+BEFORE INSERT
+ON LIGHTNOVEL
+FOR EACH ROW
+DECLARE
+e EXCEPTION;
+val VARCHAR2(255);
+BEGIN
+SELECT type INTO val FROM contents WHERE :new.id=contents.id;
+--DBMS_OUTPUT.PUT_LINE(val);
+IF val!='lightnovel' THEN
+raise e;
+END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER ONLYMOVIECHECKER
+BEFORE INSERT
+ON MOVIE
+FOR EACH ROW
+DECLARE
+e EXCEPTION;
+val VARCHAR2(255);
+BEGIN
+SELECT type INTO val FROM contents WHERE :new.id=contents.id;
+--DBMS_OUTPUT.PUT_LINE(val);
+IF val!='movie' THEN
+raise e;
+END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER INVALIDCHARACTER_LIST
+BEFORE INSERT OR UPDATE
+ON CHARACTER_LIST
+FOR EACH ROW
+DECLARE
+  cnt NUMBER;
+  e EXCEPTION;
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+  SELECT COUNT(*) INTO cnt FROM CHARACTER_LIST WHERE name = :new.name AND type = :new.type AND url = :new.url AND content_id = :new.content_id;
+commit;
+  IF cnt<> 0 THEN
+    raise e;
+  END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER INVALIDSUBMISSION
+BEFORE INSERT  OR UPDATE
+ON submissions
+FOR EACH ROW
+DECLARE
+  cnt NUMBER;
+  e EXCEPTION;
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+  SELECT COUNT(*) INTO cnt FROM submissions WHERE title = :new.title AND type = :new.type AND location = :new.location;
+  commit;
+--dbms_output.put_line(cnt);
+  IF cnt<> 0 THEN
+    raise e;
+  END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER UPDATEEMAIL
+AFTER UPDATE
+OF email
+ON users
+FOR EACH ROW
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+UPDATE nkash set email=:new.email WHERE user_id=:new.user_id;
+commit;
+END;
+/
+
+CREATE OR REPLACE FUNCTION addbalance(amount IN NUMBER,id IN NUMBER,tid IN NUMBER)
+RETURN NUMBER IS
+value NUMBER(15);
+PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+SELECT balance INTO value FROM nkash where user_id=id;
+--dbms_output.put_line(value);
+update nkash set balance=(value+amount) where user_id=id;
+delete from transactions where tx_id=tid;
+COMMIT;
+RETURN value+amount;
+END;
+/
+
+CREATE OR REPLACE FUNCTION subscribe(amount IN NUMBER,id in number,points in number)
+RETURN DATE IS
+value NUMBER(15);
+t DATE;
+PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+dbms_output.put_line('adada');
+update nkash set balance=(balance-points) where user_id=id;
+commit;
+SELECT COUNT(*) into value FROM subscriptions where user_id=id;
+COMMIT;
+dbms_output.put_line(t);
+IF value<1 THEN
+	insert into subscriptions(end_date,user_id) values(sysdate+amount,id);
+    COMMIT;
+	dbms_output.put_line('3rd');
+	return sysdate+amount;
+ELSE
+    SELECT  end_date INTO t FROM subscriptions where user_id=id;
+    IF t<sysdate THEN
+		update subscriptions set end_date=sysdate+amount where user_id=id;
+        COMMIT;
+		dbms_output.put_line('1st');
+		return sysdate+amount;
+	else
+		update subscriptions set end_date=t+amount where user_id=id;
+        COMMIT;
+		dbms_output.put_line('2nd');
+		return t+amount;
+	END IF;
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION isSubscribed(id IN NUMBER)
+RETURN VARCHAR2 IS
+value NUMBER(15);
+time DATE;
+PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+select count(*) into value from subscriptions where user_id=id;
+IF value=0 then
+    return 'false';
+END IF;
+SELECT end_date INTO time FROM subscriptions where user_id=id;
+IF sysdate>time then
+    return 'false';
+ELSE
+    return 'true';
+END IF;
+END;
+/
+
+CREATE OR REPLACE FUNCTION islock(id IN NUMBER,cid in number)
+RETURN VARCHAR2 IS
+value VARCHAR2(255);
+us VARCHAR2(255);
+time DATE;
+PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+IF id is NULL then
+    select locked into us from contents where id=cid;
+    IF us='on' then
+        return 'false';
+    else
+        return 'true';
+    END IF;
+ELSE
+    select isSubscribed(id) into value from dual;
+    IF value='true' then
+        return 'true';
+    ELSE
+        select locked into value from contents where id=cid;
+        IF value='on' then
+            return 'false';
+        ELSE
+            return 'true';
+        END IF;
+    END IF;
+END IF;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE postget
+(posts OUT SYS_REFCURSOR, contents OUT SYS_REFCURSOR, characters OUT SYS_REFCURSOR)
+AS
+BEGIN
+OPEN posts FOR select * from post natural join users ORDER BY upvote DESC,post_id DESC;
+OPEN contents FOR select id,title from contents ORDER BY title;
+OPEN characters FOR select character_id,name from character_list order by name;
+END;
+/
+
+CREATE OR REPLACE TRIGGER UPDATEUPVOTE
+AFTER UPDATE OR INSERT
+ON upvote
+FOR EACH ROW
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+IF :new.upvote = 'up' then
+	update post set upvote=upvote+1 where post_id=:new.post_id;
+	commit;
+else
+	update post set upvote=upvote-1 where post_id=:new.post_id;
+	commit;
+END IF;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE upvoter
+(u_id in number,p_id in number,type in varchar2)
+AS
+value NUMBER(15);
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+select count(*) into value from upvote where user_id=u_id and post_id=p_id;
+IF value>0 then
+	IF type='upup' then
+		upvoter(u_id,p_id,'up');
+		commit;
+		upvoter(u_id,p_id,'up');
+		commit;
+	ELSIF type='downdown' THEN
+		upvoter(u_id,p_id,'down');
+		commit;
+		upvoter(u_id,p_id,'down');
+		commit;
+	else
+		update upvote set upvote=type where user_id=u_id and post_id=p_id;
+		commit;
+	END IF;
+ELSE
+    insert into upvote values(p_id,u_id,type);
+    commit;
+END IF;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE answers
+(my_id IN NUMBER,p_id IN NUMBER,post OUT SYS_REFCURSOR, answers OUT SYS_REFCURSOR,content OUT SYS_REFCURSOR,character OUT SYS_REFCURSOR, state OUT VARCHAR2)
+AS
+value number;
+BEGIN
+OPEN post FOR select *  from users natural join post where post_id=p_id;
+OPEN answers FOR select *  from users natural join answer where post_id=p_id order by answer_id DESC;
+OPEN content FOR select *  from what_content join contents on content_id=id where post_id=p_id;
+OPEN character FOR select *  from which_character x join character_list y on x.character_id=y.character_id join contents z on y.content_id=z.id where x.post_id=p_id;
+select count(*) into value from upvote where user_id=my_id and post_id=p_id;
+IF value>0 then
+    select upvote into state from upvote where user_id=my_id and post_id=p_id;
+ELSE
+    state:='nai';
+END IF;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE getall
+(id IN number,follower OUT number,following OUT number,post OUT number,recom OUT number)
+AS
+anime number(15);
+manga number(15);
+novel number(15);
+movie number(15);
+BEGIN
+select count(*) into follower from follow_list where following_id=id;
+select count(*) into following from follow_list where user_id=id;
+select count(*) into post from post where user_id=id;
+select count(*) into anime from animerecommendations where user_id=id;
+select count(*) into manga from mangarecommendations where user_id=id;
+select count(*) into novel from lightnovelrecommendations where user_id=id;
+select count(*) into movie from movierecommendations where user_id=id;
+recom:=anime+manga+movie+novel;
+END;
+/
+
+commit;

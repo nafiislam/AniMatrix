@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link href="/css/dashboard.css">
+
+    <style>
+      .card{
+        background-color:#06283D !important;
+        color:#ffffff !important;
+        border: 2px solid black;
+      }
+      .tab-pane{
+        padding: auto;
+        background-color:#06283D !important;
+        color:#ffffff !important;
+      }
+      .fontstyle{
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .my-link-style:hover{
+          text-decoration: underline;
+          background-color: white;
+          color: black;
+      }
+      .nav-link:hover{
+          text-decoration: underline;
+          background-color: #A13131;
+          color: black;
+        }
+        .nav-link.active{
+            color: white !important;
+            background-color:black !important;
+        }
+      .my-link-style2{
+          color: white;
+          font-family: Arial, Helvetica, sans-serif;
+      }
+      .img-eye{
+        width:70%;
+        height:70%;
+      }
+      .bgcolor{
+          background-color: #A13131;
+      }
+      .rank{
+          color: black
+      }
+      .container{
+          border: 5px solid black;
+      }
+      .box{
+          background-color:white;
+          color: black
+      }
+    </style>
+    <script>
+      // if(sessionStorage.getItem('dashpage')!=window.location.pathname){
+      //     sessionStorage.removeItem("_x_dashTab");
+      // }
+      // sessionStorage.setItem("dashpage", window.location.pathname);
+      //console.log(window.location.pathname)
+  </script>
+  </head>
+  <body style="background-color: #1D1F39;">
+    
+    <% if(locals.msg) {%>
+      <% if(msg=='1'){ %> 
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          That username already exists
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+      <%}else if(msg==2){%>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Successfully updated
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <%}else if(msg==3){%>
+          <div class="alert alert-warning  alert-dismissible fade show" role="alert">
+            Confirm password does not match
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <%}else if(msg==4){%>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Password does not match
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <%}else if(msg==5){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Submission added
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <%}else if(msg==6){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Recommendation added
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <%}%>
+    <% } %>
+
+    <div class="other-section ">
+      <div class="row">
+          <div class="col-12">
+              <ul class="nav nav-tabs py-3" style="background-color:#000;">
+                  <li class="nav-item me-auto">
+                      <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                  </li>
+              </ul>
+          </div>
+      </div>  
+    </div> 
+
+
+    
+    <br><br><br>
+    <div class="container box " x-data="{dashTab : $persist('profile').using(sessionStorage)}"style="background-color:#06283D">
+      <ul class="nav nav-tabs">
+        <li @click.prevent="dashTab ='profile'"><a class="nav-link":class="dashTab==='profile' ? 'active' : ''" area-current="home" data-bs-toggle="tab" href="#home">Profile</a></li>
+        <li @click.prevent="dashTab ='editprofile'"><a class="nav-link":class="dashTab==='editprofile' ? 'active' : ''" data-bs-toggle="tab" href="#menu1">Edit Profile</a></li>
+        <li @click.prevent="dashTab ='changepass'"><a class="nav-link":class="dashTab==='changepass' ? 'active' : ''" data-bs-toggle="tab" href="#menu2">Change Password</a></li>
+        <li @click.prevent="dashTab ='recommendation'"><a class="nav-link":class="dashTab==='recommendation' ? 'active' : ''" data-bs-toggle="tab" href="#menu3">Recommendations</a></li>
+        <li @click.prevent="dashTab ='submission'"><a class="nav-link":class="dashTab==='submission' ? 'active' : ''" data-bs-toggle="tab" href="#menu4">Submissions</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="home" class="tab-pane":class="dashTab==='profile' ? 'active' : ''">
+          <div class="row align-items-center flex-row-reverse">
+            <div class="col-lg-6">
+                <div class="about-text go-to">
+                    <h3 class="dark-color"><%=locals.array[3]%></h3>
+                    <div class="row about-list">
+                        <div class="col-md-6">
+                            <div class="media">
+                                <label class="fontstyle">Birthday</label>
+                                <p><%=locals.array[7]%></p>
+                            </div>
+                            <div class="media">
+                                <label class="fontstyle">Age</label>
+                                <p><%=locals.array[10]%> Yr</p>
+                            </div>
+                            <div class="media">
+                                <label class="fontstyle">Country</label>
+                                <p><%=locals.array[5]%></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="media">
+                                <label class="fontstyle">E-mail</label>
+                                <p><%=locals.array[1]%></p>
+                            </div>
+                            <div class="media">
+                                <label class="fontstyle">Gender</label>
+                                <p><%=locals.array[8]%></p>
+                            </div>
+                            <div class="media">
+                              <label class="fontstyle">Joining Date</label>
+                              <p><%=locals.array[6]%></p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-avatar">
+                  <% if(locals.array[4]){ %> 
+                    <img src="<%=locals.array[4]%>" title=" profile pic" alt="avatar" class="img-thumbnail" width="400" height="400">
+                  <%}else{%>  
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                  <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="counter">
+            <div class="row">
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="500" data-speed="500"><%=locals.follower%></h6>
+                        <p class="m-0px font-w-600">Followers</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="150" data-speed="150"><%=locals.following%></h6>
+                        <p class="m-0px font-w-600">Following</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="850" data-speed="850"><%=locals.post%></h6>
+                        <p class="m-0px font-w-600">Blog Posts</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="190" data-speed="190"><%=locals.recom%></h6>
+                        <p class="m-0px font-w-600">Recommendations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="menu1" class="tab-pane":class="dashTab==='editprofile' ? 'active' : ''">
+          <hr class="mt-0 mb-4" />
+          <div class="row">
+            <div class="col-xl-4">
+              <!-- Profile picture card-->
+              <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                  <!-- Profile picture image-->
+                  
+                  <%if(locals.array[4]){%>
+                    <img class="img-account-profile img-thumbnail rounded-circle mb-2"
+                      src="<%=locals.array[4]%>"
+                      alt=""/>
+                  <%}else{%>
+                      <img class="img-account-profile rounded-circle mb-2"
+                      src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                      alt=""/>
+                  <%}%>
+                  
+                  <!-- Profile picture help block-->
+                  <div class="small font-italic text-muted mb-4">
+                    JPG or PNG no larger than 5 MB
+                  </div>
+                  <!-- Profile picture upload button-->
+                  <form action="/dashboard/update" method="POST" enctype="multipart/form-data">
+                    <!-- name - userName is what we use to grab the data -->
+                    <input class="btn btn-primary" type="file" name="pic"/>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8">
+              <!-- Account details card-->
+              <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                  <form method="post" action="/dashboard/userupdate">
+                    <!-- Form Group (username)-->
+                    <div class="mb-3">
+                      <label class="small mb-1" for="inputUsername"
+                        >Username
+                      </label>
+                      <input
+                        class="form-control"
+                        id="inputUsername"
+                        type="text"
+                        placeholder="Enter your username"
+                        name="username"
+                        value="<%=locals.array[3]%>"
+                      />
+                    </div>
+
+                    <!-- Form Row        -->
+                    <div class="row gx-3 mb-3">
+                      <!-- Form Group (organization name)-->
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputGender">
+                          gender</label
+                        >
+                        <select id="form3Example6cg" class="form-control form-control-lg" name="gender" value="<%= locals.country %>" placeholder="write name of your country">
+                          
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
+                          
+                        </select>
+                      </div>
+                      <!-- Form Group (location)-->
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputCountry"
+                          >Country</label>
+                        <select id="form3Example6cg" class="form-control form-control-lg" name="country" value="<%= locals.country %>" placeholder="write name of your country">
+                          <%for(let i=0; i<list.length;i++){ %>
+                            <option value="<%=list[i].Name%>"><%=list[i].Name%></option>
+                          <% }%>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Form Group (email address)-->
+                    <div class="mb-3">
+                      <label class="small mb-1" for="inputEmailAddress"
+                        >Email address</label
+                      >
+                      <input
+                        class="form-control"
+                        id="inputEmailAddress"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        value="<%=locals.array[1]%>"
+                      />
+                    </div>
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                      <!-- Form Group (phone number)-->
+                      <!-- Form Group (birthday)-->
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="inputBirthday"
+                          >Birthday</label
+                        >
+                        <input
+                          class="form-control"
+                          id="inputBirthday"
+                          type="Date"
+                          name="birthday"
+                          placeholder="Enter your birthday"
+                          value="<%=locals.array[7]%>"
+                        />
+                      </div>
+                    </div>
+                    <!-- Save changes button-->
+                    <button class="btn btn-primary" type="submit">
+                      Save changes
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="menu2" class="tab-pane":class="dashTab==='changepass' ? 'active' : ''">
+          <hr class="mt-0 mb-4" />
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- Change password card-->
+              <div class="card mb-4">
+                <div class="card-header">Change Password</div>
+                <div class="card-body">
+                  <form action="/dashboard/passupdate" method="post">
+                    <!-- Form Group (current password)-->
+                    <div class="mb-3">
+                      <label class="small mb-1" for="currentPassword"
+                        >Current Password</label
+                      >
+                      <input
+                        class="form-control"
+                        id="currentPassword"
+                        type="password"
+                        placeholder="Enter current password"
+                        name="password"
+                      />
+                    </div>
+                    <!-- Form Group (new password)-->
+                    <div class="mb-3">
+                      <label class="small mb-1" for="newPassword"
+                        >New Password</label
+                      >
+                      <input
+                        class="form-control"
+                        id="newPassword"
+                        type="password"
+                        placeholder="Enter new password"
+                        name="newpassword"
+                      />
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="mb-3">
+                      <label class="small mb-1" for="confirmPassword"
+                        >Confirm Password</label
+                      >
+                      <input
+                        class="form-control"
+                        id="confirmPassword"
+                        type="password"
+                        placeholder="Confirm new password"
+                        name="confirmpassword"
+                      />
+                    </div>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Delete account card-->
+              <div class="card mb-4">
+                <div class="card-header">Delete Account</div>
+                <div class="card-body">
+                  <p>
+                    Deleting your account is a permanent action and cannot be
+                    undone. If you are sure you want to delete your account,
+                    select the button below.
+                  </p>
+                  <a href="/dashboard/delete"> <button class="btn btn-danger-soft text-danger" type="button">
+                    I understand, delete my account
+                  </button> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="menu3" class="tab-pane":class="dashTab==='recommendation' ? 'active' : ''">
+          <div class="d-flex align-items-start"x-data="{ recomTab : $persist('anime').using(sessionStorage)}">
+            <div
+              class="nav flex-column nav-tabs me-3"
+              id="v-tabs-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <button
+                @click.prevent="recomTab ='anime'"
+                class="nav-link":class="recomTab==='anime' ? 'active' : ''"
+                id="v-tabs-anime-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-anime"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-anime"
+                aria-selected="true"
+              >
+                Anime
+              </button>
+              <button
+                @click.prevent="recomTab ='manga'"
+                class="nav-link":class="recomTab==='manga' ? 'active' : ''"
+                id="v-tabs-manga-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-manga"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-manga"
+                aria-selected="false"
+              >
+                Manga
+              </button>
+              <button
+                @click.prevent="recomTab ='lightnovel'"
+                class="nav-link":class="recomTab==='lightnovel' ? 'active' : ''"
+                id="v-tabs-lightnovel-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-lightnovel"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-lightnovel"
+                aria-selected="false"
+              >
+                LightNovel
+              </button>
+              <button
+                @click.prevent="recomTab ='movie'"
+                class="nav-link":class="recomTab==='movie' ? 'active' : ''"
+                id="v-tabs-movie-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#v-tabs-movie"
+                type="button"
+                role="tab"
+                aria-controls="v-tabs-movie"
+                aria-selected="false"
+              >
+                Movie
+              </button>
+            </div>
+
+            <div class="tab-content" id="v-tabs-tabContent">
+                <div
+                class="tab-pane":class="recomTab==='anime' ? 'active' : ''"
+                id="v-tabs-anime"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">Anime</h1>
+                <form action="/recom/anime" method="post" class="row g-3" enctype="multipart/form-data">
+                  <div class="col-md-12">
+                    <label for="inputSourceTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputSourceTitle" name="title" required>
+                  </div>
+                  <div class="col-md-5">
+                    <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                    <input type="file" class="form-control" id="SubmissionFile" name="cover_pic" required/>
+                  </div>
+                  <div class="col-md-7">
+                    <label for="inputSource" class="form-label">Source Title</label>
+                    <select id="inputSource" class="form-select" name="source_id_1">
+                      <option selected></option>
+                      <%for(let i=0;i<locals.title.length;i++){%>
+                        <option><%=locals.title[i]%></option>
+                      <%}%>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synopsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                     </div>
+                    <div class="col-6">
+                      <label for="inputEpNo" class="form-label">Episodes No</label>
+                      <input type="number" class="form-control" id="inputEpNo" placeholder="" name="episode_no">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select" name="status" required>
+                        <option selected>Currently Airing</option>
+                        <option>Finished Airing</option>
+                      </select>
+                    </div>                  
+                  <div class="col-md-6">
+                    <label for="AIR_START_DATE" class="form-label">AIR_START_DATE</label>
+                    <input type="date" class="form-control" id="AIR_START_DATE" name="air_start_date">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputCity" class="form-label">AIR_END_DATE</label>
+                    <input type="date" class="form-control" id="inputCity" name="air_end_date">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="AIR_END_DATE" class="form-label">Duration</label>
+                    <input type="text" class="form-control" id="AIR_END_DATE" name="duration">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputSeason" class="form-label">Season</label>
+                    <input type="text" class="form-control" id="inputSeason" name="season">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputStudios" class="form-label">Studios</label>
+                    <input type="text" class="form-control" id="inputStudios" name="studios">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputLicensors" class="form-label">Licensors</label>
+                    <input type="text" class="form-control" id="inputLicensors" name="licensors">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="inputProducers" class="form-label">Producers</label>
+                    <input type="text" class="form-control" id="inputProducers" name="producers">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputStatus" class="form-label">Source</label>
+                    <select id="inputStatus" class="form-select" name="source">
+                      <option selected></option>
+                      <option>anime</option>
+                      <option>manga</option>
+                      <option>lightnovel</option>
+                      <option>movie</option>
+                    </select>
+                  </div> 
+                  <div class="col-md-12">
+                    <label for="inputGenries" class="form-label">Genries</label>
+                    <input type="text" class="form-control" id="inputGenries" name="genres">
+                  </div>
+                  <!--
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                      <label class="form-check-label" for="gridCheck">
+                        Check me out
+                      </label>
+                    </div>
+                  </div>
+                -->
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+             </section>
+                </div>
+
+                <div
+                class="tab-pane":class="recomTab==='manga' ? 'active' : ''"
+                id="v-tabs-manga"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">Manga</h1>
+                <form action="/recom/manga" method="post" class="row g-3" enctype="multipart/form-data">
+                  <div class="col-md-12">
+                    <label for="inputSourceTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputSourceTitle" name="title"required>
+                  </div> 
+                  <div class="col-md-5">
+                    <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                    <input type="file" class="form-control" id="SubmissionFile" name="cover_pic"required/>
+                  </div>
+                  <div class="col-md-7">
+                    <label for="inputSource" class="form-label">Source Title</label>
+                    <select id="inputSource" class="form-select" name="source_id_1">
+                      <option selected></option>
+                      <%for(let i=0;i<locals.title.length;i++){%>
+                        <option><%=locals.title[i]%></option>
+                      <%}%>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synopsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                  </div>
+                    <div class="col-md-4">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select" name="status"required>
+                        <option selected>Publishing</option>
+                        <option>Finished</option>
+                      </select>
+                    </div>                 
+                  <div class="col-md-4">
+                    <label for="volumes" class="form-label">Volumes</label>
+                    <input type="number" class="form-control" id="volumes" name="volumes">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputChapters" class="form-label">Chapters</label>
+                    <input type="number" class="form-control" id="inputChapters" name="chapters">
+                  </div>
+                
+                  <div class="col-md-12">
+                    <label for="inputAuthors" class="form-label">Authors</label>
+                    <input type="text" class="form-control" id="inputAuthors" name="authors_artists">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputGenries" class="form-label">Genries</label>
+                    <input type="text" class="form-control" id="inputGenries" name="genres">
+                  </div>
+                  <!--
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                      <label class="form-check-label" for="gridCheck">
+                        Check me out
+                      </label>
+                    </div>
+                  </div>
+                -->
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+            </section>
+                </div>
+
+                <div
+                class="tab-pane":class="recomTab==='lightnovel' ? 'active' : ''"
+                id="v-tabs-lightnovel"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">LightNovel</h1>
+                <form action="/recom/lightnovel" method="post" class="row g-3" enctype="multipart/form-data">
+                  <div class="col-md-12">
+                    <label for="inputSourceTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputSourceTitle" name="title" required>
+                  </div> 
+                  <div class="col-md-5">
+                    <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                    <input type="file" class="form-control" id="SubmissionFile" name="cover_pic" required/>
+                  </div>
+                  <div class="col-md-7">
+                    <label for="inputSource" class="form-label">Source Title</label>
+                    <select id="inputSource" class="form-select" name="source_id_1">
+                      <option selected></option>
+                      <%for(let i=0;i<locals.title.length;i++){%>
+                        <option><%=locals.title[i]%></option>
+                      <%}%>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synopsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                  </div>
+                    <div class="col-md-4">
+                      <label for="inputStatus" class="form-label">Status</label>
+                      <select id="inputStatus" class="form-select" name="status" required>
+                        <option selected>Publishing</option>
+                        <option>Finished</option>
+                      </select>
+                    </div>                 
+                  <div class="col-md-4">
+                    <label for="volumes" class="form-label">Volumes</label>
+                    <input type="number" class="form-control" id="volumes" name="volumes">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputPublishDate" class="form-label">Publish Date</label>
+                    <input type="date" class="form-control" id="inputPublishDate" name="publish_date">
+                  </div>
+                
+                  <div class="col-md-12">
+                    <label for="inputAuthors" class="form-label">Authors</label>
+                    <input type="text" class="form-control" id="inputAuthors" name="genres">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputGenries" class="form-label">Genries</label>
+                    <input type="text" class="form-control" id="inputGenries" name="authors">
+                  </div>
+                  <!--
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                      <label class="form-check-label" for="gridCheck">
+                        Check me out
+                      </label>
+                    </div>
+                  </div>
+                -->
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+            </section>
+                </div>
+
+                <div
+                class="tab-pane":class="recomTab==='movie' ? 'active' : ''"
+                id="v-tabs-movie"
+                role="tabpanel"
+                aria-labelledby="v-tabs-home-tab"
+              >   
+              <section class="get-in-touch">
+                <h1 class="title">Movies</h1>
+                <form action="/recom/movie" method="post" class="row g-3" enctype="multipart/form-data">
+                  <div class="col-md-12">
+                    <label for="inputSourceTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputSourceTitle" name="title" required>
+                  </div> 
+                  <div class="col-md-5">
+                    <label for="SubmissionFile" class="form-label">Attach Cover picture</label>
+                    <input type="file" class="form-control" id="SubmissionFile" name="cover_pic" required/>
+                  </div>
+                  <div class="col-md-7">
+                    <label for="inputSource" class="form-label">Source Title</label>
+                    <select id="inputSource" class="form-select" name="source_id_1">
+                      <option selected></option>
+                      <%for(let i=0;i<locals.title.length;i++){%>
+                        <option><%=locals.title[i]%></option>
+                      <%}%>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputSynapsis" class="form-label">Synopsis</label>
+                    <textarea class="form-control" id="inputSynapsis" rows="3" name="synopsis"></textarea>                 
+                  </div>
+                    
+                    <div class="col-md-6">
+                      <label for="inputStatus" class="form-label">Source</label>
+                      <select id="inputStatus" class="form-select"name="source">
+                        <option selected></option>
+                        <option>anime</option>
+                        <option>manga</option>
+                        <option>lightnovel</option>
+                        <option>movie</option>
+                      </select>
+                    </div>                  
+                  <div class="col-md-6">
+                    <label for="releaseDate" class="form-label">Release Date</label>
+                    <input type="date" class="form-control" id="releaseDate" name="release_date">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="AIR_END_DATE" class="form-label">Duration</label>
+                    <input type="text" class="form-control" id="AIR_END_DATE" name="duration">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputStudios" class="form-label">Studios</label>
+                    <input type="text" class="form-control" id="inputStudios" name="studios">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputLicensors" class="form-label">Licensors</label>
+                    <input type="text" class="form-control" id="inputLicensors" name="licensors">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="inputProducers" class="form-label">Producers</label>
+                    <input type="text" class="form-control" id="inputProducers" name="producers">
+                  </div>
+                 
+                  <!--
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                      <label class="form-check-label" for="gridCheck">
+                        Check me out
+                      </label>
+                    </div>
+                  </div>
+                -->
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+             </section>
+                </div>
+          </div>
+        </div>
+      </div>
+      <div id="menu4" class="tab-pane":class="dashTab==='submission' ? 'active' : ''">
+
+        <form action="/submission/add/<%=locals.array[0]%>" method="post" class="row g-3" enctype="multipart/form-data">
+
+          <h3>Put Your Submission Informations</h3>
+          
+          <div class="col-12">
+            <label for="inputTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="inputTitle" name="title" required>
+          </div>
+
+          <div class="col-12">
+            <label for="type">Type</label>
+            <select class="form-select" id="type" name="type" required>
+              <option selected>anime</option>
+              <option>manga</option>
+              <option>lightNovel</option>
+              <option>movie</option>
+              
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="inputSynapsis" class="form-label">Description</label>
+            <textarea class="form-control" id="inputSynapsis" rows="3" name="description" required></textarea>                 
+          </div>
+          <div class="col-12">
+          <label for="SubmissionFile">Attach File</label>
+          <input type="file" class="form-control" id="SubmissionFile" name="subfile" required/>
+          </div>
+
+        <div class="col-12">
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
+        </div>
+        </form>
+ 
+      </div>
+
+      </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<style>
+  html,
+  body {
+    position: relative;
+    height: 100%;
+  }
+
+  body {
+    background-color: #1D1F39;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+  }
+
+  .swiper {
+    width: 80%;
+    height: 80%;
+  }
+
+  .mycustom3 {
+    font-size: 18px;
+    color: #fff;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 40px 60px;
+  }
+
+  .parallax-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 130%;
+    height: 100%;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .swiper-slide .title {
+    font-size: 41px;
+    font-weight: 300;
+  }
+
+  .swiper-slide .subtitle {
+    font-size: 21px;
+  }
+
+  .swiper-slide .text {
+    font-size: 14px;
+    max-width: 400px;
+    line-height: 1.3;
+  }
+
+  .mycustom {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mycustom2 {
+    width: 600px;
+    height: 300px;
+    justify-content: center;
+    display: flex;
+  }
+
+  .my {
+    background-position: center;
+    background-size: cover;
+  }
+
+  /* .swiper-slide img {
+        display: block;
+        width: 100%;
+      } */
+</style>
+
+<body style="background-color: #1D1F39;">
+  <!-- <h1 style="color:#FFF89C;" >Animatrix</h1>
+  <div style="
+  background-image: url(/pictures/asol.jpg);
+  background-repeat: no-repeat;
+  height: 500px;
+  width: 80%;
+  background-position: center;
+  justify-content: center;
+  display: flex;
+  margin-left:136px;
+">
+<img src="/pictures/saved.png" style="width:50%;height:50%; margin-top:100px;">
+
+</div> -->
+  <!-- Swiper -->
+
+  <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper">
+    <div class="parallax-bg" style="
+      background-image: url(/pictures/3.png);
+    " data-swiper-parallax="-23%"></div>
+    <div class="swiper-wrapper" style="color:black">
+      <div class="swiper-slide mycustom3">
+        <div class="title" data-swiper-parallax="-300"style="text-align: center;">Animtarix</div>
+        <div class="subtitle" data-swiper-parallax="-200"style="text-align: center;">Our site</div>
+        <div class="text" >
+          <p style="font-size:20px;  text-align: justify;
+          text-justify: inter-word;">
+            Animatrix is a site for the anime, manga, lightnovel and anime movie lovers across the whole world.
+          </p>
+          <p style="font-size:20px;  text-align: justify;
+          text-justify: inter-word;">
+            It serves the user by providing various facilities. Users can see their favourite contents. THey can write a review and give rating to heir respective contents.
+          </p>
+        </div>
+      </div>
+      <div class="swiper-slide mycustom3">
+        <div class="title" data-swiper-parallax="-300" style="text-align: center;">Animtarix</div>
+        <div class="subtitle" data-swiper-parallax="-200" style="text-align: center;">Our site</div>
+        <div class="text" data-swiper-parallax="-100">
+          <p style="font-size:20px;  text-align: justify;
+          text-justify: inter-word;">
+            Users can post in the forum and also to he posts posted by other users.
+            They can follow their favourite users.
+          </p>
+        </div>
+      </div>
+      <div class="swiper-slide mycustom3">
+        <div class="title" data-swiper-parallax="-300"style="text-align: center;">Animtarix</div>
+        <div class="subtitle" data-swiper-parallax="-200" style="text-align: center;">Our site</div>
+        <div class="text" data-swiper-parallax="-100">
+          <p style="font-size:20px; text-align: left;
+          text-justify: inter-word;">
+            Users can create their own catalogue(Watchlist and readlist)
+            Animatrix serves as the center of the whole fanbase of different contents.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <br><br>
+  
+  <style>
+    .glow-on-hover {
+      width: 220px;
+      height: 50px;
+      border: none;
+      outline: none;
+      color: #fff;
+      background: #111;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+      content: "";
+      background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00c8,
+        #ff0000
+      );
+      position: absolute;
+      padding: 10%;
+      top: -2px;
+      left: -2px;
+      background-size: 800%;
+      z-index: -3;
+      filter: blur(20px);
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    .glow-on-hover:active {
+      color: #000;
+    }
+
+    .glow-on-hover:active:after {
+      background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+      opacity: 1;
+    }
+
+    .glow-on-hover:after {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+    }
+
+    @keyframes glowing {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+  </style>
+
+  <br /><br />
+  <div class="d-flex justify-content-center">
+    <a href="/home" class="btn btn-lg glow-on-hover" type="button"
+      >Get stsarted</a
+    >
+  </div>
+  <br /><br />
+  
+  <br><br>
+  <!-- Swiper -->
+  <div class="swiper mySwiper3 mycustom2">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide my" style="
+      background-image: url(/pictures/4.png);
+      background-repeat: no-repeat;
+  background-size: 600px 300px;
+    ">
+      </div>
+      <div class="swiper-slide my" style="
+      background-image: url(/pictures/2.png);
+      background-repeat: no-repeat;
+  background-size: 600px 300px;
+    ">
+      </div>
+      <div class="swiper-slide my" style="
+      background-image: url(/pictures/3.png);
+      background-repeat: no-repeat;
+  background-size: 600px 300px;
+    ">
+      </div>
+      <div class="swiper-slide my" style="
+      background-image: url(/pictures/1.png);
+      background-repeat: no-repeat;
+  background-size: 600px 300px;
+    ">
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <br><br><br><br>
+  <div class="swiper mySwiper2">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/1.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/2.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/4.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/5.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/6.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/7.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/8.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+      <div class="swiper-slide mycustom" style="
+      background-image: url(/pictures/9.png);
+      background-repeat: no-repeat;
+  background-size: 1100px 500px;
+    "></div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+<br><br><br>
+
+<section class="mt-5">
+  <!-- Grid row-->
+  <div class="row text-center d-flex justify-content-center pt-5">
+    <!-- Grid column -->
+    <div class="col-md-2">
+      <h6 class="text-uppercase font-weight-bold">
+        <a href="#!" class="text-white">About us</a>
+      </h6>
+    </div>
+    <!-- Grid column -->
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-2">
+      <h6 class="text-uppercase font-weight-bold">
+        <a href="#!" class="text-white">Help</a>
+      </h6>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-2">
+      <h6 class="text-uppercase font-weight-bold">
+        <a href="#!" class="text-white">Contact</a>
+      </h6>
+    </div>
+    <!-- Grid column -->
+  </div>
+  <!-- Grid row-->
+</section>
+<!-- Section: Links -->
+
+<hr class="my-5" />
+
+<!-- Section: Text -->
+<section class="mb-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8">
+      <p style="font-size:20px;color:white">
+        Animatrix is a site for the anime, manga, lightnovel and anime movie lovers across the whole world.It serves the user by providing various facilities. Users can see their favourite contents. THey can write a review and give rating to heir respective contents.
+      </p>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="">
+  <p class="d-flex justify-content-center align-items-center">
+    <span class="me-3" style="font-size:20px; color:antiquewhite">Register for free</span>
+    <a href="/users/register" type="button" class="btn btn-outline-light btn-rounded btn-lg">
+      Sign up!
+    </a>
+  </p>
+</section>
+<!-- Section: CTA -->
+
+<hr class="mb-4" />
+
+<!-- Section: Social media -->
+<section class="mb-4 text-center">
+  <!-- Facebook -->
+  <a
+     class="btn btn-outline-light btn-floating m-1"
+     href="#!"
+     role="button"
+     ><i class="fab fa-2x fa-facebook-f"></i
+    ></a>
+
+  <!-- Twitter -->
+  <a
+     class="btn btn-outline-light btn-floating m-1"
+     href="#!"
+     role="button"
+     ><i class="fab fa-2x fa-twitter"></i
+    ></a>
+
+  <!-- Google -->
+  <a
+     class="btn btn-outline-light btn-floating m-1"
+     href="#!"
+     role="button"
+     ><i class="fab fa-2x fa-google"></i
+    ></a>
+
+  <!-- Instagram -->
+  <a
+     class="btn btn-outline-light btn-floating m-1"
+     href="#!"
+     role="button"
+     ><i class="fab fa-2x fa-instagram"></i
+    ></a>
+
+  <!-- Linkedin -->
+  <a
+     class="btn btn-outline-light btn-floating m-1"
+     href="#!"
+     role="button"
+     ><i class="fab fa-2x fa-linkedin-in"></i
+    ></a>
+
+  <!-- Github -->
+  <a
+     class="btn btn-outline-light btn-floating m-1"
+     href="#!"
+     role="button"
+     ><i class="fab fa-2x fa-github"></i
+    ></a>
+</section>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+  <script src="/portfolio.js"></script>
+</body>
+
+</html>

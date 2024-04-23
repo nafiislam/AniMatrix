@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <title>AniMatrix</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="/css/contents.css" />
+    <link rel="stylesheet" href="/css/content.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <script>
+      // if(window.location.pathname[window.location.pathname.length-2]=='/'&&window.location.pathname.substring(0, window.location.pathname.length - 2)!=sessionStorage.getItem('page')){
+      //     if(sessionStorage.getItem('page')[sessionStorage.getItem('page').length-2]=='/'&&sessionStorage.getItem('page').substring(0, sessionStorage.getItem('page').length - 2)!=window.location.pathname){
+      //         if(sessionStorage.getItem('page')!=window.location.pathname){
+      //             sessionStorage.removeItem("_x_currentTab");
+      //         }
+      //     }
+      // }
+      sessionStorage.removeItem("_x_currentTab");
+      sessionStorage.removeItem("_x_dashTab");
+      sessionStorage.removeItem("_x_admindashTab");
+      sessionStorage.removeItem("_x_admindashTabContent");
+      sessionStorage.removeItem("_x_recomTab");
+      sessionStorage.removeItem("_x_contentaddTab");
+      sessionStorage.removeItem("_x_adminrecomTab");
+      sessionStorage.removeItem("_x_animecount");
+      sessionStorage.removeItem("_x_mangacount");
+      sessionStorage.removeItem("_x_lightnovelcount");
+      sessionStorage.removeItem("_x_moviecount");
+      sessionStorage.removeItem("_x_watchTab");
+      sessionStorage.removeItem("_x_collapse");
+      sessionStorage.removeItem("_x_type");
+      sessionStorage.removeItem("_x_contreportTab");
+    </script>
+    <style>
+      a {
+        text-decoration: none !important;
+        color: #454545;
+      }
+    </style>
+  </head>
+  <body>
+    <% if(msg!=undefined){ %> <% if(msg=='Successfully Logged'){ %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%=msg%>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    <%}%> <%}%>
+
+    <style>
+      .title {
+        background-color: black;
+        background-attachment: fixed;
+        background-position: 100%;
+        width: 100%;
+        height: 3em;
+      }
+    </style>
+    <h1 class="title">
+      <a href="/home">
+      <img
+        src="/pictures/Capture.PNG"
+        class="logo"
+        width="340px"
+        height="100em"
+      />
+      </a>
+      <a
+        class="btn-one"
+        href="/"
+        role="button"
+      >
+      <div class="btn btn-one">
+        <span>About Us</span>
+      </div>
+      </a>
+    </h1>
+
+    <nav class="navbar navbar-expand-lg">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+         
+          <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li> -->
+
+      <style>
+        .btn-one {
+  color: #fff;
+  transition: all 0.3s;
+  position: relative;
+}
+.btn-one span {
+  transition: all 0.3s;
+}
+.btn-one::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+  transform: scale(0.1, 1);
+}
+.btn-one:hover span {
+  letter-spacing: 2px;
+}
+.btn-one:hover::before {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.btn-one::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(255, 255, 255, 0);
+}
+.btn-one:hover::after {
+  opacity: 100%;
+  transform: scale(0.5, 0.5);
+}
+      </style>
+
+          <li class="nav-item dropdown">
+              <a
+              class="nav-link btn-one"
+              href="#"
+              id="navbarDropdown"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              style="background-color:#000;"
+            >
+            <div class="btn btn-one">
+              <span>Anime</span>
+            </div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color:#000;">
+              <a class="dropdown-item btn-one" href="/all/anime">All Anime</a>
+              <a class="dropdown-item btn-one" href="/topranked/anime">Top Ranked</a>
+              <a class="dropdown-item btn-one" href="/topwatched/anime">Top watched</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link btn-one"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+            <div class="btn btn-one">
+              <span>Manga</span>
+            </div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color:#000;">
+              <a class="dropdown-item btn-one" href="/all/manga">All Manga</a>
+              <a class="dropdown-item btn-one" href="/topranked/manga">Top Ranked</a>
+              <a class="dropdown-item btn-one" href="/topwatched/manga">Top watched</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link btn-one"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+            <div class="btn btn-one">
+              <span>LightNovel</span>
+            </div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color:#000;">
+              <a class="dropdown-item btn-one" href="/all/lightnovel">All Lightnovel</a>
+              <a class="dropdown-item btn-one" href="/topranked/lightnovel"
+                >Top Ranked</a
+              >
+              <a class="dropdown-item btn-one" href="/topwatched/lightnovel"
+                >Top watched</a
+              >
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link btn-one"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+            <div class="btn btn-one">
+              <span>Movie</span>
+            </div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color:#000;">
+              <a class="dropdown-item btn-one" href="/all/movie">All Movie</a>
+              <a class="dropdown-item btn-one" href="/topranked/movie">Top Ranked</a>
+              <a class="dropdown-item btn-one" href="/topwatched/movie">Top watched</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link btn-one"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+            <div class="btn btn-one">
+              <span>Character</span>
+            </div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color:#000;">
+              <a class="dropdown-item btn-one" href="/characterrating">Top Ranked</a>
+            </div>
+          </li>
+          <!-- <li class="nav-item">
+            <a
+              class="nav-link btn-one"
+              href="/"
+              role="button"
+            >
+            <div class="btn btn-one">
+              <span>About Us</span>
+            </div>
+            </a>
+          </li> -->
+
+          <!-- <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li> -->
+        </ul>
+        <form
+          action="/search"
+          method="post"
+          class="form-inline my-2 my-lg-0"
+          autocomplete="off"
+        >
+          <div class="autocomplete" style="width: 300px">
+            <input
+              name="search"
+              class="form-control mr-sm-2 navbar-toggler-right"
+              id="inputText"
+              type="text"
+              placeholder="Search"
+              aria-label="Search"
+              style="margin-top: auto; margin-left: 78px"
+            />
+          </div>
+          <button
+            class="btn btn-outline-secondary text-light navbar-toggler-right"
+            type="submit"
+            style="margin-right: 20px; margin-top: auto"
+          >
+            Search
+          </button>
+        </form>
+
+        <script>
+          var countries;
+          fetch("/home/array")
+            .then((res) => res.json())
+            .then((data) => (countries = data.arr))
+            .then(() =>
+              autocomplete(document.getElementById("inputText"), countries)
+            );
+          //var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+
+          function autocomplete(inp, arr) {
+            /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+            var currentFocus;
+            /*execute a function when someone writes in the text field:*/
+            inp.addEventListener("input", function (e) {
+              var a,
+                b,
+                i,
+                val = this.value;
+              /*close any already open lists of autocompleted values*/
+              closeAllLists();
+              if (!val) {
+                return false;
+              }
+              currentFocus = -1;
+              /*create a DIV element that will contain the items (values):*/
+              a = document.createElement("DIV");
+              a.setAttribute("id", this.id + "autocomplete-list");
+              a.setAttribute("class", "autocomplete-items");
+              /*append the DIV element as a child of the autocomplete container:*/
+              this.parentNode.appendChild(a);
+              /*for each item in the array...*/
+              for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (
+                  arr[i].name.substr(0, val.length).toUpperCase() ==
+                  val.toUpperCase()
+                ) {
+                  /*create a DIV element for each matching element:*/
+                  newlink = document.createElement("a");
+                  newlink.setAttribute(
+                    "href",
+                    `/contents/${arr[i].id}/${arr[i].type}`
+                  );
+                  newlink.setAttribute("style", `text-decoration: none;`);
+                  b = document.createElement("DIV");
+                  /*make the matching letters bold:*/
+                  b.innerHTML =
+                    "<strong>" +
+                    arr[i].name.substr(0, val.length) +
+                    "</strong>";
+                  b.innerHTML += arr[i].name.substr(val.length);
+                  /*insert a input field that will hold the current array item's value:*/
+                  b.innerHTML +=
+                    "<input type='hidden' value='" + arr[i].name + "'>";
+                  /*execute a function when someone clicks on the item value (DIV element):*/
+                  b.addEventListener("click", function (e) {
+                    /*insert the value for the autocomplete text field:*/
+                    inp.value = this.getElementsByTagName("input")[0].value;
+                    /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+                    closeAllLists();
+                  });
+                  newlink.appendChild(b);
+                  a.appendChild(newlink);
+                }
+              }
+            });
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown", function (e) {
+              var x = document.getElementById(this.id + "autocomplete-list");
+              if (x) x = x.getElementsByTagName("div");
+              if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+              } else if (e.keyCode == 38) {
+                //up
+                /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+              } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                  /*and simulate a click on the "active" item:*/
+                  if (x) x[currentFocus].click();
+                }
+              }
+            });
+            function addActive(x) {
+              /*a function to classify an item as "active":*/
+              if (!x) return false;
+              /*start by removing the "active" class on all items:*/
+              removeActive(x);
+              if (currentFocus >= x.length) currentFocus = 0;
+              if (currentFocus < 0) currentFocus = x.length - 1;
+              /*add class "autocomplete-active":*/
+              x[currentFocus].classList.add("autocomplete-active");
+            }
+            function removeActive(x) {
+              /*a function to remove the "active" class from all autocomplete items:*/
+              for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+              }
+            }
+            function closeAllLists(elmnt) {
+              /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+              var x = document.getElementsByClassName("autocomplete-items");
+              for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                  x[i].parentNode.removeChild(x[i]);
+                }
+              }
+            }
+            /*execute a function when someone clicks in the document:*/
+            document.addEventListener("click", function (e) {
+              closeAllLists(e.target);
+            });
+          }
+        </script>
+
+    
+
+        <%if(locals.username){%>
+          <div class="ms-5" style="margin-right: -2%; margin-bottom: -1%;"><i class="fa-solid fa-circle-user fa-2x"></i></div>
+        <li class="nav-item dropdown me-5">
+          <a
+            class="nav-link dropdown-toggle"
+            me-auto
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <B><BIG><%=locals.username%></BIG></B>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+            <%if(locals.admin){%>
+            <a class="dropdown-item" href="/admindashboard">Admin Dashboard</a>
+            <a class="dropdown-item" href="/adminuserreport">User report</a>
+            <a class="dropdown-item" href="/admincontentreport">Content report</a>
+            <%}%>
+            <a class="dropdown-item" href="/unanimous/profile">My profile</a>
+            <a class="dropdown-item" href="/catalogue">Catalogue</a>
+            <a class="dropdown-item" href="/profile/followlist"
+              >My follow list</a
+            >
+            <a class="dropdown-item" href="/nkash">My nkash</a>
+            <a class="dropdown-item" href="/subscription">Buy subscription</a>
+            <a class="dropdown-item" href="/submission">Submissions</a>
+            <a class="dropdown-item" href="/post">Forum</a>
+            <a class="dropdown-item" href="/searchby">SearchByCategory</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/home/logout">Logout</a>
+          </div>
+        </li>
+        <%}else {%>
+        <form
+          action="/users/logPage"
+          method="get"
+          class="form-inline my-2 my-lg-0"
+        >
+          <!-- <input class="form-control mr-sm-2 navbar-toggler-right" type="search" placeholder="Search" aria-label="Search"> -->
+          <button
+            class="btn btn-outline-dark text-light my-2 my-sm-0 navbar-toggler-right"
+            type="submit"
+            style="
+              padding-left: 2.5rem;
+              padding-right: 2.5rem;
+              margin-left: auto;
+            "
+          >
+            login
+          </button>
+        </form>
+
+        <form
+          action="users/register"
+          method="get"
+          class="form-inline my-2 my-lg-0"
+        >
+          <!-- <input class="form-control mr-sm-2 navbar-toggler-right" type="search" placeholder="Search" aria-label="Search"> -->
+          <button
+            class="btn btn-outline-dark text-light my-2 my-sm-0 navbar-toggler-right"
+            type="submit"
+            style="
+              padding-left: 2.5rem;
+              padding-right: 2.5rem;
+              margin-left: auto;
+            "
+          >
+            register
+          </button>
+        </form>
+        <%}%>
+        <!-- <div class="text-center text-lg-start mt-4 pt-2">
+    <a href="E:\cse offline 2-2\database con\views\index.html">
+    <button type="button" class="btn btn-primary btn-lg"
+      style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button></a>
+  </div> -->
+      </div>
+    </nav>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="text mb-4">ANIME</h4>
+            <hr color="#000000" />
+            <div class="table-wrap">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <% for(let i=0;i<100;i++){ //id.rows.length %>
+                    <td style="background: black; padding: 0%">
+                      <div class="card text-white bg-dark">
+                        <a href="/contents/<%=id.rows[i][0]%>/anime">
+                          <img
+                            src="<%=id.rows[i][5]%>"
+                            class="card-img rounded-circle mb-2"
+                            alt="..."
+                            style="height: 200px"
+                          />
+                        </a>
+                        <div class="card-body" style="height: 95px">
+                          <div
+                            class="text-wrap"
+                            style="width: 7rem; font-style: italic"
+                          >
+                            <a href="/contents/<%=id.rows[i][0]%>/anime"
+                              ><p class="text-light"><%=id.rows[i][1]%></p></a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <% } %>
+                  </tr>
+                </tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="text mb-4">MANGA</h4>
+            <hr color="#000000" />
+            <div class="table-wrap">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <% for(let i=0;i<100;i++){ //id2.rows.length%>
+                    <td style="background: black; padding: 0%">
+                      <div class="card text-white bg-dark">
+                        <a href="/contents/<%=id2.rows[i][0]%>/manga">
+                          <img
+                            src="<%=id2.rows[i][5]%>"
+                            class="card-img rounded-circle mb-2"
+                            alt="..."
+                            style="height: 200px"
+                          />
+                        </a>
+                        <div class="card-body" style="height: 95px">
+                          <div
+                            class="text-wrap"
+                            style="width: 7rem; font-style: italic"
+                          >
+                            <a href="/contents/<%=id2.rows[i][0]%>/manga"
+                              ><p class="text-light"><%=id2.rows[i][1]%></p></a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <% } %>
+                  </tr>
+                </tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="text mb-4">LIGHTNOVEL</h4>
+            <hr color="#000000" />
+            <div class="table-wrap">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <% for(let i=0;i<100;i++){ //id3.rows.length%>
+                    <td style="background: black; padding: 0%">
+                      <div class="card text-white bg-dark">
+                        <a href="/contents/<%=id3.rows[i][0]%>/lightnovel">
+                          <img
+                            src="<%=id3.rows[i][5]%>"
+                            class="card-img rounded-circle mb-2"
+                            alt="..."
+                            style="height: 200px"
+                          />
+                        </a>
+                        <div class="card-body" style="height: 95px">
+                          <div
+                            class="text-wrap"
+                            style="width: 7rem; font-style: italic"
+                          >
+                            <a href="/contents/<%=id3.rows[i][0]%>/lightnovel"
+                              ><p class="text-light"><%=id3.rows[i][1]%></p></a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <% } %>
+                  </tr>
+                </tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="text mb-4">MOVIE</h4>
+            <hr color="#000000" />
+            <div class="table-wrap">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <% for(let i=0;i<100;i++){ //id4.rows.length%>
+                    <td style="background: black; padding: 0%">
+                      <div class="card text-white bg-dark">
+                        <a href="/contents/<%=id4.rows[i][0]%>/movie">
+                          <img
+                            src="<%=id4.rows[i][5]%>"
+                            class="card-img rounded-circle mb-2"
+                            alt="..."
+                            style="height: 200px"
+                          />
+                        </a>
+                        <div class="card-body" style="height: 95px">
+                          <div
+                            class="text-wrap"
+                            style="width: 7rem; font-style: italic"
+                          >
+                            <a href="/contents/<%=id4.rows[i][0]%>/movie"
+                              ><p class="text-light"><%=id4.rows[i][1]%></p></a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <% } %>
+                  </tr>
+                </tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="/client.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+
+  <footer class="" style="background-color: #000">
+    <div class="contaner">
+      <div class="row">
+        <div class="d-flex justify-content-center">
+          <h2 class="mt-4" style="color: rgb(193, 242, 45)">A N I M A T R I X</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="d-flex justify-content-center">
+          <p style="color: #fff">Thanks for being with us from first till this last. We always want you to provide the best services.</p>
+        </div>
+        <div class="row">
+          <div class="d-flex justify-content-center">
+            <div class="card text-center" style="width: 18rem; background-color: #000; align-items: center;">
+              <img class="rounded-circle z-depth-2"height="200" width="200" src="/pictures/279684967_552930699596129_2396475386393795276_n.jpg"
+          />
+              <div class="card-body">
+                <p class="card-text">Nahin Khan</p>
+                <p class="card-text">1905009</p>
+                <p class="card-text">CSE-19A1</p>
+                <a href="https://www.facebook.com/nahin.khan.1516132">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                </svg>
+                </a>
+              </div>
+            </div>
+          <div class="card text-center" style="width: 18rem;  background-color: #000;align-items: center;">
+            <img class="rounded-circle z-depth-2" height="200" width="200" src="/pictures/157789781_1028935174297109_5506782505039971025_n.jpg"
+        />
+            <div class="card-body">
+              <p class="card-text">Nafi Islam</p>
+              <p class="card-text">1905010</p>
+              <p class="card-text">CSE-19A1</p>
+              <a href="https://www.facebook.com/up.islam.1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </footer>
+</html>

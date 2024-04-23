@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .my-link-style:hover{
+            text-decoration: underline;
+            background-color: white;
+            color: black;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+            color: black;
+            background-color:white;
+        }
+        .my-link-style2{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .img-eye{
+          width:70%;
+          height:70%;
+        }
+        .fontstyle{
+            text-decoration: none;
+            font-size: 20px;
+            color:#FFF89C;
+        }
+        .bgcolor{
+            background-color: #293462;
+        }
+        .rank{
+            color: black
+        }
+        .container{
+            border: 5px solid black;
+        }
+        .box{
+            background-color:white;
+            color: black
+        }
+    </style>
+</head>
+<body style="background-color: #1D1F39;">
+    <div class="other-section ">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs py-3" style="background-color:#000;">
+                    <li class="nav-item me-auto">
+                      <a class="ms-5" href="/home"><img
+                        src="/pictures/Capture.PNG"
+                        class="logo"
+                        width="340px"
+                        height="100em"
+                      /></a>
+                    </li>
+                    <%if(username){%>
+                        <li class="nav-item dropdown me-5">
+                            <a style="color: #FFF89C" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><%=username%></a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                              <%if(locals.admin){%>
+                                <li><a class="dropdown-item" href="/admindashboard">Admin Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/adminuserreport">User report</a></li>
+                                <li><a class="dropdown-item" href="/admincontentreport">Content report</a></li>
+                              <%}%>
+                              <li><a class="dropdown-item" href="/unanimous/profile">My profile</a></li>
+                              <li><a class="dropdown-item" href="/catalogue">Catalogue</a></li>
+                              <li><a class="dropdown-item" href="/profile/followlist">My follow list</a></li>
+                              <li><a class="dropdown-item" href="/nkash">My nkash</a></li>
+                              <li><a class="dropdown-item" href="/subscription">Buy subscription</a></li>
+                              <li><a class="dropdown-item" href="/submission">Submissions</a></li>
+                              <li><a class="dropdown-item" href="/post">Forum</a></li>
+                              <li><a class="dropdown-item" href="/searchby">SearchByCategory</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="/home/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    <%}else{%>
+                        <li class="nav-item">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/logPage">Login</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link  my-link-style2 text-uppercase" href="/users/register">Register</a>
+                        </li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>  
+    </div> 
+    <br>
+    <h1 id="header" style="color:#FFF89C">Report on users</h1><br><br>
+    <div class="float-end mb-5 me-5">
+        <button onclick="download()" class="btn btn-primary" >Download Excel</button>
+    </div>
+    <div class="float-end mb-5 me-5">
+        <button id="pdf" class="btn btn-primary" >Download pdf</button>
+    </div>
+    <table class="table table-dark table-striped" id="target">
+        <thead>
+          <tr>
+            <th scope="col">User_id</th>
+            <th scope="col">Username</th>
+            <th scope="col">No of posts</th>
+            <th scope="col">No of recommendations</th>
+            <th scope="col">Subscribed?</th>
+            <th scope="col">No of submissions</th>
+            <th scope="col">No of ratings&reviews</th>
+            <th scope="col">No of watches/reads</th>
+            <th scope="col">No of answers</th>
+            <th scope="col">No of followers</th>
+            <th scope="col">No of followings</th>
+          </tr>
+        </thead>
+        <tbody>
+        <%for(let i=0;i<locals.users.length;i++){%>
+          <tr>
+            <th scope="row"><%=locals.users[i][0]%></th>
+            <td><%=locals.users[i][1]%></td>
+            <td><%=locals.users[i][2]%></td>
+            <td><%=locals.users[i][3]%></td>
+            <td><%=locals.users[i][4]%></td>
+            <td><%=locals.users[i][5]%></td>
+            <td><%=locals.users[i][6]%></td>
+            <td><%=locals.users[i][7]%></td>
+            <td><%=locals.users[i][8]%></td>
+            <td><%=locals.users[i][9]%></td>
+            <td><%=locals.users[i][10]%></td>
+          </tr>
+        <%}%>
+        </tbody>
+    </table>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"crossorigin="anonymous" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.js" integrity="sha512-Fd3EQng6gZYBGzHbKd52pV76dXZZravPY7lxfg01nPx5mdekqS8kX4o1NfTtWiHqQyKhEGaReSf4BrtfKc+D5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="/scripts/printThis.js"></script> -->
+    <script type="text/javascript">
+        function download(){
+            const table=document.getElementById('target');
+            var pointer = XLSX.utils.table_to_book(table,{sheet:'User_Report'});
+            XLSX.write(pointer,{
+                bookType:'xlsx',
+                type:'base64'
+            });
+            XLSX.writeFile(pointer,'User_Report.xlsx')
+        }
+
+        $( document ).ready(function() {
+            // $('#pdf').click(function(){
+            //     $('#header,#target').printThis();
+            // });
+            $('#pdf').click(function(){
+                $('#target').printThis();
+            });
+        });
+    </script>
+</body>
+</html>
