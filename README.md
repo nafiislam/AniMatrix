@@ -5,6 +5,6 @@ npm install
 ```
 Second, run the server:
 ```bash
-npm run Start
+npm run devStart
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
