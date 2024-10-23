@@ -1,5 +1,7 @@
 # AniMatrix
 **AniMatrix** is a web-based platform designed as a comprehensive wiki for Anime, Manga, Movies, and Light Novels. The site allows users to engage with various content through voting, creating watchlists, and reading lists. Users can also participate in forums and connect with others through a chat feature, fostering a community of enthusiasts.
+![chobi](https://github.com/user-attachments/assets/e81b6eae-0e53-4135-bf3a-048ce9d81fc6)
+
 
 ## Key Functionalities
 
